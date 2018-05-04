@@ -1,0 +1,2 @@
+# AwsCognito plugin for CakePHP
+
