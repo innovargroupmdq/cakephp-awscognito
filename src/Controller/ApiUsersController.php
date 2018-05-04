@@ -2,17 +2,19 @@
 namespace EvilCorp\AwsCognito\Controller;
 
 use EvilCorp\AwsCognito\Controller\AppController;
+use EvilCorp\AwsCognito\Model\Table\ApiUsersTable;
 
 class ApiUsersController extends AppController
 {
+
     public $paginate = [
         'limit' => 100,
-        'order' => ['ApiUsers.amazon_cognito_username' => 'asc'],
+        'order' => ['ApiUsers.aws_cognito_username' => 'asc'],
     ];
 
     public function index()
     {
-        $this->paginate['contain'] = ['PointsOfSale'];
+        //$this->paginate['contain'] = ['PointsOfSale'];
 
         $this->set('api_users', $this->paginate('ApiUsers'));
         $this->set('_serialize', ['ApiUsers']);
@@ -44,7 +46,7 @@ class ApiUsersController extends AppController
         $api_user = $this->ApiUsers->patchEntity($api_user, $this->request->getData(), [
             'accessibleFields' => [
                 'role' => true,
-                'amazon_cognito_username' => true,
+                'aws_cognito_username' => true,
                 'email' => true,
             ]
         ]);
