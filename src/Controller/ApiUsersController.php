@@ -23,7 +23,7 @@ class ApiUsersController extends AppController
     public function view($id = null)
     {
         $api_user = $this->ApiUsers->get($id, [
-            'contain' => ['PointsOfSale']
+            //'contain' => ['PointsOfSale']
         ]);
         $this->set('api_user', $api_user);
         $this->set('cognito_user', $this->ApiUsers->getCognitoUser($api_user));

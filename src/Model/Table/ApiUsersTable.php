@@ -40,13 +40,6 @@ class ApiUsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsToMany('PointsOfSale', [
-            'joinTable' => 'api_users_points_of_sale',
-            'foreignKey' => 'api_user_id',
-            'bindingKey' => 'id',
-            'targetForeignKey' => 'point_of_sale_id'
-        ]);
-
         if(!Configure::check('AWS.user_pool_id')){
             throw new Exception(__('the AWS User Pool ID has not been set.'));
         }
