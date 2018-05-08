@@ -14,7 +14,6 @@
         <div class="content">
         <?php
             echo $this->Form->control('email');
-            echo $this->Form->control('temp_password', ['type' => 'password']);
         ?>
         <?= $this->Form->submit(__('Resend Invitation Email'), ['class'=>'btn btn-lg btn-primary']); ?>
         </div>

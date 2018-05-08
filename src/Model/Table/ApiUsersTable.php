@@ -23,13 +23,6 @@ class ApiUsersTable extends Table
     protected $CognitoClient;
     protected $UserPoolId;
 
-    public function getRoles(){
-        return  [
-            'agent'     => __('Agent'),
-            'dashboard' => __('Dashboard'),
-        ];
-    }
-
 	public function initialize(array $config)
     {
     	parent::initialize($config);
@@ -49,6 +42,8 @@ class ApiUsersTable extends Table
         $this->CognitoClient = $this->createCognitoClient();
     }
 
+    /* Validation Methods */
+
     public function validationDefault(Validator $validator)
     {
         $validator
@@ -56,7 +51,7 @@ class ApiUsersTable extends Table
 
         $validator
             ->requirePresence('aws_cognito_username', 'create')
-            ->notEmpty('username');
+            ->notEmpty('aws_cognito_username', 'create');
 
         $validator
             ->requirePresence('email', 'create')
@@ -108,23 +103,16 @@ class ApiUsersTable extends Table
         return $rules;
     }
 
-    public function resendInvitationEmail(ApiUser $entity)
-    {
-        if($entity->isNew()){
-            throw new Exception(__('You must create the entity before trying to resend the invitation email'));
-        }
-
-        $entity = $this->createCognitoUser($entity, 'RESEND');
-
-        return $this->save($entity);
-    }
-
+    /* Lifecycle Callbacks */
 
     public function beforeSave(Event $event, ApiUser $entity, ArrayObject $options)
     {
-        if(!$this->isCognitoUser($entity)) return true;
-
         if($entity->isNew()){
+            /*
+            better to have the cognito creation callback be beforeSave instead of afterSave,
+            so that we only create users once we're sure they're in the cognito user pool.
+            Best solution for most cases.
+            */
             $entity = $this->createCognitoUser($entity);
         }else{
 
@@ -145,14 +133,41 @@ class ApiUsersTable extends Table
 
     public function beforeDelete(Event $event, ApiUser $entity, ArrayObject $options)
     {
-        if(!$this->isCognitoUser($entity)) return true;
-
         $this->deleteCognitoUser($entity);
+    }
+
+    /* Public Methods */
+
+    public function getRoles(){
+        //returns the array of configured roles, throws exception if not configured
+        //TODO: load this from a setting
+        return  [
+            'agent'     => __('Agent'),
+            'dashboard' => __('Dashboard'),
+        ];
+    }
+
+    public function resendInvitationEmail(ApiUser $entity)
+    {
+        //resends the invitation email in case it expired or the email address was incorrect.
+        //Updates the email address if changed.
+
+        if($entity->isNew()){
+            throw new Exception(__('You must create the entity before trying to resend the invitation email'));
+        }
+
+        $entity = $this->createCognitoUser($entity, 'RESEND');
+
+        return $this->save($entity);
     }
 
     public function getCognitoUser(ApiUser $entity)
     {
-        if(!$this->isCognitoUser($entity)){
+        //returns the cognito data for a given local user.
+
+        $entity->hiddenProperties([]);
+
+        if(empty($entity->aws_cognito_username) || empty($entity->aws_cognito_id)){
             throw new Exception(__('The user is not a Cognito user.'));
         }
 
@@ -172,6 +187,9 @@ class ApiUsersTable extends Table
 
     public function resetCognitoPassword(ApiUser $entity)
     {
+        //resets the user password.
+        //Cannot be reset if the user hasn't login for the first time yet, or if the email/phone is not verified to send the verification message.
+
         if(empty($entity->aws_cognito_username)){
             throw new Exception(__('The user does not have a Cognito Username.'));
         }
@@ -195,6 +213,36 @@ class ApiUsersTable extends Table
 
         return true;
     }
+
+    public function deleteCognitoUser(ApiUser $entity)
+    {
+        /*
+        used in beforeDelete callback to ensure the user is also deleted in the user pool.
+        NOTE: this method is public because it is possible to create many users in a transaction and have the transaction fail,
+        in which case you'd need to delete all the new users from cognito.
+        For practical purposes it is still better to have the cognito creation callback be beforeSave instead of afterSave, so that we only create users once we're sure they're in the cognito user pool.
+        */
+
+        if(empty($entity->aws_cognito_username)){
+            throw new Exception(__('The user does not have a Cognito Username.'));
+        }
+
+        try {
+            $this->CognitoClient->adminDeleteUser([
+                'UserPoolId' => $this->UserPoolId,
+                'Username'   => $entity->aws_cognito_username,
+            ]);
+        } catch (AwsException $e) {
+            //this exception is thrown when the user doesn't exist in cognito. probably already deleted!
+            if($e->getAwsErrorCode() === 'UserNotFoundException') return true;
+
+            throw $e;
+        }
+
+        return true;
+    }
+
+    /* Protected Methods */
 
     protected function createCognitoClient()
     {
@@ -227,6 +275,8 @@ class ApiUsersTable extends Table
 
     protected function parseCognitoUser(Result $cognito_user)
     {
+        //parses the cognito user returned by the sdk into a more human readable array
+
         $cognito_user = $cognito_user->hasKey('User')
             ? $cognito_user->get('User')
             : $cognito_user->toArray();
@@ -335,27 +385,6 @@ class ApiUsersTable extends Table
         return true;
     }
 
-    public function deleteCognitoUser(ApiUser $entity)
-    {
-        if(empty($entity->aws_cognito_username)){
-            throw new Exception(__('The user does not have a Cognito Username.'));
-        }
-
-        try {
-            $this->CognitoClient->adminDeleteUser([
-                'UserPoolId' => $this->UserPoolId,
-                'Username'   => $entity->aws_cognito_username,
-            ]);
-        } catch (AwsException $e) {
-            //this exception is thrown when the user doesn't exist in cognito. probably already deleted!
-            if($e->getAwsErrorCode() === 'UserNotFoundException') return true;
-
-            throw $e;
-        }
-
-        return true;
-    }
-
     protected function disableCognitoUser(ApiUser $entity)
     {
         if(empty($entity->aws_cognito_username)){
@@ -380,26 +409,6 @@ class ApiUsersTable extends Table
             'UserPoolId' => $this->UserPoolId,
             'Username'   => $entity->aws_cognito_username,
         ]);
-
-        return true;
-    }
-
-    protected function isCognitoUser($entity)
-    {
-        $is_new = true;
-
-        if($entity instanceof EntityInterface){
-            $is_new = $entity->isNew();
-            $entity->hiddenProperties([]);
-            $entity = $entity->toArray();
-        }
-
-        if(empty($entity['role'])) return false;
-
-        if(!$is_new){
-            if(empty($entity['aws_cognito_id'])) return false;
-            if(empty($entity['aws_cognito_username'])) return false;
-        }
 
         return true;
     }
