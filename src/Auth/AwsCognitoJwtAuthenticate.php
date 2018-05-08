@@ -1,5 +1,5 @@
 <?php
-namespace App\Auth;
+namespace EvilCorp\AwsCognito\Auth;
 
 use Cake\Auth\BaseAuthenticate;
 use Cake\Http\ServerRequest;
