@@ -33,11 +33,11 @@ class ApiUsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        if(!Configure::check('AWS.user_pool_id')){
+        if(!Configure::check('AwsCognito.UserPool.id')){
             throw new Exception(__('the AWS User Pool ID has not been set.'));
         }
 
-        $this->UserPoolId = Configure::read('AWS.user_pool_id');
+        $this->UserPoolId = Configure::read('AwsCognito.UserPool.id');
 
         $this->CognitoClient = $this->createCognitoClient();
     }
@@ -125,7 +125,6 @@ class ApiUsersTable extends Table
 
             //change email
             if($entity->dirty('email')){
-                //Note: changing the email unverifies it.
                 $this->updateCognitoUserAttributes($entity);
             }
         }
@@ -140,11 +139,17 @@ class ApiUsersTable extends Table
 
     public function getRoles(){
         //returns the array of configured roles, throws exception if not configured
-        //TODO: load this from a setting
-        return  [
-            'agent'     => __('Agent'),
-            'dashboard' => __('Dashboard'),
-        ];
+        if(!Configure::check('AwsCognito.ApiUsers.roles')){
+            throw new Exception(__('AwsCognito.ApiUsers.roles setting is invalid'));
+        }
+
+        $roles = Configure::read('AwsCognito.ApiUsers.roles');
+
+        foreach ($roles as $role => $name) {
+            if(is_numeric($role)) throw new Exception(__('The AwsCognito.ApiUsers.roles array should be entirely associative'));
+        }
+
+        return $roles;
     }
 
     public function resendInvitationEmail(ApiUser $entity)
@@ -176,7 +181,7 @@ class ApiUsersTable extends Table
             'Username'   => $entity->aws_cognito_username,
         ]);
 
-        $cognito_user = $this->parseCognitoUser($cognito_user);
+        $cognito_user = $this->processCognitoUser($cognito_user);
 
         if($entity->aws_cognito_id !== $cognito_user['Attributes']['sub']){
             throw new Exception(__('The returned Cognito user SUB does not match the client ID'));
@@ -246,13 +251,13 @@ class ApiUsersTable extends Table
 
     protected function createCognitoClient()
     {
-        if(!Configure::check('AWS.access_key_id')
-        || !Configure::check('AWS.access_key_secret')){
+        if(!Configure::check('AwsCognito.AccessKeys.id')
+        || !Configure::check('AwsCognito.AccessKeys.secret')){
             throw new Exception(__('the AWS credentials have not been set.'));
         }
 
-        $access_key_id     = Configure::read('AWS.access_key_id');
-        $access_key_secret = Configure::read('AWS.access_key_secret');
+        $access_key_id     = Configure::read('AwsCognito.AccessKeys.id');
+        $access_key_secret = Configure::read('AwsCognito.AccessKeys.secret');
 
         $aws_credentials = new Credentials($access_key_id, $access_key_secret);
 
@@ -263,8 +268,8 @@ class ApiUsersTable extends Table
             'debug'       => false,
         ];
 
-        $settings = Configure::check('AWS.settings')
-            ? array_merge($default_settings, Configure::read('AWS.settings'))
+        $settings = Configure::check('AwsCognito.IdentityProviderClient.settings')
+            ? array_merge($default_settings, Configure::read('AwsCognito.IdentityProviderClient.settings'))
             : $default_settings;
 
         $s3_client = new CognitoIdentityProviderClient($settings);
@@ -273,9 +278,9 @@ class ApiUsersTable extends Table
 
     }
 
-    protected function parseCognitoUser(Result $cognito_user)
+    protected function processCognitoUser(Result $cognito_user)
     {
-        //parses the cognito user returned by the sdk into a more human readable array
+        //processes the cognito user returned by the sdk into a more human readable array
 
         $cognito_user = $cognito_user->hasKey('User')
             ? $cognito_user->get('User')
@@ -326,7 +331,7 @@ class ApiUsersTable extends Table
 
         try {
             //ref https://docs.aws.aws.com/cognito-user-identity-pools/latest/APIReference/API_AdminCreateUser.html
-            $cognito_user = $this->parseCognitoUser($this->CognitoClient->adminCreateUser($options));
+            $cognito_user = $this->processCognitoUser($this->CognitoClient->adminCreateUser($options));
         } catch (AwsException $e) {
             //this exception is thrown when a user email or phone is already being
             //used by another user
