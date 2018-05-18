@@ -94,6 +94,12 @@ Una vez instalado el plugin en el repositorio:
 - /aws-cognito/api-users/reset-password/:id (POST)
 - /aws-cognito/api-users/resend-invitation-email/:id (GET, POST)
 
+#### EvilCorp\AwsCognito\Controller\Api\ApiUsersController
+
+**acciones para usuarios finales (REST API):**
+
+- /aws-cognito/api/api-users/profile (GET)
+
 ### Variables de configuracion
 
 Las variables de configuración se guardan en el arreglo de configuración de la aplicación al igual que el resto de las configuraciones (`config/app.php` por defecto).
@@ -147,6 +153,24 @@ $routes->connect('/api-users/:action/:id', [
 
 ```
 
+para la REST API:
+
+```php
+Router::prefix('api', function ($routes) {
+    $routes->extensions(['json']);
+
+     /* Api Users */
+    $routes->connect('/profile', [
+        'plugin'     => 'EvilCorp/AwsCognito',
+        'prefix'     => 'Api',
+        'controller' => 'ApiUsers',
+        'action'     => 'profile',
+        '_method'    => 'GET'
+    ]);
+
+});
+
+```
 
 #### Sobreescribiendo vistas
 
