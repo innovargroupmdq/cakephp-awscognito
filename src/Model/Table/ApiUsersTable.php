@@ -132,6 +132,10 @@ class ApiUsersTable extends Table
 
     public function beforeDelete(Event $event, ApiUser $entity, ArrayObject $options)
     {
+        /*
+        NOTE: For practical purposes it is still better to have the cognito creation callback be beforeSave
+        instead of afterSave, so that we only create users once we're sure they're in the cognito user pool.
+        */
         $this->deleteCognitoUser($entity);
     }
 
@@ -223,9 +227,8 @@ class ApiUsersTable extends Table
     {
         /*
         used in beforeDelete callback to ensure the user is also deleted in the user pool.
-        NOTE: this method is public because it is possible to create many users in a transaction and have the transaction fail,
-        in which case you'd need to delete all the new users from cognito.
-        For practical purposes it is still better to have the cognito creation callback be beforeSave instead of afterSave, so that we only create users once we're sure they're in the cognito user pool.
+        NOTE: this method is public because it is possible to create many users in a transaction and
+        have the transaction fail, in which case you'd need to delete all the new users from cognito manually.
         */
 
         if(empty($entity->aws_cognito_username)){

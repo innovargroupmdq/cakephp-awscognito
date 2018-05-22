@@ -42,14 +42,16 @@ NOTA: asegurarse de tener los permisos de acceso/deploy correctos en el reposito
 
 Una vez instalado el plugin en el repositorio:
 
-1. agregar a **bootstrap.php** la siguiente línea: `Plugin::load('EvilCorp/AwsCognito', ['bootstrap' => false, 'routes' => true]);` para cargar el plugin.
+1. agregar a **config/bootstrap.php** la siguiente línea: `Plugin::load('EvilCorp/AwsCognito', ['bootstrap' => true, 'routes' => true]);` para cargar el plugin.
 2. asegurarse de que exista la tabla **api_users**. El plugin viene con una migración para ésto, si es requerida: `bin/cake migrations migrate -p EvilCorp/AwsCognito`
 3. Crear una User Pool en Cognito. Tener en cuenta:
 	- La User Pool debe contener *solamente* los datos requeridos para el acceso. Los campos extras deberían solamente estar en la tabla local.
 	- Asegurarse que los campos requeridos para la creación de usuarios en Cognito sea igual o más permisiva que la validación de la tabla local, de lo contrario podrían ocurrir errores al crear los usuarios que no se mostrarían correctamente al usuario.
 	- No permitir a los usuarios cambiar su email o teléfono mediante/desde Cognito, esto podría causar una desincronización de datos. Con excepción de los cambios de contraseña, todos los cambios a los usuarios deberían ocurrir a través de la API prevista por el plugin.
-4. Agregar los campos requeridos a la configuracion en `app.php` (ver sección "Variables de configuracion")
-5. El controller de usuarios del plugin debería ser accesible desde `/aws-cognito/api-users` (para cambiar esto, ver sección "Extendiendo el plugin")
+4. agregar a **config/bootstrap.php** la siguiente línea, antes de cargar el plugin: `Configure::write('AwsCognito.config', ['awscognito']);`
+5. Copie el archivo `vendor/evil-corp/cakephp-awscognito/config/awscognito.php` a `app/config/awscognito.php`.
+6. Modifique el archivo para configurar el plugin. (ver sección "Variables de configuracion")
+7. El controller de usuarios del plugin debería ser accesible desde `/aws-cognito/api-users` (para cambiar esto, ver sección "Extendiendo el plugin")
 
 
 ### Estructura
