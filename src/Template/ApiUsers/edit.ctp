@@ -21,7 +21,6 @@
             <hr>
             <?= $this->Form->control('first_name'); ?>
             <?= $this->Form->control('last_name'); ?>
-            <?= $this->Form->control('force_geoposition'); ?>
 
         <?= $this->Form->submit(__('Save changes'), ['class'=>'btn btn-lg btn-primary']); ?>
         </div>
