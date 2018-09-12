@@ -24,7 +24,10 @@ class ApiUser extends Entity
 
     protected function _getFullName()
     {
-        return $this->_properties['first_name'] . ' ' . $this->_properties['last_name'];
+        return implode(' ', array_filter([
+            $this->_properties['first_name'] ?? null,
+            $this->_properties['last_name'] ?? null
+        ]));
     }
 
 }

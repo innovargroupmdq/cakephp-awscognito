@@ -34,7 +34,7 @@ class ApiUsersTable extends Table
         $this->addBehavior('Timestamp');
 
         if(!Configure::check('AwsCognito.UserPool.id')){
-            throw new Exception(__('the AWS User Pool ID has not been set.'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'the AWS User Pool ID has not been set.'));
         }
 
         $this->UserPoolId = Configure::read('AwsCognito.UserPool.id');
@@ -51,30 +51,38 @@ class ApiUsersTable extends Table
 
         $validator
             ->requirePresence('aws_cognito_username', 'create')
-            ->notEmpty('aws_cognito_username', 'create');
+            ->notBlank('aws_cognito_username', __d('cake', 'This field cannot be left empty'));
 
         $validator
             ->requirePresence('email', 'create')
-            ->email('email')
-            ->notEmpty('email');
+            ->add('email', [
+                'email' => [
+                    'rule' => 'email',
+                    'last' => true,
+                    'message' => __d('EvilCorp/AwsCognito', 'This field must be a valid email address')
+                ]
+            ])
+            ->notBlank('email', __d('cake', 'This field cannot be left empty'));
+
+        $validator
+            ->requirePresence('first_name', 'create')
+            ->notBlank('first_name', __d('cake', 'This field cannot be left empty'));
+
+        $validator
+            ->requirePresence('last_name', 'create')
+            ->notBlank('last_name', __d('cake', 'This field cannot be left empty'));
 
         $validator
             ->requirePresence('role', 'create')
             ->inList('role', array_keys($this->getRoles()),
                 sprintf(
-                    __('Must be one of the following values: %s'),
+                    __d('EvilCorp/AwsCognito', 'Must be one of the following values: %s'),
                     implode(
                         ', ', array_keys( $this->getRoles())
                     )
                 )
             )
             ->notEmpty('role');
-
-        $validator
-            ->allowEmpty('first_name');
-
-        $validator
-            ->allowEmpty('last_name');
 
         return $validator;
     }
@@ -92,12 +100,12 @@ class ApiUsersTable extends Table
     {
         $rules->add($rules->isUnique(['aws_cognito_username']), '_isUnique', [
             'errorField' => 'aws_cognito_username',
-            'message' => __('Username already exists')
+            'message' => __d('EvilCorp/AwsCognito', 'Username already exists')
         ]);
 
         $rules->add($rules->isUnique(['email']), '_isUnique', [
             'errorField' => 'email',
-            'message' => __('Email already exists')
+            'message' => __d('EvilCorp/AwsCognito', 'Email already exists')
         ]);
 
         return $rules;
@@ -144,13 +152,13 @@ class ApiUsersTable extends Table
     public function getRoles(){
         //returns the array of configured roles, throws exception if not configured
         if(!Configure::check('AwsCognito.ApiUsers.roles')){
-            throw new Exception(__('AwsCognito.ApiUsers.roles setting is invalid'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'AwsCognito.ApiUsers.roles setting is invalid'));
         }
 
         $roles = Configure::read('AwsCognito.ApiUsers.roles');
 
         foreach ($roles as $role => $name) {
-            if(is_numeric($role)) throw new Exception(__('The AwsCognito.ApiUsers.roles array should be entirely associative'));
+            if(is_numeric($role)) throw new Exception(__d('EvilCorp/AwsCognito', 'The AwsCognito.ApiUsers.roles array should be entirely associative'));
         }
 
         return $roles;
@@ -162,7 +170,7 @@ class ApiUsersTable extends Table
         //Updates the email address if changed.
 
         if($entity->isNew()){
-            throw new Exception(__('You must create the entity before trying to resend the invitation email'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'You must create the entity before trying to resend the invitation email'));
         }
 
         $entity = $this->createCognitoUser($entity, 'RESEND');
@@ -177,7 +185,7 @@ class ApiUsersTable extends Table
         $entity->hiddenProperties([]);
 
         if(empty($entity->aws_cognito_username) || empty($entity->aws_cognito_id)){
-            throw new Exception(__('The user is not a Cognito user.'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'The user is not a Cognito user.'));
         }
 
         $cognito_user = $this->CognitoClient->adminGetUser([
@@ -188,7 +196,7 @@ class ApiUsersTable extends Table
         $cognito_user = $this->processCognitoUser($cognito_user);
 
         if($entity->aws_cognito_id !== $cognito_user['Attributes']['sub']){
-            throw new Exception(__('The returned Cognito user SUB does not match the client ID'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'The returned Cognito user SUB does not match the client ID'));
         }
 
         return $cognito_user;
@@ -200,7 +208,7 @@ class ApiUsersTable extends Table
         //Cannot be reset if the user hasn't login for the first time yet, or if the email/phone is not verified to send the verification message.
 
         if(empty($entity->aws_cognito_username)){
-            throw new Exception(__('The user does not have a Cognito Username.'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
         }
 
         try {
@@ -232,7 +240,7 @@ class ApiUsersTable extends Table
         */
 
         if(empty($entity->aws_cognito_username)){
-            throw new Exception(__('The user does not have a Cognito Username.'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
         }
 
         try {
@@ -256,7 +264,7 @@ class ApiUsersTable extends Table
     {
         if(!Configure::check('AwsCognito.AccessKeys.id')
         || !Configure::check('AwsCognito.AccessKeys.secret')){
-            throw new Exception(__('the AWS credentials have not been set.'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'the AWS credentials have not been set.'));
         }
 
         $access_key_id     = Configure::read('AwsCognito.AccessKeys.id');
@@ -367,7 +375,7 @@ class ApiUsersTable extends Table
         //uploads all synced fields to make sure the cognito instance is up to date
 
         if(empty($entity->aws_cognito_username)){
-            throw new Exception(__('The user does not have a Cognito Username.'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
         }
 
         $cognito_attributes_map = [
@@ -396,7 +404,7 @@ class ApiUsersTable extends Table
     protected function disableCognitoUser(ApiUser $entity)
     {
         if(empty($entity->aws_cognito_username)){
-            throw new Exception(__('The user does not have a Cognito Username.'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
         }
 
         $this->CognitoClient->adminDisableUser([
@@ -410,7 +418,7 @@ class ApiUsersTable extends Table
     protected function enableCognitoUser(ApiUser $entity)
     {
         if(empty($entity->aws_cognito_username)){
-            throw new Exception(__('The user does not have a Cognito Username.'));
+            throw new Exception(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
         }
 
         $this->CognitoClient->adminEnableUser([

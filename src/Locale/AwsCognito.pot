@@ -1,0 +1,92 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2018-09-12 15:10-0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/ApiUsersController.php:52;77;138
+msgid "The Api User has been saved"
+msgstr ""
+
+#: Controller/ApiUsersController.php:55;80;141
+msgid "The Api User could not be saved"
+msgstr ""
+
+#: Controller/ApiUsersController.php:91
+msgid "The Api User has been deleted"
+msgstr ""
+
+#: Controller/ApiUsersController.php:93
+msgid "The Api User could not be deleted"
+msgstr ""
+
+#: Controller/ApiUsersController.php:107
+msgid "The user email must be verified before resetting the password"
+msgstr ""
+
+#: Controller/ApiUsersController.php:109
+msgid "The password has been reset"
+msgstr ""
+
+#: Controller/ApiUsersController.php:111
+msgid "The password could not be reset. If the user has not yet changed their temporary password, they must do so before the password can be reset"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:37
+msgid "the AWS User Pool ID has not been set."
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:62
+msgid "This field must be a valid email address"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:79
+msgid "Must be one of the following values: %s"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:103
+msgid "Username already exists"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:108
+msgid "Email already exists"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:155
+msgid "AwsCognito.ApiUsers.roles setting is invalid"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:161
+msgid "The AwsCognito.ApiUsers.roles array should be entirely associative"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:173
+msgid "You must create the entity before trying to resend the invitation email"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:188
+msgid "The user is not a Cognito user."
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:199
+msgid "The returned Cognito user SUB does not match the client ID"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:211;243;378;407;421
+msgid "The user does not have a Cognito Username."
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:267
+msgid "the AWS credentials have not been set."
+msgstr ""
+

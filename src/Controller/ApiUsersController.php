@@ -49,10 +49,10 @@ class ApiUsersController extends AppController
         ]);
 
         if ($this->ApiUsers->save($api_user)) {
-            $this->Flash->success(__('The Api User has been saved'));
+            $this->Flash->success(__d('EvilCorp/AwsCognito', 'The Api User has been saved'));
             return $this->redirect(['action' => 'index']);
         }
-        $this->Flash->error(__('The Api User could not be saved'));
+        $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be saved'));
     }
 
 
@@ -74,10 +74,10 @@ class ApiUsersController extends AppController
             ]
         ]);
         if ($this->ApiUsers->save($api_user)) {
-            $this->Flash->success(__('The Api User has been saved'));
+            $this->Flash->success(__d('EvilCorp/AwsCognito', 'The Api User has been saved'));
             return $this->redirect(['action' => 'index']);
         }
-        $this->Flash->error(__('The Api User could not be saved'));
+        $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be saved'));
     }
 
     public function delete($id = null)
@@ -88,9 +88,9 @@ class ApiUsersController extends AppController
         ]);
 
         if ($this->ApiUsers->delete($api_user)) {
-            $this->Flash->success(__('The Api User has been deleted'));
+            $this->Flash->success(__d('EvilCorp/AwsCognito', 'The Api User has been deleted'));
         } else {
-            $this->Flash->error(__('The Api User could not be deleted'));
+            $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be deleted'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -104,11 +104,11 @@ class ApiUsersController extends AppController
         $cognito_user = $this->ApiUsers->getCognitoUser($api_user);
 
         if(!$cognito_user['Attributes']['email_verified']){
-            $this->Flash->error(__('The user email must be verified before resetting the password'));
+            $this->Flash->error(__d('EvilCorp/AwsCognito', 'The user email must be verified before resetting the password'));
         }elseif ($this->ApiUsers->resetCognitoPassword($api_user)) {
-            $this->Flash->success(__('The password has been reset'));
+            $this->Flash->success(__d('EvilCorp/AwsCognito', 'The password has been reset'));
         } else {
-            $this->Flash->error(__('The password could not be reset. If the user has not yet changed their temporary password, they must do so before the password can be reset'));
+            $this->Flash->error(__d('EvilCorp/AwsCognito', 'The password could not be reset. If the user has not yet changed their temporary password, they must do so before the password can be reset'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -135,9 +135,9 @@ class ApiUsersController extends AppController
         ]);
 
         if ($this->ApiUsers->resendInvitationEmail($api_user)) {
-            $this->Flash->success(__('The Api User has been saved'));
+            $this->Flash->success(__d('EvilCorp/AwsCognito', 'The Api User has been saved'));
             return $this->redirect(['action' => 'index']);
         }
-        $this->Flash->error(__('The Api User could not be saved'));
+        $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be saved'));
     }
 }

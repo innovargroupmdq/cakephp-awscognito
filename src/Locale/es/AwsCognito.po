@@ -1,0 +1,1430 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2018-09-12 15:10-0300\n"
+"PO-Revision-Date: 2018-09-12 15:13-0300\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: Controller/ApiUsersController.php:52;77;138
+msgid "The Api User has been saved"
+msgstr "El usuario fue guardado"
+
+#: Controller/ApiUsersController.php:55;80;141
+msgid "The Api User could not be saved"
+msgstr "El usuario no pudo ser guardado"
+
+#: Controller/ApiUsersController.php:91
+msgid "The Api User has been deleted"
+msgstr "El usuario ha sido eliminado"
+
+#: Controller/ApiUsersController.php:93
+msgid "The Api User could not be deleted"
+msgstr "El usuario no pudo ser eliminado"
+
+#: Controller/ApiUsersController.php:107
+msgid "The user email must be verified before resetting the password"
+msgstr ""
+"El email debe estar verificado antes de poder reestablecer la contraseña"
+
+#: Controller/ApiUsersController.php:109
+msgid "The password has been reset"
+msgstr "La contraseña ha sido reestablecida"
+
+#: Controller/ApiUsersController.php:111
+msgid ""
+"The password could not be reset. If the user has not yet changed their "
+"temporary password, they must do so before the password can be reset"
+msgstr ""
+"La contraseña no pudo ser reestablecida. Si el usuario aún no ha cambiado su "
+"contraseña temporal, deben hacerlo antes de que la contraseña pueda ser "
+"reestablecida. "
+
+#: Model/Table/ApiUsersTable.php:37
+msgid "the AWS User Pool ID has not been set."
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:62
+msgid "This field must be a valid email address"
+msgstr "Este campo debe ser una dirección de email válida"
+
+#: Model/Table/ApiUsersTable.php:79
+msgid "Must be one of the following values: %s"
+msgstr "Debe ser uno de los siguientes valores: %s"
+
+#: Model/Table/ApiUsersTable.php:103
+msgid "Username already exists"
+msgstr "Este nombre de usuario ya existe"
+
+#: Model/Table/ApiUsersTable.php:108
+msgid "Email already exists"
+msgstr "Este email ya existe"
+
+#: Model/Table/ApiUsersTable.php:155
+msgid "AwsCognito.ApiUsers.roles setting is invalid"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:161
+msgid "The AwsCognito.ApiUsers.roles array should be entirely associative"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:173
+msgid "You must create the entity before trying to resend the invitation email"
+msgstr "Debe crear la entidad antes de poder reenviar la invitación"
+
+#: Model/Table/ApiUsersTable.php:188
+msgid "The user is not a Cognito user."
+msgstr "Este usuario no pertenece a Cognito"
+
+#: Model/Table/ApiUsersTable.php:199
+msgid "The returned Cognito user SUB does not match the client ID"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:211;243;378;407;421
+msgid "The user does not have a Cognito Username."
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:267
+msgid "the AWS credentials have not been set."
+msgstr ""
+
+#~ msgid "The Document has been saved"
+#~ msgstr "El documento fue guardado"
+
+#~ msgid "The Document could not be saved"
+#~ msgstr "El documento no pudo ser guardado"
+
+#~ msgid "The Document has been deleted"
+#~ msgstr "El documento fue eliminado"
+
+#~ msgid "The Document could not be deleted. Please, try again"
+#~ msgstr "El documento no pudo ser eliminado. Por favor, intente nuevamente"
+
+#~ msgid "The News has been saved"
+#~ msgstr "La noticia fue guardada"
+
+#~ msgid "The News could not be saved"
+#~ msgstr "La noticia no pudo ser guardada"
+
+#~ msgid "The News has been deleted"
+#~ msgstr "La noticia fue eliminada"
+
+#~ msgid "The News could not be deleted. Please, try again"
+#~ msgstr "La noticia no pudo ser eliminada. Por favor, intente de nuevo."
+
+#~ msgid "The File could not be deleted. Please, try again"
+#~ msgstr "El archivo no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "The News has been published"
+#~ msgstr "La noticia fue publicada"
+
+#~ msgid "The News could not be published. Please, try again."
+#~ msgstr "La noticia no pudo ser publicada. Por favor, intente de nuevo."
+
+#~ msgid "The News has been marked as Draft"
+#~ msgstr "La noticia fue marcada como borrador"
+
+#~ msgid "The News could not be marked as Draft. Please, try again."
+#~ msgstr ""
+#~ "La noticia no pudo ser marcada como borrador. Por favor, intente de nuevo."
+
+#~ msgid "The Payment Notification has been processed"
+#~ msgstr "La notificación de pago fue procesada"
+
+#~ msgid "The Payment Notification could not be processed. Please, try again."
+#~ msgstr ""
+#~ "La notificación de pago no pudo ser procesada. Por favor, intente de "
+#~ "nuevo."
+
+#~ msgid "The Payment Notification has been unprocessed"
+#~ msgstr "La notificacion de pago ha sido marcada como nueva"
+
+#~ msgid ""
+#~ "The Payment Notification could not be unprocessed. Please, try again."
+#~ msgstr ""
+#~ "La notificación de pago no pudo ser marcada como nueva. Por favor, "
+#~ "intente de nuevo."
+
+#~ msgid "Please select an Owners Association first."
+#~ msgstr "Primero seleccione un consorcio."
+
+#~ msgid "System"
+#~ msgstr "Sistema"
+
+#~ msgid "Published"
+#~ msgstr "Publicado"
+
+#~ msgid "Draft"
+#~ msgstr "Borrador"
+
+#~ msgid "Superuser"
+#~ msgstr "Superusuario"
+
+#~ msgid "Administrator"
+#~ msgstr "Administrador"
+
+#~ msgid "Administrator Users must be associated with an Administration"
+#~ msgstr ""
+#~ "Usuarios administradores deben estar vinculados con una administración."
+
+#~ msgid "Only Administrator Users can be associated with an Administration"
+#~ msgstr ""
+#~ "Sólo los usuarios administradores pueden estar vinculados con una "
+#~ "administración."
+
+#~ msgid "Slug already exists"
+#~ msgstr "El Slug ingresado ya existe. Debe ser único."
+
+#~ msgid "There was no file found to upload"
+#~ msgstr "No se encontró un archivo para subir"
+
+#~ msgid "This upload failed"
+#~ msgstr "La subida del archivo ha fallado"
+
+#~ msgid "Documents of this type cannot be created or edited manually"
+#~ msgstr ""
+#~ "Los documentos de este tipo no pueden ser creados o editados manualmente"
+
+#~ msgid "Documents of this type must belong to a period"
+#~ msgstr "Los documentos de este tipo deben pertenecer a un período."
+
+#~ msgid "Documents must always belong to an Owners Association"
+#~ msgstr "Los documentos deben pertenecer a un consorcio"
+
+#~ msgid "Settlement and Period must match"
+#~ msgstr "Periodo y liquidación deben coincidir"
+
+#~ msgid "Period and Owners Association must match"
+#~ msgstr "Periodo y consorcio deben coincidir"
+
+#~ msgid "This file is too large"
+#~ msgstr "El archivo es muy pesado"
+
+#~ msgid "This file could not be uploaded completely"
+#~ msgstr "El archivo no pudo ser subido completamente"
+
+#~ msgid "Invalid file type. Please upload images only (gif, png, jpg)."
+#~ msgstr ""
+#~ "Tipo de archivo inválido. Por favor seleccione sólo imágenes (gif, png, "
+#~ "jpg)."
+
+#~ msgid "News must always belong to an Administration"
+#~ msgstr "Las noticias siempre deben pertenecer a una administración"
+
+#~ msgid "Administration and Owners Association must match"
+#~ msgstr "La administración y el consorcio deben coincidir"
+
+#~ msgid "The field must be an array"
+#~ msgstr "El campo debe ser un arreglo"
+
+#~ msgid "Array must have at least 1 element"
+#~ msgstr "El arreglo debe tener al menos 1 elemento"
+
+#~ msgid "The Bank Account should belong to the Owners Association"
+#~ msgstr "La cuenta bancaria debe pertenecer al consorcio"
+
+#~ msgid "The Functional Units should be unique"
+#~ msgstr "La unidad funcional debe ser única"
+
+#~ msgid "The Functional Units should be associated with the Api User"
+#~ msgstr "La unidad funcional debe estar asociada con el usuario"
+
+#~ msgid "The Functional Units should belong to the Owners Association"
+#~ msgstr "Las unidades funcionales deben pertenecer al consorcio"
+
+#~ msgid ""
+#~ "The \"amount\" property is required for all the Functional Units and "
+#~ "cannot be empty"
+#~ msgstr ""
+#~ "La propiedad \"amount\" es requerida para todas las unidades funcionales "
+#~ "y no puede estar vacía"
+
+#~ msgid "Settings"
+#~ msgstr "Ajustes"
+
+#~ msgid "Bank Accounts"
+#~ msgstr "Cuentas bancarias"
+
+#~ msgid ""
+#~ "Keep the accounts data updated, this will allow users to select them when "
+#~ "notifying the payments of expenses by deposit or transfer."
+#~ msgstr ""
+#~ "Mantenga la información de las cuentas del consorcio actualizada, esto "
+#~ "permitirá que los usuarios puedan seleccionarlas al notificar los pagos "
+#~ "de expensas por depósito o transferencia."
+
+#~ msgid "Bank"
+#~ msgstr "Banco"
+
+#~ msgid "Bank Account Type"
+#~ msgstr "Tipo"
+
+#~ msgid "Account Number"
+#~ msgstr "Nº de cuenta"
+
+#~ msgid "Account Alias"
+#~ msgstr "Alias"
+
+#~ msgid "Account Cbu"
+#~ msgstr "CBU"
+
+#~ msgid "No results were found."
+#~ msgstr "No se encontraron resultados."
+
+#~ msgid "Save"
+#~ msgstr "Guardar"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Default"
+#~ msgstr "Predeterminado"
+
+#~ msgid "Set Default"
+#~ msgstr "Establecer predeterminado"
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Delete"
+#~ msgstr "Eliminar"
+
+#~ msgid "New Bank Account"
+#~ msgstr "Nueva cuenta bancaria"
+
+#~ msgid "An error occurred. Please wait a few moments and try again."
+#~ msgstr ""
+#~ "Ocurrió un error. Por favor espere unos momentos y vuelva a intentarlo."
+
+#~ msgid "Save changes"
+#~ msgstr "Guardar cambios"
+
+#~ msgid "Edit Document"
+#~ msgstr "Editar documento"
+
+#~ msgid "File Name"
+#~ msgstr "Archivo"
+
+#~ msgid "Search Documents"
+#~ msgstr "Buscar documentos"
+
+#~ msgid "Any Document Type"
+#~ msgstr "Todo tipo de documentos"
+
+#~ msgid "Any Period"
+#~ msgstr "Cualquier período"
+
+#~ msgid "Any Settlement"
+#~ msgstr "Todas las liquidaciones"
+
+#~ msgid "New Document"
+#~ msgstr "Nuevo documento"
+
+#~ msgid "Title and Description"
+#~ msgstr "Título y descripción"
+
+#~ msgid "Category"
+#~ msgstr "Categoría"
+
+#~ msgid "Download"
+#~ msgstr "Descargar"
+
+#~ msgid "Settlement"
+#~ msgstr "Liquidación"
+
+#~ msgid "Period"
+#~ msgstr "Período"
+
+#~ msgid "Back to the Documents index"
+#~ msgstr "Volver al listado de documentos"
+
+#~ msgid "Metadata"
+#~ msgstr "Metadatos"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Created"
+#~ msgstr "Creado"
+
+#~ msgid "Modified"
+#~ msgstr "Modificado"
+
+#~ msgid "Search Functional Units"
+#~ msgstr "Buscar unidades funcionales"
+
+#~ msgid "Owners Association"
+#~ msgstr "Consorcio"
+
+#~ msgid "Location"
+#~ msgstr "Ubicación"
+
+#~ msgid "Balance"
+#~ msgstr "Balance"
+
+#~ msgid "Updated"
+#~ msgstr "Actualizado"
+
+#~ msgid "Settlements"
+#~ msgstr "Liquidaciones"
+
+#~ msgid "Amount On First Due Date"
+#~ msgstr "Monto primero vencimiento"
+
+#~ msgid "Amount On Second Due Date"
+#~ msgstr "Monto segundo vencimiento"
+
+#~ msgid "Files"
+#~ msgstr "Archivos"
+
+#~ msgid "View all associated Settlements"
+#~ msgstr "Ver todas las liquidaciones asociadas"
+
+#~ msgid "Associated API Users"
+#~ msgstr "Usuarios asociados"
+
+#~ msgid "Name"
+#~ msgstr "Nombre"
+
+#~ msgid "Email"
+#~ msgstr "Email"
+
+#~ msgid "Phone"
+#~ msgstr "Teléfono"
+
+#~ msgid "API User Role"
+#~ msgstr "Rol"
+
+#~ msgid "Owner"
+#~ msgstr "Titular"
+
+#~ msgid "Back to the Functional Units index"
+#~ msgstr "Volver al listado de unidades funcionales"
+
+#~ msgid "Select an option..."
+#~ msgstr "Seleccione una opción..."
+
+#~ msgid "Search News"
+#~ msgstr "Buscar noticias"
+
+#~ msgid "Any News Category"
+#~ msgstr "Todas las categorías"
+
+#~ msgid "News Entities"
+#~ msgstr "Noticias"
+
+#~ msgid "News Entity"
+#~ msgstr "Noticia"
+
+#~ msgid "Publish"
+#~ msgstr "Publicar"
+
+#~ msgid "Mark as Draft"
+#~ msgstr "Marcar como borrador"
+
+#~ msgid "New News"
+#~ msgstr "Nueva noticia"
+
+#~ msgid "Status"
+#~ msgstr "Estado"
+
+#~ msgid "Images"
+#~ msgstr "Imágenes"
+
+#~ msgid "Attachments"
+#~ msgstr "Adjuntos"
+
+#~ msgid "News Attachments"
+#~ msgstr "Archivos adjuntos"
+
+#~ msgid "Back to the News index"
+#~ msgstr "Volver al listado de noticias"
+
+#~ msgid "Stats"
+#~ msgstr "Estadísticas"
+
+#~ msgid "Seen {0} times by {1} unique users"
+#~ msgstr "Visto {0} veces por {1} usuarios distintos"
+
+#~ msgid "General"
+#~ msgstr "General"
+
+#~ msgid "Address"
+#~ msgstr "Dirección"
+
+#~ msgid "City"
+#~ msgstr "Localidad"
+
+#~ msgid ""
+#~ "The name and address of the Owners Association are synced with the {0} "
+#~ "application."
+#~ msgstr ""
+#~ "El nombre y dirección del consorcio están sincronizados con la aplicación "
+#~ "{0}."
+
+#~ msgid ""
+#~ "To modify them, you have to do it from the {0} application and then wait "
+#~ "for the data to be synced automatically &ndash;approx. {1}."
+#~ msgstr ""
+#~ "Para modificarlos debe hacer los cambios desde la aplicación {0} y luego "
+#~ "esperar que se realice la sincronización automática &ndash;usualmente {1}."
+
+#~ msgid "Select image"
+#~ msgstr "Seleccionar imagen"
+
+#~ msgid "Search Owners Associations"
+#~ msgstr "Buscar consorcios"
+
+#~ msgid "Grid View"
+#~ msgstr "Vista de grilla"
+
+#~ msgid "Map View"
+#~ msgstr "Vista de mapa"
+
+#~ msgid "Any Payment Method"
+#~ msgstr "Todos los medios de pago"
+
+#~ msgid "Any Status"
+#~ msgstr "Todos los estados"
+
+#~ msgid "Payment Notifications"
+#~ msgstr "Notificaciones de pago"
+
+#~ msgid "Payment Notification"
+#~ msgstr "Notificación de pago"
+
+#~ msgid "Mark as Processed"
+#~ msgstr "Marcar como procesado"
+
+#~ msgid "User"
+#~ msgstr "Usuario"
+
+#~ msgid "Charge to"
+#~ msgstr "Imputar a"
+
+#~ msgid "Total Amount"
+#~ msgstr "Monto total"
+
+#~ msgid "Payment Method"
+#~ msgstr "Medio de pago"
+
+#~ msgid "Target Account"
+#~ msgstr "Cuenta de destino"
+
+#~ msgid "Payment Notification Status"
+#~ msgstr "Estado"
+
+#~ msgid "Notified"
+#~ msgstr "Notificado"
+
+#~ msgid "Reported by"
+#~ msgstr "Reportado por"
+
+#~ msgid "Unit"
+#~ msgstr "Unidad"
+
+#~ msgid "Amount"
+#~ msgstr "Monto"
+
+#~ msgid "Mark as Unprocessed"
+#~ msgstr "Marcar como nueva"
+
+#~ msgid "Transaction Details"
+#~ msgstr "Detalles de la transacción"
+
+#~ msgid "Target Bank Account"
+#~ msgstr "Cuenta de destino"
+
+#~ msgid "Payment Date"
+#~ msgstr "Fecha de pago"
+
+#~ msgid "Back to the Payment Notifications index"
+#~ msgstr "Volver al listado de notificaciones de pago"
+
+#~ msgid "Search Periods"
+#~ msgstr "Buscar períodos"
+
+#~ msgid "Title"
+#~ msgstr "Título"
+
+#~ msgid "Settlement Date"
+#~ msgstr "Fecha de liquidación"
+
+#~ msgid "First Due Date"
+#~ msgstr "Primer vencimiento"
+
+#~ msgid "Second Due Date"
+#~ msgstr "Segundo vencimiento"
+
+#~ msgid "Limit Date For Payment Methods"
+#~ msgstr "Fecha límite para métodos de pago"
+
+#~ msgid "Closing Date Cta Cte"
+#~ msgstr "Fecha de cierre Cta. Cte."
+
+#~ msgid ""
+#~ "The Periods in this Owners Association are synced with the {0} "
+#~ "application."
+#~ msgstr ""
+#~ "Los períodos de este consorcio están sincronizados con la aplicación {0}."
+
+#~ msgid "Last synced {0}"
+#~ msgstr "Última sincronización {0}"
+
+#~ msgid "There are {0} settlements created for this period"
+#~ msgstr "Hay {0} liquidaciones creadas para este período."
+
+#~ msgid "Go to index"
+#~ msgstr "Ir al listado"
+
+#~ msgid "Back to the Periods index"
+#~ msgstr "Volver al listado de períodos"
+
+#~ msgid "Search Settlements"
+#~ msgstr "Buscar liquidaciones"
+
+#~ msgid "Any Functional Unit"
+#~ msgstr "Cualquier unidad funcional"
+
+#~ msgid "Functional Unit"
+#~ msgstr "Unidad funcional"
+
+#~ msgid "List Documents"
+#~ msgstr "Listar documentos"
+
+#~ msgid "Documents"
+#~ msgstr "Documentos"
+
+#~ msgid "Document"
+#~ msgstr "Documento"
+
+#~ msgid "Document Type"
+#~ msgstr "Tipo de documento"
+
+#~ msgid "Home"
+#~ msgstr "Inicio"
+
+#~ msgid "View"
+#~ msgstr "Ver"
+
+#~ msgid "Move Up"
+#~ msgstr "Mover arriba"
+
+#~ msgid "Move Down"
+#~ msgstr "Mover abajo"
+
+#~ msgid "Are you sure you want to delete # {0}?"
+#~ msgstr "¿Estás seguro de eliminar  el registro # {0}?"
+
+#~ msgid "Please select at least one element"
+#~ msgstr "Por favor seleccione al menos un elemento"
+
+#~ msgid ""
+#~ "You are about to {{action}} {{quantity}} {{entity}}. Please confirm this "
+#~ "is what you want."
+#~ msgstr ""
+#~ "Está por {{action}} {{quantity}} {{entity}}. Por favor confirme que ésto "
+#~ "es lo que desea hacer."
+
+#~ msgid "Entities"
+#~ msgstr "Entidades"
+
+#~ msgid "Entity"
+#~ msgstr "Entidad"
+
+#~ msgid "Actions"
+#~ msgstr "Acciones"
+
+#~ msgid "Select All"
+#~ msgstr "Todos"
+
+#~ msgid "Select None"
+#~ msgstr "Ninguno"
+
+#~ msgid "Invert Selection"
+#~ msgstr "Invertir selección"
+
+#~ msgid "{{start}} - {{end}} of {{count}}"
+#~ msgstr "{{start}} - {{end}} de {{count}}"
+
+#~ msgid "First Page"
+#~ msgstr "Primera página"
+
+#~ msgid "Last Page"
+#~ msgstr "Última página"
+
+#~ msgid "Body"
+#~ msgstr "Cuerpo de texto"
+
+#~ msgid "Search"
+#~ msgstr "Buscar"
+
+#~ msgid "From"
+#~ msgstr "Desde"
+
+#~ msgid "To"
+#~ msgstr "Hasta"
+
+#~ msgid "Advanced Filters"
+#~ msgstr "Filtros avanzados"
+
+#~ msgid "Remove Filter"
+#~ msgstr "Remover filtro"
+
+#~ msgid "Apply Filters"
+#~ msgstr "Aplicar filtros"
+
+#~ msgid "Dashboards"
+#~ msgstr "Panel principal"
+
+#~ msgid "News"
+#~ msgstr "Noticias"
+
+#~ msgid "Periods"
+#~ msgstr "Períodos"
+
+#~ msgid "Functional Units"
+#~ msgstr "Unidades funcionales"
+
+#~ msgid "Add News Attachments"
+#~ msgstr "Adjuntar archivos"
+
+#~ msgid "Add News Images"
+#~ msgstr "Agregar imágenes"
+
+#~ msgid "Unfavorite"
+#~ msgstr "Desmarcar como favorito"
+
+#~ msgid "Favorite"
+#~ msgstr "Marcar como favorito"
+
+#~ msgid "Select this Owners Association"
+#~ msgstr "Seleccionar este consorcio"
+
+#~ msgid "Owners Associations"
+#~ msgstr "Consorcios"
+
+#~ msgid "Administrations"
+#~ msgstr "Administraciones"
+
+#~ msgid "Document Types"
+#~ msgstr "Tipos de documentos"
+
+#~ msgid "Superusers"
+#~ msgstr "Superusuarios"
+
+#~ msgid "Logout"
+#~ msgstr "Cerrar sesión"
+
+#~ msgid "Error"
+#~ msgstr "Error"
+
+#~ msgid "Back"
+#~ msgstr "Volver"
+
+#~ msgid "Login"
+#~ msgstr "Iniciar sesión"
+
+#~ msgid "API Users"
+#~ msgstr "Usuarios API"
+
+#~ msgid "Search Administrations"
+#~ msgstr "Buscar administraciones"
+
+#~ msgid "Id"
+#~ msgstr "ID"
+
+#~ msgid "Firm Name"
+#~ msgstr "Razón social"
+
+#~ msgid "Cuit"
+#~ msgstr "CUIT"
+
+#~ msgid "Address Street"
+#~ msgstr "Calle"
+
+#~ msgid "Address Number"
+#~ msgstr "Número"
+
+#~ msgid "Address Floor"
+#~ msgstr "Piso"
+
+#~ msgid "Address Department"
+#~ msgstr "Departamento"
+
+#~ msgid "Postal Code"
+#~ msgstr "Código postal"
+
+#~ msgid "Province"
+#~ msgstr "Provincia"
+
+#~ msgid "Office Hours"
+#~ msgstr "Horario"
+
+#~ msgid "Website"
+#~ msgstr "Sitio web"
+
+#~ msgid "Rpa"
+#~ msgstr "RPA"
+
+#~ msgid "Logo Url"
+#~ msgstr "Logo"
+
+#~ msgid "Add API User"
+#~ msgstr "Agregar Usuario API"
+
+#~ msgid "Active"
+#~ msgstr "Activo"
+
+#~ msgid "Edit API User"
+#~ msgstr "Editar Usuario API"
+
+#~ msgid "Aws Cognito Username"
+#~ msgstr "Nombre de usuario de AWS Cognito"
+
+#~ msgid "New API User"
+#~ msgstr "Nuevo usuario API"
+
+#~ msgid "Search API Users"
+#~ msgstr "Buscar usuarios API"
+
+#~ msgid "Full Name"
+#~ msgstr "Nombre completo"
+
+#~ msgid "Delete API User"
+#~ msgstr "Eliminar usuario API"
+
+#~ msgid "Reset Password"
+#~ msgstr "Reestablecer contraseña"
+
+#~ msgid "Are you sure you want to reset the password of # {0}?"
+#~ msgstr "¿Está seguro que desea reestablecer la contraseña de # {0}?"
+
+#~ msgid "Resend Invitation Email"
+#~ msgstr "Reenviar email de invitación"
+
+#~ msgid "Email Verified"
+#~ msgstr "Email verificado"
+
+#~ msgid "Yes"
+#~ msgstr "Si"
+
+#~ msgid "No"
+#~ msgstr "No"
+
+#~ msgid "First Name"
+#~ msgstr "Nombre"
+
+#~ msgid "Middle Name"
+#~ msgstr "Segundo nombre"
+
+#~ msgid "Last Name"
+#~ msgstr "Apellido"
+
+#~ msgid "Api User Role"
+#~ msgstr "Rol de usuario API"
+
+#~ msgid "Slug"
+#~ msgstr "Slug"
+
+#~ msgid "Documents Belongs To Periods"
+#~ msgstr "Documentos pertenecen a períodos"
+
+#~ msgid "Any Administration"
+#~ msgstr "Cualquier administración"
+
+#~ msgid "Any Owners Association"
+#~ msgstr "Cualquier consorcio"
+
+#~ msgid "Administration"
+#~ msgstr "Administración"
+
+#~ msgid "Document type"
+#~ msgstr "Tipo de documento"
+
+#~ msgid "Url"
+#~ msgstr "URL"
+
+#~ msgid "Created At"
+#~ msgstr "Fecha de creación"
+
+#~ msgid "Created By"
+#~ msgstr "Creado por"
+
+#~ msgid "Modified At"
+#~ msgstr "Fecha de modificación"
+
+#~ msgid "Modified By"
+#~ msgstr "modificado por"
+
+#~ msgid "Owners Name"
+#~ msgstr "Nombre del dueño"
+
+#~ msgid "Owners Phone"
+#~ msgstr "Teléfono del dueño"
+
+#~ msgid "Owners Email"
+#~ msgstr "Email del dueño"
+
+#~ msgid "API User"
+#~ msgstr "Usuario API"
+
+#~ msgid "Adminstration"
+#~ msgstr "Administración"
+
+#~ msgid "Add User"
+#~ msgstr "Agregar usuario"
+
+#~ msgid "Edit User"
+#~ msgstr "Editar usuario"
+
+#~ msgid "New User"
+#~ msgstr "Nuevo usuario"
+
+#~ msgid "Users"
+#~ msgstr "Usuarios"
+
+#~ msgid "Any Roles"
+#~ msgstr "Cualquier rol"
+
+#~ msgid "Both"
+#~ msgstr "Ambos"
+
+#~ msgid "Search Users"
+#~ msgstr "Buscar usuarios"
+
+#~ msgid "Change Password"
+#~ msgstr "Cambiar contraseña"
+
+#~ msgid "Username"
+#~ msgstr "Nombre de usuario"
+
+#~ msgid "Role"
+#~ msgstr "Rol"
+
+#~ msgid "Is Superuser"
+#~ msgstr "Es superuser"
+
+#~ msgid "Token Expires"
+#~ msgstr "Token expira"
+
+#~ msgid "Activation Date"
+#~ msgstr "Fecha de activaciónFecha de inicio"
+
+#~ msgid "Tos Date"
+#~ msgstr "Fecha de aceptación Terminos"
+
+#~ msgid "Select a bank..."
+#~ msgstr "Seleccionar banco..."
+
+#~ msgid "Select a bank account type..."
+#~ msgstr "Seleccionar tipo..."
+
+#~ msgid "Search Bank Accounts"
+#~ msgstr "Buscar cuentas bancarias"
+
+#~ msgid "Any Bank Account Type"
+#~ msgstr "Todo tipo de cuentas"
+
+#~ msgid "Any Bank"
+#~ msgstr "Todos los bancos"
+
+#~ msgid "Last modified {0} by {1}"
+#~ msgstr "Última modificación {0} por {1}"
+
+#~ msgid "News Images"
+#~ msgstr "Imágenes"
+
+#~ msgid "Advanced Filters..."
+#~ msgstr "Filtros avanzados..."
+
+#~ msgid "The brand has been saved."
+#~ msgstr "La marca se ha guardado"
+
+#~ msgid "The brand could not be saved. Please, try again."
+#~ msgstr "La marca no pudo ser guardada. Por favor, intente de nuevo."
+
+#~ msgid "The category has been saved."
+#~ msgstr "La categoría fue guardada."
+
+#~ msgid "The category could not be saved. Please, try again."
+#~ msgstr "El registro no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "The client level has been saved."
+#~ msgstr "El nivel de cliente fue guardado."
+
+#~ msgid "The client level could not be saved. Please, try again."
+#~ msgstr ""
+#~ "El nivel de cliente no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "The client has been saved."
+#~ msgstr "El cliente se ha guardado."
+
+#~ msgid "The client could not be saved. Please, try again."
+#~ msgstr "El cliente no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "The date has been saved."
+#~ msgstr "El registro se ha guardado."
+
+#~ msgid "The date could not be saved. Please, try again."
+#~ msgstr "El registro no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "The date has been deleted."
+#~ msgstr "El registro fue eliminado."
+
+#~ msgid "The date could not be deleted. Please, try again."
+#~ msgstr "El registro no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "The manufacturer has been saved."
+#~ msgstr "El registro se ha guardado."
+
+#~ msgid "The manufacturer could not be saved. Please, try again."
+#~ msgstr "El registro no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "The points of sale has been saved."
+#~ msgstr "El registro se ha guardado."
+
+#~ msgid "The points of sale could not be saved. Please, try again."
+#~ msgstr "El registro no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "The points of sale has been deleted."
+#~ msgstr "El registro fue eliminado."
+
+#~ msgid "The points of sale could not be deleted. Please, try again."
+#~ msgstr "El registro no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "The product has been saved."
+#~ msgstr "El registro se ha guardado."
+
+#~ msgid "The product could not be saved. Please, try again."
+#~ msgstr "El registro no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "The product has been deleted."
+#~ msgstr "El registro fue eliminado."
+
+#~ msgid "The product could not be deleted. Please, try again."
+#~ msgstr "El registro no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "All stats have been rebuilt."
+#~ msgstr "Todas las estadísticas fueron recalculadas."
+
+#~ msgid ""
+#~ "There was an error while trying to rebuild the stats. Please, try again."
+#~ msgstr ""
+#~ "Ha ocurrido un error al intentar recalcular las estadísticas. Por favor, "
+#~ "intente de nuevo."
+
+#~ msgid "The zone has been saved."
+#~ msgstr "El registro se ha guardado."
+
+#~ msgid "The zone could not be saved. Please, try again."
+#~ msgstr "El registro no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "There are no currently active campaigns."
+#~ msgstr "No hay campañas activas."
+
+#~ msgid "There are no Points of Sale for this agent."
+#~ msgstr "No hay puntos de venta para este agente."
+
+#~ msgid "The selected product is not part of this campaign."
+#~ msgstr "El producto seleccionado no es parte de esta campaña."
+
+#~ msgid "The selected point of sale is not part of this campaign."
+#~ msgstr "El punto de venta seleccionado no es parte de esta campaña."
+
+#~ msgid "The campaign has been saved."
+#~ msgstr "La campaña fue guardada."
+
+#~ msgid "The campaign could not be saved. Please, try again."
+#~ msgstr "La campaña no pudo ser guardada. Por favor, intente de nuevo."
+
+#~ msgid "The campaign has been deleted."
+#~ msgstr "La campaña fue eliminada."
+
+#~ msgid "The campaign could not be deleted. Please, try again."
+#~ msgstr "El registro no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "Points Of Sale"
+#~ msgstr "Puntos de venta"
+
+#~ msgid "Seleccionado"
+#~ msgstr "Seleccionado"
+
+#~ msgid "Seleccionar"
+#~ msgstr "Seleccionar"
+
+#~ msgid "Zone"
+#~ msgstr "Zona"
+
+#~ msgid "Name Alt"
+#~ msgstr "Nombre alternativo"
+
+#~ msgid "Client"
+#~ msgstr "Cliente"
+
+#~ msgid "Add Brand"
+#~ msgstr "Añadir Marca"
+
+#~ msgid "Edit Brand"
+#~ msgstr "Editar marca"
+
+#~ msgid "Brands"
+#~ msgstr "Marcas"
+
+#~ msgid "New Brand"
+#~ msgstr "Nueva marca"
+
+#~ msgid "Add Campaign"
+#~ msgstr "Agregar campaña"
+
+#~ msgid "Edit Campaign"
+#~ msgstr "Editar campaña"
+
+#~ msgid "Campaigns"
+#~ msgstr "Campañas"
+
+#~ msgid "Add Category"
+#~ msgstr "Agregar categoría"
+
+#~ msgid "Edit Category"
+#~ msgstr "Editar categoría"
+
+#~ msgid "Categories"
+#~ msgstr "Categorías"
+
+#~ msgid "New Category"
+#~ msgstr "Nueva categoría"
+
+#~ msgid "Add Client Level"
+#~ msgstr "Agregar nivel de cliente"
+
+#~ msgid "Edit Client Level"
+#~ msgstr "Editar nivel de cliente"
+
+#~ msgid "Client Levels"
+#~ msgstr "Niveles de cliente"
+
+#~ msgid "Search Client Levels"
+#~ msgstr "Buscar niveles de cliente"
+
+#~ msgid "New Client Level"
+#~ msgstr "Nuevo nivel de cliente"
+
+#~ msgid "Add Client"
+#~ msgstr "Agregar cliente"
+
+#~ msgid "Edit Client"
+#~ msgstr "Editar cliente"
+
+#~ msgid "Clients"
+#~ msgstr "Clientes"
+
+#~ msgid "New Client"
+#~ msgstr "Nuevo cliente"
+
+#~ msgid "Client Level"
+#~ msgstr "Niveles de cliente"
+
+#~ msgid "Add Date"
+#~ msgstr "Agregar fecha"
+
+#~ msgid "Edit Date"
+#~ msgstr "Editar fecha"
+
+#~ msgid "Dates"
+#~ msgstr "Fechas"
+
+#~ msgid "Day"
+#~ msgstr "Día"
+
+#~ msgid "Day Of Week"
+#~ msgstr "Día de la semana"
+
+#~ msgid "Month"
+#~ msgstr "Mes"
+
+#~ msgid "Month Name"
+#~ msgstr "Nombre del mes"
+
+#~ msgid "Quarter Name"
+#~ msgstr "Nombre del trimestre"
+
+#~ msgid "Year"
+#~ msgstr "Año"
+
+#~ msgid "Standard Date"
+#~ msgstr "Fecha estándar"
+
+#~ msgid "Holiday Text"
+#~ msgstr "Feriado"
+
+#~ msgid "Day Of Year"
+#~ msgstr "Día del año"
+
+#~ msgid "Week Of Year"
+#~ msgstr "Semana del año"
+
+#~ msgid "Quarter"
+#~ msgstr "Trimestre"
+
+#~ msgid "Date"
+#~ msgstr "Fecha"
+
+#~ msgid "Deleted"
+#~ msgstr "Eliminado"
+
+#~ msgid "Dashboard"
+#~ msgstr "Panel"
+
+#~ msgid "Catalog"
+#~ msgstr "Catálogo"
+
+#~ msgid "Points of sale"
+#~ msgstr "Puntos de venta"
+
+#~ msgid "Add Manufacturer"
+#~ msgstr "Agregar fabricante"
+
+#~ msgid "Edit Manufacturer"
+#~ msgstr "Editar fabricante"
+
+#~ msgid "Manufacturers"
+#~ msgstr "Febricantes"
+
+#~ msgid "New Manufacturer"
+#~ msgstr "Nuevo fabricante"
+
+#~ msgid "Add Measurement"
+#~ msgstr "Agregar medición"
+
+#~ msgid "Edit Measurement"
+#~ msgstr "Editar medición"
+
+#~ msgid "Measurements"
+#~ msgstr "Mediciones"
+
+#~ msgid "Campaign"
+#~ msgstr "Campañas"
+
+#~ msgid "Product"
+#~ msgstr "Producto"
+
+#~ msgid "Price"
+#~ msgstr "Precio regular"
+
+#~ msgid "Promotional Price"
+#~ msgstr "Precio promocional"
+
+#~ msgid "Quantity Available"
+#~ msgstr "Cantidad de frentes"
+
+#~ msgid "Collected Date"
+#~ msgstr "Fecha de relevamiento"
+
+#~ msgid "Add Points Of Sale"
+#~ msgstr "Agregar punto de venta"
+
+#~ msgid "Edit Points Of Sale"
+#~ msgstr "Editar punto de venta"
+
+#~ msgid "New Points Of Sale"
+#~ msgstr "Nuevo punto de venta"
+
+#~ msgid "Latitude"
+#~ msgstr "Latitud"
+
+#~ msgid "Longitude"
+#~ msgstr "Longitud"
+
+#~ msgid "Add Product"
+#~ msgstr "Agregar producto"
+
+#~ msgid "Edit Product"
+#~ msgstr "Editar producto"
+
+#~ msgid "Products"
+#~ msgstr "Productos"
+
+#~ msgid "Search Products"
+#~ msgstr "Buscar productos"
+
+#~ msgid "New Product"
+#~ msgstr "Nuevo producto"
+
+#~ msgid "Brand"
+#~ msgstr "Marcas"
+
+#~ msgid "Manufacturer"
+#~ msgstr "Fabricantes"
+
+#~ msgid "Presentation"
+#~ msgstr "Presentación"
+
+#~ msgid "Stats Measurements"
+#~ msgstr "Mediciones"
+
+#~ msgid "Rebuild All"
+#~ msgstr "Recalcular todas"
+
+#~ msgid "Date Year"
+#~ msgstr "Año"
+
+#~ msgid "Date Month"
+#~ msgstr "Mes"
+
+#~ msgid "Date Day"
+#~ msgstr "Día"
+
+#~ msgid "Campaign Name"
+#~ msgstr "Nombre de la campaña"
+
+#~ msgid "Client Name"
+#~ msgstr "Nombre del cliente"
+
+#~ msgid "Client Level Name"
+#~ msgstr "Nombre del nivel de cliente"
+
+#~ msgid "Point Of Sale Name"
+#~ msgstr "Nombre"
+
+#~ msgid "Point Of Sale City"
+#~ msgstr "Ciudad"
+
+#~ msgid "Zone Name"
+#~ msgstr "Zona"
+
+#~ msgid "Category Name"
+#~ msgstr "Categoría"
+
+#~ msgid "Brand Name"
+#~ msgstr "Marca"
+
+#~ msgid "Manufacturer Name"
+#~ msgstr "Fabricante"
+
+#~ msgid "Product Name"
+#~ msgstr "Producto"
+
+#~ msgid "User Name"
+#~ msgstr "Usuario"
+
+#~ msgid "Date Quarter"
+#~ msgstr "Trimestre"
+
+#~ msgid "Client Level Perfect Osa Threshold"
+#~ msgstr "Umbral de perfect OSA"
+
+#~ msgid "Product Min Price"
+#~ msgstr "Precio mínimo"
+
+#~ msgid "Product Max Price"
+#~ msgstr "Precio máximo"
+
+#~ msgid "Measurement Price"
+#~ msgstr "Precio"
+
+#~ msgid "Measurement Quantity Available"
+#~ msgstr "Cantidad de frentes"
+
+#~ msgid "Metrics Correct Pricing"
+#~ msgstr "Correct pricing"
+
+#~ msgid "Metrics Osa"
+#~ msgstr "OSA"
+
+#~ msgid "Metrics Share"
+#~ msgstr "Share"
+
+#~ msgid "Campaign Date Start"
+#~ msgstr "Comienzo"
+
+#~ msgid "Campaign Date End"
+#~ msgstr "Fin"
+
+#~ msgid "Campaign Finished"
+#~ msgstr "Finalizada"
+
+#~ msgid "Product Is Reported"
+#~ msgstr "incluído en reporte"
+
+#~ msgid "Force Geoposition"
+#~ msgstr "Forzar Geoposición"
+
+#~ msgid "Add Zone"
+#~ msgstr "Agregar zona"
+
+#~ msgid "Edit Zone"
+#~ msgstr "Editar zona"
+
+#~ msgid "Zones"
+#~ msgstr "Zonas"
+
+#~ msgid "New Zone"
+#~ msgstr "Nueva zona"
+
+#~ msgid "Description"
+#~ msgstr "Descripción"
+
+#~ msgid "The brand has been deleted."
+#~ msgstr "La marca fue eliminada."
+
+#~ msgid "The brand could not be deleted. Please, try again."
+#~ msgstr "La marca no pudo ser eliminada. Por favor, intente de nuevo."
+
+#~ msgid "The category has been deleted."
+#~ msgstr "La categoría fue eliminada."
+
+#~ msgid "The category could not be deleted. Please, try again."
+#~ msgstr "El registro no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "The client level has been deleted."
+#~ msgstr "El nivel de cliente ha sido eliminado."
+
+#~ msgid "The client level could not be deleted. Please, try again."
+#~ msgstr ""
+#~ "El nivel de cliente no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "The client has been deleted."
+#~ msgstr "El registro fue eliminado."
+
+#~ msgid "The client could not be deleted. Please, try again."
+#~ msgstr "El registro no pudo ser guardado. Por favor, intente de nuevo."
+
+#~ msgid "The manufacturer has been deleted."
+#~ msgstr "El registro fue eliminado."
+
+#~ msgid "The manufacturer could not be deleted. Please, try again."
+#~ msgstr "El registro no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "The zone has been deleted."
+#~ msgstr "El registro fue eliminado."
+
+#~ msgid "The zone could not be deleted. Please, try again."
+#~ msgstr "El registro no pudo ser eliminado. Por favor, intente de nuevo."
+
+#~ msgid "Guardar"
+#~ msgstr "Guardar"
+
+#~ msgid "Guardado"
+#~ msgstr "Guardado"
+
+#~ msgid "Guardando.."
+#~ msgstr "Guardando.."
+
+#~ msgid "{{current}} de {{count}}"
+#~ msgstr "{{current}} de {{count}}"
+
+#~ msgid "End Date"
+#~ msgstr "Fecha de fin"
+
+#~ msgid "Is Deleted"
+#~ msgstr "Eliminado"
