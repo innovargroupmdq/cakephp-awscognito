@@ -113,7 +113,7 @@ class ApiUsersTable extends Table
 
     /* Lifecycle Callbacks */
 
-    public function beforeSave(Event $event, ApiUser $entity, ArrayObject $options)
+    public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if($entity->isNew()){
             /*
