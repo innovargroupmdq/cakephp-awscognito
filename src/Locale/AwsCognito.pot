@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2018-09-12 15:10-0300\n"
+"POT-Creation-Date: 2018-09-24 17:30-0300\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,79 +14,259 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/ApiUsersController.php:52;77;138
+#: Controller/ApiUsersController.php:53;78;139
 msgid "The Api User has been saved"
 msgstr ""
 
-#: Controller/ApiUsersController.php:55;80;141
+#: Controller/ApiUsersController.php:56;81;142
 msgid "The Api User could not be saved"
 msgstr ""
 
-#: Controller/ApiUsersController.php:91
+#: Controller/ApiUsersController.php:92
 msgid "The Api User has been deleted"
 msgstr ""
 
-#: Controller/ApiUsersController.php:93
+#: Controller/ApiUsersController.php:94
 msgid "The Api User could not be deleted"
 msgstr ""
 
-#: Controller/ApiUsersController.php:107
+#: Controller/ApiUsersController.php:108
 msgid "The user email must be verified before resetting the password"
 msgstr ""
 
-#: Controller/ApiUsersController.php:109
+#: Controller/ApiUsersController.php:110
 msgid "The password has been reset"
 msgstr ""
 
-#: Controller/ApiUsersController.php:111
+#: Controller/ApiUsersController.php:112
 msgid "The password could not be reset. If the user has not yet changed their temporary password, they must do so before the password can be reset"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:37
+#: Controller/ApiUsersController.php:155
+msgid "{0} API Users imported successfully"
+msgstr ""
+
+#: Controller/ApiUsersController.php:157
+msgid "An error occurred while trying to import the API Users. Please try again."
+msgstr ""
+
+#: Controller/ApiUsersController.php:166
+msgid "The max amount of rows allowed is {0}. The data sent has {1} rows. Please review this and try again."
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:39
 msgid "the AWS User Pool ID has not been set."
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:62
+#: Model/Table/ApiUsersTable.php:64
 msgid "This field must be a valid email address"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:79
+#: Model/Table/ApiUsersTable.php:81
 msgid "Must be one of the following values: %s"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:103
+#: Model/Table/ApiUsersTable.php:105
 msgid "Username already exists"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:108
+#: Model/Table/ApiUsersTable.php:110
 msgid "Email already exists"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:155
-msgid "AwsCognito.ApiUsers.roles setting is invalid"
+#: Model/Table/ApiUsersTable.php:157
+msgid "ApiUsers.roles setting is invalid"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:161
-msgid "The AwsCognito.ApiUsers.roles array should be entirely associative"
+#: Model/Table/ApiUsersTable.php:163
+msgid "The ApiUsers.roles array should be entirely associative"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:173
+#: Model/Table/ApiUsersTable.php:175
 msgid "You must create the entity before trying to resend the invitation email"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:188
+#: Model/Table/ApiUsersTable.php:190
 msgid "The user is not a Cognito user."
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:199
+#: Model/Table/ApiUsersTable.php:201
 msgid "The returned Cognito user SUB does not match the client ID"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:211;243;378;407;421
+#: Model/Table/ApiUsersTable.php:213;245;380;409;423
 msgid "The user does not have a Cognito Username."
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:267
+#: Model/Table/ApiUsersTable.php:269
 msgid "the AWS credentials have not been set."
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:514
+msgid "This field is duplicated"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:7;14
+msgid "Username"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:8;15
+#: Template/Element/ApiUsers/import_validated.ctp:14
+msgid "First Name"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:9;16
+#: Template/Element/ApiUsers/import_validated.ctp:15
+msgid "Last Name"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:10;17
+#: Template/Element/ApiUsers/import_validated.ctp:13
+msgid "Email"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:45
+#: Template/Element/ApiUsers/import_validated.ctp:41
+msgid "Import API Users"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:46
+msgid "You can add or edit API Users by uploading a CSV dataset."
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:49
+msgid "Importing Options"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:52
+msgid "{0} max rows allowed."
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:60
+msgid "Stop processing after {0} errors."
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:68
+msgid "Instructions"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:70
+msgid "Each line represents one user only and it must contain all fields separated by a comma (,). All fields must be escaped using double quotes (\")."
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:71
+msgid "Please ensure there are no quotes inside the field values that could break the data structure."
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:72
+msgid "The fields are expected in the following order:"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:77
+msgid "For new users, the following fields cannot be empty:"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:82
+msgid "To edit users, the system will look up matching usernames."
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:83
+msgid "You will be able to review the users before they are imported into the system."
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:87
+msgid "Example API User Data"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:91
+msgid "Importing Data"
+msgstr ""
+
+#: Template/Element/ApiUsers/import.ctp:98
+msgid "Validate API User Data"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:11
+msgid "Id"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:12
+msgid "Aws Cognito Username"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:52
+msgid "Total Submitted Users"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:63
+msgid "Errors Before Validation Stopped"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:74
+msgid "Validated Users"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:84;179
+msgid "Valid API Users"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:93
+msgid "Show List of Valid API Users"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:113
+msgid "Save changes"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:115
+msgid "Cancel"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:119
+msgid "Note"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:120
+msgid "Keep in mind that proceeding will send emails to all new users with their login details."
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:128
+msgid "Validation Errors"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:129
+msgid "{0} Users did not pass the validation stage. Please review the errors and try again."
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:135
+msgid "Row"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:162
+msgid "Back to API Users Import Form"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:190
+msgid "New API Users will be added."
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:200
+msgid "API Users will be edited."
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:213
+msgid "Action"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:226
+msgid "Unchanged"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:228
+msgid "Edit"
+msgstr ""
+
+#: Template/Element/ApiUsers/import_validated.ctp:230
+msgid "Add"
 msgstr ""
 

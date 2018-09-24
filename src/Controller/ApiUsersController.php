@@ -3,6 +3,7 @@ namespace EvilCorp\AwsCognito\Controller;
 
 use EvilCorp\AwsCognito\Controller\AppController;
 use EvilCorp\AwsCognito\Model\Table\ApiUsersTable;
+use Cake\Core\Configure;
 
 class ApiUsersController extends AppController
 {
@@ -139,5 +140,54 @@ class ApiUsersController extends AppController
             return $this->redirect(['action' => 'index']);
         }
         $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be saved'));
+    }
+
+    public function import()
+    {
+        if($this->request->is('post')){
+
+            $csv_data = $this->request->getData('csv_data', null);
+
+            if(empty($csv_data)){
+                //save rows
+                $result = $this->ApiUsers->importMany($this->request->getData());
+                if($result){
+                    $this->Flash->success(__d('EvilCorp/AwsCognito', '{0} API Users imported successfully', count($result)));
+                }else{
+                    $this->Flash->error(__d('EvilCorp/AwsCognito', 'An error occurred while trying to import the API Users. Please try again.'));
+                }
+                return $this->redirect(['action' => 'index']);
+            }
+
+            //check for max rows
+            $max_rows  = Configure::read('ApiUsers.import_max_rows');
+            $data_rows = count(explode("\n", $csv_data));
+            if($data_rows > $max_rows){
+                $this->Flash->error(__d('EvilCorp/AwsCognito',
+                    'The max amount of rows allowed is {0}. The data sent has {1} rows. Please review this and try again.',
+                    $max_rows, $data_rows)
+                );
+                return;
+            }
+
+            //set max errors
+            $max_errors = $this->request->getData('max_errors')
+                ? Configure::read('ApiUsers.import_max_errors')
+                : false;
+
+            //validate data
+            $rows = $this->ApiUsers->csvDataToAssociativeArray($csv_data);
+            $api_users = $this->ApiUsers->validateMany($rows, $max_errors);
+
+            $this->set([
+                'api_users'             => $api_users,
+                'rows_count'            => count($rows),
+                'analyzed_rows_count'   => count($api_users),
+                'stopped_at_max_errors' => ($max_errors && count($api_users) < count($rows)),
+                'max_errors'            => $max_errors,
+            ]);
+
+            $this->render('import_validated');
+        }
     }
 }

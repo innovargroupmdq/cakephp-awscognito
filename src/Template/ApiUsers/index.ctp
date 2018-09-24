@@ -14,6 +14,14 @@
             <div class="btn-toolbar">
                 <?= $this->element('Layout/search',     ['placeholder'=>__('Search API Users')]); ?>
                 <?= $this->element('Layout/button-add', ['label'=>__('New API User')]); ?>
+                <div class="btn-group" role="group">
+                    <?= $this->Html->link(
+                         __('Import API Users'),
+                        ['action' => 'import'],
+                        ['class'=>'btn btn-default', 'escape' => false]
+                    )
+                    ?>
+                </div>
                 <?= $this->element('Layout/pager'); ?>
             </div>
         </div>
