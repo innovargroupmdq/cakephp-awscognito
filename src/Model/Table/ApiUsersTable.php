@@ -535,7 +535,9 @@ class ApiUsersTable extends Table
         $parsed_rows = array_map('str_getcsv', $rows);
 
         array_walk($parsed_rows, function(&$row) use ($fields) {
-            $row = array_combine($fields, $row);
+            $filled_row  = $row + array_fill(0, count($fields), null);
+            $cropped_row = array_slice($filled_row, 0, count($fields));
+            $row         = array_combine($fields, $cropped_row);
         });
 
         return $parsed_rows;
