@@ -27,7 +27,7 @@ class ApiUsersTable extends Table
             ]
         ]);
 
-        $this->addBehavior('Muffin/Footprint', [
+        $this->addBehavior('Muffin/Footprint.Footprint', [
             'events' => [
                 'Model.beforeSave' => [
                     'created_by' => 'new',
