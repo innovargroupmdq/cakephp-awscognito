@@ -45,6 +45,41 @@ class AddApiUsers extends AbstractMigration
                 'default' => null,
                 'null' => true,
             ])
+            ->addColumn('avatar_url', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('avatar_file_name', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true
+            ])
+            ->addColumn('avatar_file_dir', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true
+            ])
+            ->addColumn('avatar_file_size', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true
+            ])
+            ->addColumn('avatar_file_type', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true
+            ])
+            ->addColumn('avatar_width', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true
+            ])
+            ->addColumn('avatar_height', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true
+            ])
             ->addColumn('created_at', 'datetime', [
                 'default' => null,
                 'limit' => null,

@@ -46,6 +46,20 @@ class ApiUsersTable extends Table
 
         $this->addBehavior('EvilCorp/AwsCognito.AwsCognito', Configure::read('AwsCognito'));
         $this->addBehavior('EvilCorp/AwsCognito.ImportApiUsers');
+        $this->addBehavior('EvilCorp/AwsS3Upload.AwsS3Upload', [
+            'avatar_file_name' => [
+                'fields' => [
+                    'dir'          => 'avatar_file_dir',
+                    'size'         => 'avatar_file_size',
+                    'type'         => 'avatar_file_type',
+                    'url'          => 'avatar_url',
+                    'image_width'  => 'avatar_width',
+                    'image_height' => 'avatar_height'
+                ],
+                'path' => 'UserAvatars{DS}{microtime}{DS}',
+                'images_only' => true
+            ]
+        ]);
 
         $this->addBehavior('Search.Search');
         $this->searchManager()
@@ -125,6 +139,9 @@ class ApiUsersTable extends Table
                 )
             )
             ->notEmpty('role');
+
+        $validator
+            ->allowEmpty('avatar_file_name');
 
         return $validator;
     }
