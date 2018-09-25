@@ -18,7 +18,23 @@ class ApiUsersTable extends Table
         $this->setDisplayField('full_name');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_at' => 'new',
+                    'modified_at' => 'always',
+                ]
+            ]
+        ]);
+
+        $this->addBehavior('Muffin/Footprint', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created_by' => 'new',
+                    'modified_by' => 'always',
+                ]
+            ]
+        ]);
 
         $this->addBehavior('EvilCorp/AwsCognito.AwsCognito', Configure::read('AwsCognito'));
         $this->addBehavior('EvilCorp/AwsCognito.ImportApiUsers');

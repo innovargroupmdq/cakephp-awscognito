@@ -45,11 +45,25 @@ class AddApiUsers extends AbstractMigration
                 'default' => null,
                 'null' => true,
             ])
-            ->addColumn('created', 'datetime', [
+            ->addColumn('created_at', 'datetime', [
+                'default' => null,
+                'limit' => null,
                 'null' => false,
             ])
-            ->addColumn('modified', 'datetime', [
+            ->addColumn('created_by', 'uuid', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified_at', 'datetime', [
+                'default' => null,
+                'limit' => null,
                 'null' => false,
+            ])
+            ->addColumn('modified_by', 'uuid', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
             ])
 
             ->addIndex(['aws_cognito_id'], [

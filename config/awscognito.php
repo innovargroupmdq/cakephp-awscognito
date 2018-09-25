@@ -13,12 +13,17 @@ $config = [
         'IdentityProviderClient' => [
             'settings' => [], //https://docs.aws.amazon.com/sdkforruby/api/Aws/CognitoIdentityProvider/Client.html#initialize-instance_method
         ],
-        'ApiUsers' => [
-            'roles' => [
-                'agent'     => 'Agente',
-                'dashboard' => 'Panel',
-            ],
-        ]
+    ],
+    'ApiUsers' => [
+        /* available user roles */
+        'roles' => [
+            'user' => __d('EvilCorp/AwsCognito', 'API User'),
+        ],
+        /* the max amount of errors alloweds before the validation process of the imported data is halted */
+        'import_max_errors' => 10,
+
+        /* the limit of accepted rows in the importing CSV data */
+        'import_max_rows' => 500,
     ]
 ];
 
