@@ -10,6 +10,14 @@ use Exception;
 
 class ApiUsersTable extends Table
 {
+
+    protected $searchQueryFields = [
+        'ApiUsers.aws_cognito_username',
+        'ApiUsers.email',
+        'ApiUsers.first_name',
+        'ApiUsers.last_name',
+    ];
+
 	public function initialize(array $config)
     {
     	parent::initialize($config);
@@ -38,6 +46,42 @@ class ApiUsersTable extends Table
 
         $this->addBehavior('EvilCorp/AwsCognito.AwsCognito', Configure::read('AwsCognito'));
         $this->addBehavior('EvilCorp/AwsCognito.ImportApiUsers');
+
+        $this->addBehavior('Search.Search');
+        $this->searchManager()
+            ->value('active')
+            ->add('q', 'Search.Callback', [
+                'callback' => function ($query, $args, $filter){
+
+                    $q = trim($args['q']);
+                    $conditions = [];
+                    $comparison = 'LIKE';
+
+                    foreach ($this->searchQueryFields as $field) {
+                        //add single value
+                        $left = $field . ' ' . $comparison;
+                        $valueConditions = [
+                            [$left => "%$q%"]
+                        ];
+
+                        //add all words
+                        $words = explode(" ", $q);
+                        foreach ($words as $word) {
+                            $right = "%$word%";
+                            $valueConditions[] = [$left => $right];
+                        }
+
+                        if (!empty($valueConditions)) {
+                            $conditions[] = ['OR' => $valueConditions];
+                        }
+
+                    }
+
+                    $query->andWhere(['OR' => $conditions]);
+
+                    return $query;
+                }
+            ]);
     }
 
     /* Validation Methods */
