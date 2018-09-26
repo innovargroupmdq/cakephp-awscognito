@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2018-09-24 17:30-0300\n"
+"POT-Creation-Date: 2018-09-26 11:57-0300\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -54,56 +54,56 @@ msgstr ""
 msgid "The max amount of rows allowed is {0}. The data sent has {1} rows. Please review this and try again."
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:39
+#: Model/Behavior/AwsCognitoBehavior.php:39
 msgid "the AWS User Pool ID has not been set."
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:64
-msgid "This field must be a valid email address"
-msgstr ""
-
-#: Model/Table/ApiUsersTable.php:81
-msgid "Must be one of the following values: %s"
-msgstr ""
-
-#: Model/Table/ApiUsersTable.php:105
-msgid "Username already exists"
-msgstr ""
-
-#: Model/Table/ApiUsersTable.php:110
-msgid "Email already exists"
-msgstr ""
-
-#: Model/Table/ApiUsersTable.php:157
-msgid "ApiUsers.roles setting is invalid"
-msgstr ""
-
-#: Model/Table/ApiUsersTable.php:163
-msgid "The ApiUsers.roles array should be entirely associative"
-msgstr ""
-
-#: Model/Table/ApiUsersTable.php:175
+#: Model/Behavior/AwsCognitoBehavior.php:100
 msgid "You must create the entity before trying to resend the invitation email"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:190
+#: Model/Behavior/AwsCognitoBehavior.php:115
 msgid "The user is not a Cognito user."
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:201
+#: Model/Behavior/AwsCognitoBehavior.php:126
 msgid "The returned Cognito user SUB does not match the client ID"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:213;245;380;409;423
+#: Model/Behavior/AwsCognitoBehavior.php:138;170;305;334;348
 msgid "The user does not have a Cognito Username."
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:269
+#: Model/Behavior/AwsCognitoBehavior.php:194
 msgid "the AWS credentials have not been set."
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:514
+#: Model/Behavior/ImportApiUsersBehavior.php:93
 msgid "This field is duplicated"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:118
+msgid "This field must be a valid email address"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:135
+msgid "Must be one of the following values: %s"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:153
+msgid "Username already exists"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:158
+msgid "Email already exists"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:167
+msgid "ApiUsers.roles setting is invalid"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:173
+msgid "The ApiUsers.roles array should be entirely associative"
 msgstr ""
 
 #: Template/Element/ApiUsers/import.ctp:7;14
