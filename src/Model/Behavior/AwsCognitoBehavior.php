@@ -14,6 +14,7 @@ use ArrayObject;
 use Exception;
 
 use Cake\Datasource\EntityInterface;
+use Cake\Utility\Hash;
 
 class AwsCognitoBehavior extends Behavior
 {
@@ -105,28 +106,48 @@ class AwsCognitoBehavior extends Behavior
         return $this->save($entity);
     }
 
-    public function getCognitoUser(EntityInterface $entity)
+    public function getWithCognitoData($id, $options = [])
     {
-        //returns the cognito data for a given local user.
+        //finds user and appends extra data from cognito. Dont use this method in batches.
+        $api_user = $this->getTable()->get($id, $options);
 
-        $entity->hiddenProperties([]);
+        $fillExtraFields = function($api_user, $cognito_user){
+            $api_user->aws_cognito_synced = (
+                $api_user->aws_cognito_id          === Hash::get($cognito_user, 'Attributes.sub')
+                && $api_user->aws_cognito_username === Hash::get($cognito_user, 'Username')
+                && $api_user->email                === Hash::get($cognito_user, 'Attributes.email')
+                && $api_user->active               ==  Hash::get($cognito_user, 'Enabled')
+            );
+            $api_user->aws_cognito_attributes = $cognito_user['Attributes'] ?? [];
 
-        if(empty($entity->aws_cognito_username) || empty($entity->aws_cognito_id)){
-            throw new Exception(__d('EvilCorp/AwsCognito', 'The user is not a Cognito user.'));
+            $status_code = Hash::get($cognito_user, 'UserStatus');
+            $api_user->aws_cognito_status = [
+                'code'        => $status_code,
+                'title'       => $this->titleForUserStatus($status_code),
+                'description' => $this->descriptionForUserStatus($status_code)
+            ];
+
+            return $api_user;
+        };
+
+        $api_user->hiddenProperties([]);
+
+        if(empty($api_user->aws_cognito_username) || empty($api_user->aws_cognito_id)){
+            return $fillExtraFields($api_user, []);
         }
 
-        $cognito_user = $this->CognitoClient->adminGetUser([
-            'UserPoolId' => $this->getConfig('UserPool.id'),
-            'Username'   => $entity->aws_cognito_username,
-        ]);
+        try {
+            $cognito_user = $this->CognitoClient->adminGetUser([
+                'UserPoolId' => $this->getConfig('UserPool.id'),
+                'Username'   => $api_user->aws_cognito_username,
+            ]);
+        } catch (Exception $e) {
+            return $fillExtraFields($api_user, []);
+        }
 
         $cognito_user = $this->processCognitoUser($cognito_user);
 
-        if($entity->aws_cognito_id !== $cognito_user['Attributes']['sub']){
-            throw new Exception(__d('EvilCorp/AwsCognito', 'The returned Cognito user SUB does not match the client ID'));
-        }
-
-        return $cognito_user;
+        return $fillExtraFields($api_user, $cognito_user);
     }
 
     public function resetCognitoPassword(EntityInterface $entity)
@@ -236,6 +257,44 @@ class AwsCognitoBehavior extends Behavior
         );
 
         return $cognito_user;
+    }
+
+    protected function titleForUserStatus($status)
+    {
+        switch ($status) {
+            case 'UNCONFIRMED':
+                return __d('EvilCorp/AwsCognito', 'Unconfirmed');
+            case 'CONFIRMED':
+                return __d('EvilCorp/AwsCognito', 'Confirmed');
+            case 'ARCHIVED':
+                return __d('EvilCorp/AwsCognito', 'Archived');
+            case 'COMPROMISED':
+                return __d('EvilCorp/AwsCognito', 'Compromised');
+            case 'RESET_REQUIRED':
+                return __d('EvilCorp/AwsCognito', 'Reset Required');
+            case 'FORCE_CHANGE_PASSWORD':
+                return __d('EvilCorp/AwsCognito', 'Force Change Password');
+        }
+        return __d('EvilCorp/AwsCognito', 'Unknown');
+    }
+
+    protected function descriptionForUserStatus($status)
+    {
+        switch ($status) {
+            case 'UNCONFIRMED':
+                return __d('EvilCorp/AwsCognito', 'The user cannot sign in until the user account is confirmed.');
+            case 'CONFIRMED':
+                return __d('EvilCorp/AwsCognito', 'The user account is confirmed and the user can sign in.');
+            case 'ARCHIVED':
+                return __d('EvilCorp/AwsCognito', 'User is no longer active.');
+            case 'COMPROMISED':
+                return __d('EvilCorp/AwsCognito', 'User is disabled due to a potential security threat.');
+            case 'RESET_REQUIRED':
+                return __d('EvilCorp/AwsCognito', 'The user account is confirmed, but the user must request a code and reset their password before they can sign in.');
+            case 'FORCE_CHANGE_PASSWORD':
+                return __d('EvilCorp/AwsCognito', 'The user account is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change their password to a new value before doing anything else.');
+        }
+        return null;
     }
 
     protected function createCognitoUser(EntityInterface $entity, $message_action = null)

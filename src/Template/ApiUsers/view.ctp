@@ -4,87 +4,148 @@
   */
 use Cake\Utility\Hash;
 ?>
-
-<div class="container">
-    <h1 class="page-title"><?= h($api_user->username) ?></h2>
-</div>
-
-<div class="APIUsers-view container">
+<div class="news-view container">
+    <div class="row">
+        <div class="col-md-8">
             <div class="card">
-                <div class="header">
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $api_user->id], ['class'=>'pull-right btn btn-subtle']) ?>
-                    <?= $this->Form->postLink(
-                        __('Delete API User'),
-                        ['action' => 'delete', $api_user->id],
-                        [
+                <div class="toolbar">
+                    <div class="pull-right">
+                        <?= $this->Html->link('<i class="ion ion-edit"></i>', ['action' => 'edit', $api_user->id], [
                             'class' => 'btn btn-subtle',
-                            'confirm' => __('Are you sure you want to delete # {0}?', $api_user->aws_cognito_username)
-                        ]
-                    ) ?>
-                    <?php if($cognito_user['UserStatus'] === 'CONFIRMED'): ?>
-                        <?= $this->Form->postLink(
-                            __('Reset Password'),
-                            ['action' => 'resetPassword', $api_user->id],
-                            [
-                                'class' => 'btn btn-subtle',
-                                'confirm' => __('Are you sure you want to reset the password of # {0}?', $api_user->aws_cognito_username)
-                            ]
-                        ) ?>
-                    <?php elseif($cognito_user['UserStatus'] === 'FORCE_CHANGE_PASSWORD'): ?>
-                        <?= $this->Html->link(
-                            __('Resend Invitation Email'),
-                            ['action' => 'resendInvitationEmail', $api_user->id],
-                            ['class' => 'btn btn-subtle']
-                        ) ?>
-                    <?php endif; ?>
+                            'title' => __d('EvilCorp/AwsCognito', 'Edit API User'),
+                            'data-toggle' => 'tooltip',
+                            'escape' => false
+                        ]) ?>
+                        <?= $this->element('EvilCorp/AwsCognito.ApiUsers/contextual-menu', ['api_user' => $api_user]) ?>
+                    </div>
+                </div>
+                <div class="header">
+                    <div class="media">
+                        <div class="media-left">
+                            <?php $src = $api_user->avatar_url ?? 'default-user.png' ?>
+                            <?= $this->Html->image($src, [
+                                'class' => 'media-object img-circle',
+                                'style' => 'width: 72px; height: 72px;',
+                                'url' => $src
+                            ]); ?>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="title media-heading">
+                            <?= $api_user->full_name ?>
+                            </h3>
+                            <h4 class="media-heading text-muted">
+                                <?= $api_user->email ?>
+                                <?php if(Hash::get($api_user, 'aws_cognito_attributes.email_verified')): ?>
+                                    <span class="small" data-toggle="tooltip" data-placement="right" title="<?= __d('EvilCorp/AwsCognito', 'Email Verified') ?>">
+                                        <i class="ion ion-checkmark-circled"></i>
+                                    </span>
+                                <?php else: ?>
+                                <?php endif; ?>
+                            </h4>
+                        </div>
+                    </div>
                 </div>
                 <div class="content">
-                    <table class="table table-striped">
-                        <tr>
-                            <th scope="row"><?= __('Id') ?></th>
-                            <td><?= h($api_user->id) ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><?= __('Aws Cognito Username') ?></th>
-                            <td><?= h($api_user->aws_cognito_username) ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><?= __('Email') ?></th>
-                            <td><?= h($api_user->email) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Email Verified') ?></th>
-                            <td><?= $cognito_user['Attributes']['email_verified'] ? __('Yes') : __('No'); ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><?= __('First Name') ?></th>
-                            <td><?= h($api_user->first_name) ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><?= __('Last Name') ?></th>
-                            <td><?= h($api_user->last_name) ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><?= __('Role') ?></th>
-                            <td><?= h($api_user->role) ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><?= __('Created') ?></th>
-                            <td><?= h($api_user->created) ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><?= __('Modified') ?></th>
-                            <td><?= h($api_user->modified) ?></td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><?= __('Active') ?></th>
-                            <td><?= $api_user->active ? __('Yes') : __('No'); ?></td>
-                        </tr>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th><?= __d('EvilCorp/AwsCognito', 'Aws Cognito Username') ?></th>
+                                <td colspan="2"><?= $api_user->aws_cognito_username ?></td>
+                            </tr>
+                            <tr>
+                                <th><?= __d('EvilCorp/AwsCognito', 'Aws Cognito Synced') ?></th>
+                                <td colspan="2">
+                                    <?php if($api_user->aws_cognito_synced): ?>
+                                    <span class="text-success">
+                                        <?= __d('EvilCorp/AwsCognito', 'Yes') ?>
+                                    </span>
+                                    <?php else: ?>
+                                    <span class="text-danger">
+                                        <?= __d('EvilCorp/AwsCognito', 'No') ?>
+                                    </span>
+                                    <div class="text-muted">
+                                    <?= __d('EvilCorp/AwsCognito', 'This user is not synced with Aws Cognito. Please check in with a System Administrator to solve this issue.') ?>
+                                    </div>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><?= __d('EvilCorp/AwsCognito', 'Active') ?></th>
+                                <td>
+                                    <?php if($api_user->active): ?>
+                                    <span class="text-success">
+                                        <?= __d('EvilCorp/AwsCognito', 'Yes') ?>
+                                    </span>
+                                    <?php else: ?>
+                                    <span class="text-danger">
+                                        <?= __d('EvilCorp/AwsCognito', 'No') ?>
+                                    </span>
+                                    <?php endif; ?>
+                                    <div class="text-muted">
+                                    <?= __d('EvilCorp/AwsCognito', 'Only Active Users can Log In.') ?>
+                                    </div>
+                                </td>
+                                <td class="text-right" style="vertical-align: middle;">
+                                    <?php if($api_user->active): ?>
+                                        <?= $this->Form->postLink(
+                                            __d('EvilCorp/AwsCognito', 'Deactivate API User'),
+                                            ['action' => 'deactivate', $api_user->id],
+                                            ['class' => 'btn btn-default']
+                                        ) ?>
+                                    <?php else: ?>
+                                        <?= $this->Form->postLink(
+                                            __d('EvilCorp/AwsCognito', 'Activate API User'),
+                                            ['action' => 'activate', $api_user->id],
+                                            ['class' => 'btn btn-default']
+                                        ) ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><?= __d('EvilCorp/AwsCognito', 'Status') ?></th>
+                                <td colspan="2"><?= $api_user->aws_cognito_status['title'] ?>
+                                    <div class="text-muted">
+                                    <?= $api_user->aws_cognito_status['description'] ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
-
-
+                </div>
+                <div class="footer">
+                    <?= $this->Html->link(
+                        '<i class="ion ion-chevron-left"></i> &nbsp;' .
+                        __d('EvilCorp/AwsCognito', 'Back to the API Users index'),
+                        ['action' => 'index'],
+                        ['escape' => false]
+                    ) ?>
                 </div>
             </div>
-
-
+        </div>
+        <div class="col-md-4">
+            <h5 class="text-muted"><?= __d('EvilCorp/AwsCognito', 'Metadata') ?></h5>
+            <p>
+                <?= __d('EvilCorp/AwsCognito', 'Created') ?>:<br>
+                <?php if($api_user->created_at): ?>
+                    <?= $api_user->created_at->timeAgoInWords() ?>
+                    <?php if($api_user->creator): ?>
+                        <?= __d('EvilCorp/AwsCognito', 'by') ?> <?= $api_user->creator->full_name ?>
+                    <?php endif; ?>
+                <?php else: ?>
+                    &nbsp;
+                <?php endif; ?>
+            </p>
+            <p>
+                <?= __d('EvilCorp/AwsCognito', 'Modified') ?>:<br>
+                <?php if($api_user->modified_at): ?>
+                    <?= $api_user->modified_at->timeAgoInWords() ?>
+                    <?php if($api_user->modifier): ?>
+                        <?= __d('EvilCorp/AwsCognito', 'by') ?> <?= $api_user->modifier->full_name ?>
+                    <?php endif; ?>
+                <?php else: ?>
+                    &nbsp;
+                <?php endif; ?>
+            </p>
+        </div>
+    </div>
 </div>

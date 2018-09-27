@@ -21,10 +21,13 @@ class ApiUsersController extends AppController
 
     public function view($id = null)
     {
-        $api_user = $this->ApiUsers->get($id, [
+        $api_user = $this->ApiUsers->getWithCognitoData($id, [
+            'contain' => [
+                'Creators',
+                'Modifiers'
+            ]
         ]);
         $this->set('api_user', $api_user);
-        $this->set('cognito_user', $this->ApiUsers->getCognitoUser($api_user));
         $this->set('tableAlias', 'ApiUsers');
         $this->set('_serialize', ['ApiUsers']);
     }
@@ -95,6 +98,40 @@ class ApiUsersController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    protected function _toggleActive($id, $value, $success, $error)
+    {
+        $this->request->allowMethod(['post']);
+
+        $api_user = $this->ApiUsers->get($id);
+        $api_user->active = $value;
+
+        $result = $this->ApiUsers->save($api_user);
+
+        if($result){
+            $this->Flash->success($success);
+        }else{
+            $this->Flash->error($error);
+        }
+
+        return $this->redirect($this->request->referer());
+    }
+
+    public function activate($id = null)
+    {
+        return $this->_toggleActive($id, 1,
+            __('The API User has been activated'),
+            __('The API User could not be activated. Please, try again.')
+        );
+    }
+
+    public function deactivate($id = null)
+    {
+        return $this->_toggleActive($id, 0,
+            __('The API User has been deactivated'),
+            __('The API User could not be deactivated. Please, try again.')
+        );
     }
 
     public function resetPassword($id = null)

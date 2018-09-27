@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2018-09-26 11:57-0300\n"
-"PO-Revision-Date: 2018-09-26 11:59-0300\n"
+"POT-Creation-Date: 2018-09-27 17:03-0300\n"
+"PO-Revision-Date: 2018-09-27 17:03-0300\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -15,52 +15,52 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: Controller/ApiUsersController.php:53;78;139
+#: Controller/ApiUsersController.php:56;81;176
 msgid "The Api User has been saved"
 msgstr "El usuario fue guardado"
 
-#: Controller/ApiUsersController.php:56;81;142
+#: Controller/ApiUsersController.php:59;84;179
 msgid "The Api User could not be saved"
 msgstr "El usuario no pudo ser guardado"
 
-#: Controller/ApiUsersController.php:92
+#: Controller/ApiUsersController.php:95
 msgid "The Api User has been deleted"
 msgstr "El usuario ha sido eliminado"
 
-#: Controller/ApiUsersController.php:94
+#: Controller/ApiUsersController.php:97
 msgid "The Api User could not be deleted"
 msgstr "El usuario no pudo ser eliminado"
 
-#: Controller/ApiUsersController.php:108
+#: Controller/ApiUsersController.php:145
 msgid "The user email must be verified before resetting the password"
 msgstr ""
-"El email debe estar verificado antes de poder reestablecer la contraseña"
+"El email debe estar verificado antes de poder restablecer la contraseña"
 
-#: Controller/ApiUsersController.php:110
+#: Controller/ApiUsersController.php:147
 msgid "The password has been reset"
-msgstr "La contraseña ha sido reestablecida"
+msgstr "La contraseña ha sido restablecida"
 
-#: Controller/ApiUsersController.php:112
+#: Controller/ApiUsersController.php:149
 msgid ""
 "The password could not be reset. If the user has not yet changed their "
 "temporary password, they must do so before the password can be reset"
 msgstr ""
-"La contraseña no pudo ser reestablecida. Si el usuario aún no ha cambiado su "
+"La contraseña no pudo ser restablecida. Si el usuario aún no ha cambiado su "
 "contraseña temporal, deben hacerlo antes de que la contraseña pueda ser "
-"reestablecida. "
+"restablecida. "
 
-#: Controller/ApiUsersController.php:155
+#: Controller/ApiUsersController.php:192
 msgid "{0} API Users imported successfully"
 msgstr "{0} usuarios importados exitosamente"
 
-#: Controller/ApiUsersController.php:157
+#: Controller/ApiUsersController.php:194
 msgid ""
 "An error occurred while trying to import the API Users. Please try again."
 msgstr ""
 "Ocurrió un error al intentar importar los usuarios. Por favor, intente de "
 "nuevo."
 
-#: Controller/ApiUsersController.php:166
+#: Controller/ApiUsersController.php:203
 msgid ""
 "The max amount of rows allowed is {0}. The data sent has {1} rows. Please "
 "review this and try again."
@@ -68,57 +68,219 @@ msgstr ""
 "La cantidad máxima de registros permitidos es {0}. Los datos enviados "
 "contienen {1} registros. Por favor revise esto y vuelva a intentarlo."
 
-#: Model/Behavior/AwsCognitoBehavior.php:39
+#: Model/Behavior/AwsCognitoBehavior.php:40
 msgid "the AWS User Pool ID has not been set."
 msgstr ""
 
-#: Model/Behavior/AwsCognitoBehavior.php:100
+#: Model/Behavior/AwsCognitoBehavior.php:101
 msgid "You must create the entity before trying to resend the invitation email"
 msgstr "Debe crear la entidad antes de poder reenviar la invitación"
 
-#: Model/Behavior/AwsCognitoBehavior.php:115
-msgid "The user is not a Cognito user."
-msgstr "Este usuario no pertenece a Cognito"
-
-#: Model/Behavior/AwsCognitoBehavior.php:126
-msgid "The returned Cognito user SUB does not match the client ID"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:138;170;305;334;348
+#: Model/Behavior/AwsCognitoBehavior.php:159;191;364;393;407
 msgid "The user does not have a Cognito Username."
 msgstr ""
 
-#: Model/Behavior/AwsCognitoBehavior.php:194
+#: Model/Behavior/AwsCognitoBehavior.php:215
 msgid "the AWS credentials have not been set."
 msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:266
+msgid "Unconfirmed"
+msgstr "Sin confirmar"
+
+#: Model/Behavior/AwsCognitoBehavior.php:268
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#: Model/Behavior/AwsCognitoBehavior.php:270
+msgid "Archived"
+msgstr "Archivado"
+
+#: Model/Behavior/AwsCognitoBehavior.php:272
+msgid "Compromised"
+msgstr "Comprometido"
+
+#: Model/Behavior/AwsCognitoBehavior.php:274
+msgid "Reset Required"
+msgstr "Restablecimiento requerido"
+
+#: Model/Behavior/AwsCognitoBehavior.php:276
+msgid "Force Change Password"
+msgstr "Fuerza cambiar contraseña"
+
+#: Model/Behavior/AwsCognitoBehavior.php:278
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: Model/Behavior/AwsCognitoBehavior.php:285
+msgid "The user cannot sign in until the user account is confirmed."
+msgstr "El usuario no puede iniciar sesión hasta que la cuenta sea confirmada."
+
+#: Model/Behavior/AwsCognitoBehavior.php:287
+msgid "The user account is confirmed and the user can sign in."
+msgstr ""
+"La cuenta de usuario está confirmada y el usuario puede iniciar sesión."
+
+#: Model/Behavior/AwsCognitoBehavior.php:289
+msgid "User is no longer active."
+msgstr "El usuario ya no está activo."
+
+#: Model/Behavior/AwsCognitoBehavior.php:291
+msgid "User is disabled due to a potential security threat."
+msgstr ""
+"El usuario está deshabilitado porque se detectó una posible amenaza de "
+"seguridad."
+
+#: Model/Behavior/AwsCognitoBehavior.php:293
+msgid ""
+"The user account is confirmed, but the user must request a code and reset "
+"their password before they can sign in."
+msgstr ""
+"La cuenta de usuario está confirmada, pero el usuario debe solicitar un "
+"código y restablecer su contraseña antes de poder iniciar sesión."
+
+#: Model/Behavior/AwsCognitoBehavior.php:295
+msgid ""
+"The user account is confirmed and the user can sign in using a temporary "
+"password, but on first sign-in, the user must change their password to a new "
+"value before doing anything else."
+msgstr ""
+"La cuenta de usuario está confirmada y el usuario puede iniciar sesión "
+"usando una contraseña temporal. Al iniciar sesión, el usuario deberá primero "
+"cambiar la contraseña por una nueva."
 
 #: Model/Behavior/ImportApiUsersBehavior.php:93
 msgid "This field is duplicated"
 msgstr "El campo está duplicado"
 
-#: Model/Table/ApiUsersTable.php:118
+#: Model/Table/ApiUsersTable.php:130
 msgid "This field must be a valid email address"
 msgstr "Este campo debe ser una dirección de email válida"
 
-#: Model/Table/ApiUsersTable.php:135
+#: Model/Table/ApiUsersTable.php:147
 msgid "Must be one of the following values: %s"
 msgstr "Debe ser uno de los siguientes valores: %s"
 
-#: Model/Table/ApiUsersTable.php:153
+#: Model/Table/ApiUsersTable.php:165
 msgid "Username already exists"
 msgstr "Este nombre de usuario ya existe"
 
-#: Model/Table/ApiUsersTable.php:158
+#: Model/Table/ApiUsersTable.php:170
 msgid "Email already exists"
 msgstr "Este email ya existe"
 
-#: Model/Table/ApiUsersTable.php:167
+#: Model/Table/ApiUsersTable.php:179
 msgid "ApiUsers.roles setting is invalid"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:173
+#: Model/Table/ApiUsersTable.php:185
 msgid "The ApiUsers.roles array should be entirely associative"
 msgstr ""
+
+#: Template/ApiUsers/view.ctp:15
+#: Template/Element/ApiUsers/dropdown_index.ctp:13
+#: Template/Element/ApiUsers/dropdown_view.ctp:8
+msgid "Edit API User"
+msgstr "Editar"
+
+#: Template/ApiUsers/view.ctp:39
+msgid "Email Verified"
+msgstr "Email verificado"
+
+#: Template/ApiUsers/view.ctp:52
+#: Template/Element/ApiUsers/import_validated.ctp:12
+msgid "Aws Cognito Username"
+msgstr "Nombre de usuario"
+
+#: Template/ApiUsers/view.ctp:56
+msgid "Aws Cognito Synced"
+msgstr "Sincronizado"
+
+#: Template/ApiUsers/view.ctp:60;77
+msgid "Yes"
+msgstr "Si"
+
+#: Template/ApiUsers/view.ctp:64;81
+msgid "No"
+msgstr "No"
+
+#: Template/ApiUsers/view.ctp:67
+msgid ""
+"This user is not synced with Aws Cognito. Please check in with a System "
+"Administrator to solve this issue."
+msgstr ""
+"Este usuario no está sincronizado con AWS Cognito. Por favor, consulte con "
+"un administrador para resolver este problema."
+
+#: Template/ApiUsers/view.ctp:73
+msgid "Active"
+msgstr "Activo"
+
+#: Template/ApiUsers/view.ctp:85
+msgid "Only Active Users can Log In."
+msgstr "Sólo los usuarios activos pueden iniciar sesión."
+
+#: Template/ApiUsers/view.ctp:91
+#: Template/Element/ApiUsers/dropdown_index.ctp:20
+#: Template/Element/ApiUsers/dropdown_view.ctp:15
+msgid "Deactivate API User"
+msgstr "Desactivar"
+
+#: Template/ApiUsers/view.ctp:97
+#: Template/Element/ApiUsers/dropdown_index.ctp:27
+#: Template/Element/ApiUsers/dropdown_view.ctp:22
+msgid "Activate API User"
+msgstr "Activar"
+
+#: Template/ApiUsers/view.ctp:105
+msgid "Status"
+msgstr "Estado"
+
+#: Template/ApiUsers/view.ctp:118
+msgid "Back to the API Users index"
+msgstr "Volver al listado de usuarios"
+
+#: Template/ApiUsers/view.ctp:126
+msgid "Metadata"
+msgstr "Metadatos"
+
+#: Template/ApiUsers/view.ctp:128
+msgid "Created"
+msgstr "Creado"
+
+#: Template/ApiUsers/view.ctp:132;143
+msgid "by"
+msgstr "por"
+
+#: Template/ApiUsers/view.ctp:139
+msgid "Modified"
+msgstr "Modificado"
+
+#: Template/Element/ApiUsers/dropdown_index.ctp:8
+msgid "View API User"
+msgstr "Ver detalle"
+
+#: Template/Element/ApiUsers/dropdown_index.ctp:35
+#: Template/Element/ApiUsers/dropdown_view.ctp:56
+msgid "Delete API User"
+msgstr "Eliminar usuario API"
+
+#: Template/Element/ApiUsers/dropdown_index.ctp:38
+#: Template/Element/ApiUsers/dropdown_view.ctp:59
+msgid "Are you sure you want to delete the API User \"{0}\"?"
+msgstr "¿Confirma que desea eliminar el usuario \"{0}\"?"
+
+#: Template/Element/ApiUsers/dropdown_view.ctp:31;40
+msgid "Reset Password"
+msgstr "Restablecer contraseña"
+
+#: Template/Element/ApiUsers/dropdown_view.ctp:34
+msgid "Are you sure you want to reset the password of # {0}?"
+msgstr "¿Está seguro que desea restablecer la contraseña de # {0}?"
+
+#: Template/Element/ApiUsers/dropdown_view.ctp:45;50
+msgid "Resend Invitation Email"
+msgstr "Reenviar email de invitación"
 
 #: Template/Element/ApiUsers/import.ctp:7;14
 msgid "Username"
@@ -217,10 +379,6 @@ msgstr "Validar datos"
 msgid "Id"
 msgstr "ID"
 
-#: Template/Element/ApiUsers/import_validated.ctp:12
-msgid "Aws Cognito Username"
-msgstr "Nombre de usuario de AWS Cognito"
-
 #: Template/Element/ApiUsers/import_validated.ctp:52
 msgid "Total Submitted Users"
 msgstr "Total de usuarios subidos"
@@ -304,6 +462,12 @@ msgstr "Editar"
 #: Template/Element/ApiUsers/import_validated.ctp:230
 msgid "Add"
 msgstr "Añadir"
+
+#~ msgid "User status is not known."
+#~ msgstr "El estado del usuario es desconocido."
+
+#~ msgid "The user is not a Cognito user."
+#~ msgstr "Este usuario no pertenece a Cognito"
 
 #~ msgid "The Document has been saved"
 #~ msgstr "El documento fue guardado"
@@ -546,17 +710,8 @@ msgstr "Añadir"
 #~ msgid "Back to the Documents index"
 #~ msgstr "Volver al listado de documentos"
 
-#~ msgid "Metadata"
-#~ msgstr "Metadatos"
-
 #~ msgid "Author"
 #~ msgstr "Autor"
-
-#~ msgid "Created"
-#~ msgstr "Creado"
-
-#~ msgid "Modified"
-#~ msgstr "Modificado"
 
 #~ msgid "Search Functional Units"
 #~ msgstr "Buscar unidades funcionales"
@@ -629,9 +784,6 @@ msgstr "Añadir"
 
 #~ msgid "New News"
 #~ msgstr "Nueva noticia"
-
-#~ msgid "Status"
-#~ msgstr "Estado"
 
 #~ msgid "Images"
 #~ msgstr "Imágenes"
@@ -975,12 +1127,6 @@ msgstr "Añadir"
 #~ msgid "Add API User"
 #~ msgstr "Agregar Usuario API"
 
-#~ msgid "Active"
-#~ msgstr "Activo"
-
-#~ msgid "Edit API User"
-#~ msgstr "Editar Usuario API"
-
 #~ msgid "New API User"
 #~ msgstr "Nuevo usuario API"
 
@@ -989,27 +1135,6 @@ msgstr "Añadir"
 
 #~ msgid "Full Name"
 #~ msgstr "Nombre completo"
-
-#~ msgid "Delete API User"
-#~ msgstr "Eliminar usuario API"
-
-#~ msgid "Reset Password"
-#~ msgstr "Reestablecer contraseña"
-
-#~ msgid "Are you sure you want to reset the password of # {0}?"
-#~ msgstr "¿Está seguro que desea reestablecer la contraseña de # {0}?"
-
-#~ msgid "Resend Invitation Email"
-#~ msgstr "Reenviar email de invitación"
-
-#~ msgid "Email Verified"
-#~ msgstr "Email verificado"
-
-#~ msgid "Yes"
-#~ msgstr "Si"
-
-#~ msgid "No"
-#~ msgstr "No"
 
 #~ msgid "Middle Name"
 #~ msgstr "Segundo nombre"

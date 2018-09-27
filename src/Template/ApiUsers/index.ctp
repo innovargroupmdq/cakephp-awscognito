@@ -44,28 +44,11 @@
                     <?php foreach ($api_users as $api_user): ?>
                     <tr>
                         <td class="actions">
-                            <div class="dropdown">
-                                <button class="btn btn-subtle btn-narrow" id="dropdown-<?= $api_user->id ?>" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="glyphicon glyphicon-option-vertical"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdown-<?= $api_user->id ?>">
-                                   <li><?= $this->Html->link(__('View'), ['action' => 'view', $api_user->id]) ?></li>
-                                   <li><?= $this->Html->link(__('Edit'), ['action' => 'edit', $api_user->id]) ?></li>
-                                   <li class="divider"></li>
-                                   <li><?= $this->Form->postLink(
-                                        __('Delete API User'),
-                                        ['action' => 'delete', $api_user->id],
-                                        [
-                                            'confirm' => __('Are you sure you want to delete # {0}?', $api_user->aws_cognito_username)
-                                        ]
-                                    ) ?></li>
-                                </ul>
-                            </div>
-                            
+                            <?= $this->element('EvilCorp/AwsCognito.ApiUsers/dropdown_index', ['api_user' => $api_user]) ?>
                         </td>
                         <td><?= h($api_user->aws_cognito_username) ?>
                             <?php if(!$api_user->active): ?>
-                                <span class="label label-danger">inactivo</span>
+                                <span class="label label-danger pull-right">inactivo</span>
                             <?php endif; ?>
                         </td>
                         <td><?= h($api_user->email) ?></td>

@@ -26,6 +26,18 @@ class ApiUsersTable extends Table
         $this->setDisplayField('full_name');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Creators', [
+            'className' => 'AppUsers',
+            'foreignKey' => 'created_by',
+            'propertyName' => 'creator',
+        ]);
+
+        $this->belongsTo('Modifiers', [
+            'className' => 'AppUsers',
+            'foreignKey' => 'modified_by',
+            'propertyName' => 'modifier',
+        ]);
+
         $this->addBehavior('Timestamp', [
             'events' => [
                 'Model.beforeSave' => [
