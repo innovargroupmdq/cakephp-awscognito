@@ -22,7 +22,7 @@ use Cake\Utility\Hash;
                 <div class="header">
                     <div class="media">
                         <div class="media-left">
-                            <?php $src = $api_user->avatar_url ?? 'default-user.png' ?>
+                            <?php $src = $api_user->avatar_url ?? '/evil_corp/aws_cognito/img/default-user.png' ?>
                             <?= $this->Html->image($src, [
                                 'class' => 'media-object img-circle',
                                 'style' => 'width: 72px; height: 72px;',
