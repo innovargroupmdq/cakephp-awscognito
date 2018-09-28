@@ -3,10 +3,13 @@ namespace EvilCorp\AwsCognito\Controller;
 
 use EvilCorp\AwsCognito\Controller\AppController;
 use EvilCorp\AwsCognito\Model\Table\ApiUsersTable;
+use Muffin\Footprint\Auth\FootprintAwareTrait;
 use Cake\Core\Configure;
 
 class ApiUsersController extends AppController
 {
+
+    use FootprintAwareTrait;
 
     public $paginate = [
         'limit' => 100,
