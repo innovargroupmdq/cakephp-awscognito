@@ -332,10 +332,20 @@ class AwsCognitoBehavior extends Behavior
         } catch (AwsException $e) {
             //this exception is thrown when a user email or phone is already being
             //used by another user
-            if($e->getAwsErrorCode() === 'AliasExistsException') return false;
+            if($e->getAwsErrorCode() === 'AliasExistsException'){
+                $entity->setError('email', [
+                    'isUniqueCognito' => __d('EvilCorp/AwsCognito', 'The email is not unique in AWS Cognito')
+                ]);
+                return $entity;
+            }
 
             //this exception is thrown when the username already exists
-            if($e->getAwsErrorCode() === 'UsernameExistsException') return false;
+            if($e->getAwsErrorCode() === 'UsernameExistsException'){
+                $entity->setError('aws_cognito_username', [
+                    'isUniqueCognito' => __d('EvilCorp/AwsCognito', 'The username is not unique in AWS Cognito')
+                ]);
+                return $entity;
+            }
 
             throw $e;
         }

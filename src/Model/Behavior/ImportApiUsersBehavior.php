@@ -8,41 +8,6 @@ use Cake\Utility\Hash;
 class ImportApiUsersBehavior extends Behavior
 {
 
-	public function importMany(array $rows, array $options = [])
-    {
-        //this method creates/edits an array of entities/arrays
-
-        $_options = [
-            'accessibleFields' => [
-                'first_name'           => true,
-                'last_name'            => true,
-                'aws_cognito_username' => true,
-                'email'                => true,
-            ]
-        ];
-
-        $opts = array_merge($_options, $options);
-
-        $entities = [];
-
-        foreach ($rows as $key => $row) {
-
-            if(is_a($row, EntityInterface::class, true)){
-                $entities[] = $row;
-            }
-
-            $entity = empty($row['id'])
-                ? $this->getTable()->newEntity($row, $opts)
-                : $this->getTable()->patchEntity(
-                	$this->getTable()->get($row['id']), $row, $opts
-                );
-
-            $entities[] = $entity;
-        }
-
-        return $this->getTable()->saveMany($entities);
-    }
-
     public function validateMany(array $rows, $max_errors = false, array $options = []): array
     {
         $_options = [
@@ -89,7 +54,7 @@ class ImportApiUsersBehavior extends Behavior
             //check that the unique fields are also unique within the file
             foreach (['email', 'aws_cognito_username'] as $field) {
                 $duplicated_key = array_search($row[$field], $duplicated_check[$field]);
-                if($duplicated_key && $duplicated_key !== $key){
+                if($duplicated_key !== false && $duplicated_key !== $key){
                     $entity->setError($field, __d('EvilCorp/AwsCognito', 'This field is duplicated'));
                 }
             }

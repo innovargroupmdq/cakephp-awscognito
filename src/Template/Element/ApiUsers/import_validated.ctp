@@ -36,6 +36,8 @@ $fields = $fields ?? [
 
 <div class="APIUsers-validated-import container">
     <?= $this->Form->create($api_users, ['align' => 'inline', 'method' => 'post']) ?>
+    <?= $this->Form->hidden('csv_data', ['value' => $csv_data]) ?>
+    <?= $this->Form->hidden('save_rows', ['value' => 1]) ?>
     <div class="card">
         <div class="header">
             <h3 class="title"><?= __d('EvilCorp/AwsCognito', 'Import API Users') ?></h3>
@@ -96,16 +98,6 @@ $fields = $fields ?? [
                     </tr>
                 </tbody>
             </table>
-
-            <?php foreach ($api_users as $key => $api_user): ?>
-                <?php if($api_user->getErrors()) continue; ?>
-                <?php foreach ($fields as $field => $label): ?>
-                    <?= $this->Form->hidden("$key.$field",
-                        ['value' => $api_user->get($field)])
-                    ?>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-
         </div>
         <div class="footer">
             <div class="form-group">

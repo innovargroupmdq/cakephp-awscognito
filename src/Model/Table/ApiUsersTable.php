@@ -7,9 +7,12 @@ use Cake\ORM\RulesChecker;
 use Cake\Core\Configure;
 use EvilCorp\AwsCognito\Model\Entity\ApiUser;
 use Exception;
+use EvilCorp\AwsCognito\Model\Traits\AwsCognitoSaveTrait;
 
 class ApiUsersTable extends Table
 {
+
+    use AwsCognitoSaveTrait;
 
     protected $searchQueryFields = [
         'ApiUsers.aws_cognito_username',
