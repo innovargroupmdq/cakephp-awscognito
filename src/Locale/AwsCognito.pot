@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2018-09-27 17:02-0300\n"
+"POT-Creation-Date: 2018-10-09 18:19-0300\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,155 +14,213 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/ApiUsersController.php:56;81;176
+#: Controller/ApiUsersController.php:59;80;100;185
 msgid "The Api User has been saved"
 msgstr ""
 
-#: Controller/ApiUsersController.php:59;84;179
+#: Controller/ApiUsersController.php:62;83;103;188
 msgid "The Api User could not be saved"
 msgstr ""
 
-#: Controller/ApiUsersController.php:95
+#: Controller/ApiUsersController.php:118
 msgid "The Api User has been deleted"
 msgstr ""
 
-#: Controller/ApiUsersController.php:97
+#: Controller/ApiUsersController.php:120
 msgid "The Api User could not be deleted"
 msgstr ""
 
-#: Controller/ApiUsersController.php:145
+#: Controller/ApiUsersController.php:168
 msgid "The user email must be verified before resetting the password"
 msgstr ""
 
-#: Controller/ApiUsersController.php:147
+#: Controller/ApiUsersController.php:170
 msgid "The password has been reset"
 msgstr ""
 
-#: Controller/ApiUsersController.php:149
+#: Controller/ApiUsersController.php:172
 msgid "The password could not be reset. If the user has not yet changed their temporary password, they must do so before the password can be reset"
 msgstr ""
 
-#: Controller/ApiUsersController.php:192
-msgid "{0} API Users imported successfully"
+#: Controller/ApiUsersController.php:207
+msgid "Nothing to import."
 msgstr ""
 
-#: Controller/ApiUsersController.php:194
-msgid "An error occurred while trying to import the API Users. Please try again."
-msgstr ""
-
-#: Controller/ApiUsersController.php:203
+#: Controller/ApiUsersController.php:215
 msgid "The max amount of rows allowed is {0}. The data sent has {1} rows. Please review this and try again."
 msgstr ""
 
-#: Model/Behavior/AwsCognitoBehavior.php:40
+#: Controller/ApiUsersController.php:260
+msgid "{0} API Users imported successfully"
+msgstr ""
+
+#: Controller/ApiUsersController.php:262
+msgid "An error occurred while trying to import the API Users. Please try again."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:41
 msgid "the AWS User Pool ID has not been set."
 msgstr ""
 
-#: Model/Behavior/AwsCognitoBehavior.php:101
-msgid "You must create the entity before trying to resend the invitation email"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:159;191;364;393;407
-msgid "The user does not have a Cognito Username."
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:215
-msgid "the AWS credentials have not been set."
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:266
-msgid "Unconfirmed"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:268
-msgid "Confirmed"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:270
-msgid "Archived"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:272
-msgid "Compromised"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:274
-msgid "Reset Required"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:276
-msgid "Force Change Password"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:278
-msgid "Unknown"
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:285
-msgid "The user cannot sign in until the user account is confirmed."
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:287
-msgid "The user account is confirmed and the user can sign in."
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:289
-msgid "User is no longer active."
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:291
-msgid "User is disabled due to a potential security threat."
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:293
-msgid "The user account is confirmed, but the user must request a code and reset their password before they can sign in."
-msgstr ""
-
-#: Model/Behavior/AwsCognitoBehavior.php:295
-msgid "The user account is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change their password to a new value before doing anything else."
-msgstr ""
-
-#: Model/Behavior/ImportApiUsersBehavior.php:93
-msgid "This field is duplicated"
-msgstr ""
-
-#: Model/Table/ApiUsersTable.php:130
+#: Model/Behavior/AwsCognitoBehavior.php:76
 msgid "This field must be a valid email address"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:147
-msgid "Must be one of the following values: %s"
+#: Model/Behavior/AwsCognitoBehavior.php:88
+msgid "The email cannot be directly modified"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:165
+#: Model/Behavior/AwsCognitoBehavior.php:100
 msgid "Username already exists"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:170
+#: Model/Behavior/AwsCognitoBehavior.php:105
 msgid "Email already exists"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:179
+#: Model/Behavior/AwsCognitoBehavior.php:114
+msgid "The cognito username cannot be edited"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:123
+msgid "The cognito id cannot be edited"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:164
+msgid "Cannot edit email of an nonexistent user."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:168;296;328;512;526
+msgid "The user does not have a Cognito Username."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:216
+msgid "You must create the entity before trying to resend the invitation email"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:352
+msgid "the AWS credentials have not been set."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:403
+msgid "Unconfirmed"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:405
+msgid "Confirmed"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:407
+msgid "Archived"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:409
+msgid "Compromised"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:411
+msgid "Reset Required"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:413
+msgid "Force Change Password"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:415
+msgid "Unknown"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:422
+msgid "The user cannot sign in until the user account is confirmed."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:424
+msgid "The user account is confirmed and the user can sign in."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:426
+msgid "User is no longer active."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:428
+msgid "User is disabled due to a potential security threat."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:430
+msgid "The user account is confirmed, but the user must request a code and reset their password before they can sign in."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:432
+msgid "The user account is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change their password to a new value before doing anything else."
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:493
+msgid "The email is not unique in AWS Cognito"
+msgstr ""
+
+#: Model/Behavior/AwsCognitoBehavior.php:501
+msgid "The username is not unique in AWS Cognito"
+msgstr ""
+
+#: Model/Behavior/ImportApiUsersBehavior.php:58
+msgid "This field is duplicated"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:135
+msgid "Must be one of the following values: %s"
+msgstr ""
+
+#: Model/Table/ApiUsersTable.php:152
 msgid "ApiUsers.roles setting is invalid"
 msgstr ""
 
-#: Model/Table/ApiUsersTable.php:185
+#: Model/Table/ApiUsersTable.php:158
 msgid "The ApiUsers.roles array should be entirely associative"
 msgstr ""
 
+#: Template/ApiUsers/change_email.ctp:5
+msgid "Change API User Email"
+msgstr ""
+
+#: Template/ApiUsers/change_email.ctp:10
+#: Template/ApiUsers/edit.ctp:10
+#: Template/ApiUsers/view.ctp:52
+#: Template/Element/ApiUsers/import_validated.ctp:12
+msgid "Aws Cognito Username"
+msgstr ""
+
+#: Template/ApiUsers/change_email.ctp:20
+msgid "Require Verification"
+msgstr ""
+
+#: Template/ApiUsers/change_email.ctp:23
+msgid "Sends a code to this address. The user should use this to verify their account."
+msgstr ""
+
+#: Template/ApiUsers/change_email.ctp:26
+#: Template/ApiUsers/edit.ctp:24
+#: Template/Element/ApiUsers/import_validated.ctp:105
+msgid "Save changes"
+msgstr ""
+
+#: Template/ApiUsers/edit.ctp:5
 #: Template/ApiUsers/view.ctp:15
 #: Template/Element/ApiUsers/dropdown_index.ctp:13
 #: Template/Element/ApiUsers/dropdown_view.ctp:8
 msgid "Edit API User"
 msgstr ""
 
-#: Template/ApiUsers/view.ctp:39
-msgid "Email Verified"
+#: Template/ApiUsers/resend_invitation_email.ctp:12
+msgid "API User"
 msgstr ""
 
-#: Template/ApiUsers/view.ctp:52
-#: Template/Element/ApiUsers/import_validated.ctp:12
-msgid "Aws Cognito Username"
+#: Template/ApiUsers/resend_invitation_email.ctp:12;18
+#: Template/Element/ApiUsers/dropdown_view.ctp:50;55
+msgid "Resend Invitation Email"
+msgstr ""
+
+#: Template/ApiUsers/view.ctp:39
+msgid "Email Verified"
 msgstr ""
 
 #: Template/ApiUsers/view.ctp:56
@@ -190,14 +248,14 @@ msgid "Only Active Users can Log In."
 msgstr ""
 
 #: Template/ApiUsers/view.ctp:91
-#: Template/Element/ApiUsers/dropdown_index.ctp:20
-#: Template/Element/ApiUsers/dropdown_view.ctp:15
+#: Template/Element/ApiUsers/dropdown_index.ctp:25
+#: Template/Element/ApiUsers/dropdown_view.ctp:20
 msgid "Deactivate API User"
 msgstr ""
 
 #: Template/ApiUsers/view.ctp:97
-#: Template/Element/ApiUsers/dropdown_index.ctp:27
-#: Template/Element/ApiUsers/dropdown_view.ctp:22
+#: Template/Element/ApiUsers/dropdown_index.ctp:32
+#: Template/Element/ApiUsers/dropdown_view.ctp:27
 msgid "Activate API User"
 msgstr ""
 
@@ -229,26 +287,27 @@ msgstr ""
 msgid "View API User"
 msgstr ""
 
-#: Template/Element/ApiUsers/dropdown_index.ctp:35
-#: Template/Element/ApiUsers/dropdown_view.ctp:56
+#: Template/Element/ApiUsers/dropdown_index.ctp:18
+#: Template/Element/ApiUsers/dropdown_view.ctp:13
+msgid "Change Email Address"
+msgstr ""
+
+#: Template/Element/ApiUsers/dropdown_index.ctp:40
+#: Template/Element/ApiUsers/dropdown_view.ctp:61
 msgid "Delete API User"
 msgstr ""
 
-#: Template/Element/ApiUsers/dropdown_index.ctp:38
-#: Template/Element/ApiUsers/dropdown_view.ctp:59
+#: Template/Element/ApiUsers/dropdown_index.ctp:43
+#: Template/Element/ApiUsers/dropdown_view.ctp:64
 msgid "Are you sure you want to delete the API User \"{0}\"?"
 msgstr ""
 
-#: Template/Element/ApiUsers/dropdown_view.ctp:31;40
+#: Template/Element/ApiUsers/dropdown_view.ctp:36;45
 msgid "Reset Password"
 msgstr ""
 
-#: Template/Element/ApiUsers/dropdown_view.ctp:34
+#: Template/Element/ApiUsers/dropdown_view.ctp:39
 msgid "Are you sure you want to reset the password of # {0}?"
-msgstr ""
-
-#: Template/Element/ApiUsers/dropdown_view.ctp:45;50
-msgid "Resend Invitation Email"
 msgstr ""
 
 #: Template/Element/ApiUsers/import.ctp:7;14
@@ -271,7 +330,7 @@ msgid "Email"
 msgstr ""
 
 #: Template/Element/ApiUsers/import.ctp:45
-#: Template/Element/ApiUsers/import_validated.ctp:41
+#: Template/Element/ApiUsers/import_validated.ctp:43
 msgid "Import API Users"
 msgstr ""
 
@@ -335,79 +394,75 @@ msgstr ""
 msgid "Id"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:52
+#: Template/Element/ApiUsers/import_validated.ctp:54
 msgid "Total Submitted Users"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:63
+#: Template/Element/ApiUsers/import_validated.ctp:65
 msgid "Errors Before Validation Stopped"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:74
+#: Template/Element/ApiUsers/import_validated.ctp:76
 msgid "Validated Users"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:84;179
+#: Template/Element/ApiUsers/import_validated.ctp:86;171
 msgid "Valid API Users"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:93
+#: Template/Element/ApiUsers/import_validated.ctp:95
 msgid "Show List of Valid API Users"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:113
-msgid "Save changes"
-msgstr ""
-
-#: Template/Element/ApiUsers/import_validated.ctp:115
+#: Template/Element/ApiUsers/import_validated.ctp:107
 msgid "Cancel"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:119
+#: Template/Element/ApiUsers/import_validated.ctp:111
 msgid "Note"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:120
+#: Template/Element/ApiUsers/import_validated.ctp:112
 msgid "Keep in mind that proceeding will send emails to all new users with their login details."
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:128
+#: Template/Element/ApiUsers/import_validated.ctp:120
 msgid "Validation Errors"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:129
+#: Template/Element/ApiUsers/import_validated.ctp:121
 msgid "{0} Users did not pass the validation stage. Please review the errors and try again."
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:135
+#: Template/Element/ApiUsers/import_validated.ctp:127
 msgid "Row"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:162
+#: Template/Element/ApiUsers/import_validated.ctp:154
 msgid "Back to API Users Import Form"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:190
+#: Template/Element/ApiUsers/import_validated.ctp:182
 msgid "New API Users will be added."
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:200
+#: Template/Element/ApiUsers/import_validated.ctp:192
 msgid "API Users will be edited."
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:213
+#: Template/Element/ApiUsers/import_validated.ctp:205
 msgid "Action"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:226
+#: Template/Element/ApiUsers/import_validated.ctp:218
 msgid "Unchanged"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:228
+#: Template/Element/ApiUsers/import_validated.ctp:220
 msgid "Edit"
 msgstr ""
 
-#: Template/Element/ApiUsers/import_validated.ctp:230
+#: Template/Element/ApiUsers/import_validated.ctp:222
 msgid "Add"
 msgstr ""
 

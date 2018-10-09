@@ -9,6 +9,11 @@
             ['action' => 'edit', $api_user->id])
             ?>
         </li>
+        <li><?= $this->Html->link(
+            __d('EvilCorp/AwsCognito', 'Change Email Address'),
+            ['action' => 'changeEmail', $api_user->id])
+            ?>
+        </li>
         <?php if($api_user->active): ?>
         <li>
             <?= $this->Form->postLink(

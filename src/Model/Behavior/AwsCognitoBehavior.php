@@ -3,6 +3,7 @@ namespace EvilCorp\AwsCognito\Model\Behavior;
 
 use Cake\ORM\Behavior;
 use Cake\Validation\Validator;
+use Cake\ORM\RulesChecker;
 
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Aws\Credentials\Credentials;
@@ -47,14 +48,83 @@ class AwsCognitoBehavior extends Behavior
 
 	public function validationResendInvitationEmail(Validator $validator)
     {
-        $validator = $this->validationDefault($validator);
-
+        $validator = $this->getTable()->validationDefault($validator);
         $validator->requirePresence('email');
+        return $validator;
+    }
 
+    public function validationChangeEmail(Validator $validator)
+    {
+        $validator = $this->getTable()->validationDefault($validator);
+        $validator->requirePresence('email');
         return $validator;
     }
 
 	/* Lifecycle Callbacks */
+
+    public function buildValidator(Event $event, Validator $validator, $name)
+    {
+        $validator
+            ->requirePresence('aws_cognito_username', 'create')
+            ->notBlank('aws_cognito_username', __d('cake', 'This field cannot be left empty'));
+
+        $validator
+            ->add('email', [
+                'email' => [
+                    'rule' => 'email',
+                    'last' => true,
+                    'message' => __d('EvilCorp/AwsCognito', 'This field must be a valid email address')
+                ]
+            ])
+            ->notBlank('email', __d('cake', 'This field cannot be left empty'));
+
+        if(!in_array($name, ['changeEmail', 'resendInvitationEmail'])){
+            $validator
+                ->requirePresence('email', 'create')
+                ->add('email', 'emailImmutable', [
+                    'rule' => function ($value, $context){
+                        return $context['newRecord'];
+                    },
+                    'message' => __d('EvilCorp/AwsCognito', 'The email cannot be directly modified')
+
+                ]);
+        }
+
+        return $validator;
+    }
+
+    public function buildRules(Event $event, RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['aws_cognito_username']), '_isUnique', [
+            'errorField' => 'aws_cognito_username',
+            'message' => __d('EvilCorp/AwsCognito', 'Username already exists')
+        ]);
+
+        $rules->add($rules->isUnique(['email']), '_isUnique', [
+            'errorField' => 'email',
+            'message' => __d('EvilCorp/AwsCognito', 'Email already exists')
+        ]);
+
+        $rules->add(function($entity, $options){
+            if($entity->isNew()) return true;
+            if($entity->isDirty('aws_cognito_username')) return false;
+            return true;
+        }, 'CannotEditCognitoUsername', [
+            'errorField' => 'aws_cognito_username',
+            'message' => __d('EvilCorp/AwsCognito', 'The cognito username cannot be edited')
+        ]);
+
+        $rules->add(function($entity, $options){
+            if($entity->isNew()) return true;
+            if($entity->isDirty('aws_cognito_id')) return false;
+            return true;
+        }, 'CannotEditCognitoId', [
+            'errorField' => 'aws_cognito_id',
+            'message' => __d('EvilCorp/AwsCognito', 'The cognito id cannot be edited')
+        ]);
+
+        return $rules;
+    }
 
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
@@ -68,16 +138,12 @@ class AwsCognitoBehavior extends Behavior
         }else{
 
             //enable/disable user
-            if($entity->active && $entity->dirty('active')){
+            if($entity->active && $entity->isDirty('active')){
                 $this->enableCognitoUser($entity);
-            }elseif(!$entity->active && $entity->dirty('active')){
+            }elseif(!$entity->active && $entity->isDirty('active')){
                 $this->disableCognitoUser($entity);
             }
 
-            //change email
-            if($entity->dirty('email')){
-                $this->updateCognitoUserAttributes($entity);
-            }
         }
     }
 
@@ -92,7 +158,56 @@ class AwsCognitoBehavior extends Behavior
 
     /* Public Methods */
 
-    public function resendInvitationEmail(EntityInterface $entity)
+    public function changeEmail(EntityInterface $entity, $new_email, bool $require_verification = true)
+    {
+        if($entity->isNew()){
+            throw new Exception(__d('EvilCorp/AwsCognito', 'Cannot edit email of an nonexistent user.'));
+        }
+
+        if(empty($entity->aws_cognito_username)){
+            throw new Exception(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
+        }
+
+        $table = $this->getTable();
+        //edit entity with a different validator to allow email to be changed
+        $entity = $table->patchEntity($entity, ['email' => $new_email], [
+            'validate' => 'changeEmail',
+            'accessibleFields' => ['email' => true]
+        ]);
+
+        return $table->getConnection()->transactional(
+        function($connnection) use($entity, $table, $require_verification){
+
+            //save entity
+            if(!$table->save($entity)) return false;
+
+            //update cognito
+            try {
+                $this->CognitoClient->adminUpdateUserAttributes([
+                    'UserAttributes' => [
+                        [
+                            'Name' => 'email',
+                            'Value' => $entity->email
+                        ],
+                        [
+                            'Name' => 'email_verified',
+                            'Value' => $require_verification ? 'false' : 'true'
+                        ]
+                    ],
+                    'UserPoolId'     => $this->getConfig('UserPool.id'),
+                    'Username'       => $entity->aws_cognito_username,
+                ]);
+            } catch (AwsException $e) {
+                $entity = $this->awsExceptionToEntityErrors($e, $entity);
+                return false;
+            }
+
+            return true;
+
+        });
+    }
+
+    public function resendInvitationEmail(EntityInterface $entity, $new_email)
     {
         //resends the invitation email in case it expired or the email address was incorrect.
         //Updates the email address if changed.
@@ -101,9 +216,31 @@ class AwsCognitoBehavior extends Behavior
             throw new Exception(__d('EvilCorp/AwsCognito', 'You must create the entity before trying to resend the invitation email'));
         }
 
-        $entity = $this->createCognitoUser($entity, 'RESEND');
+        $table = $this->getTable();
+        $entity = $table->patchEntity($entity, ['email' => $new_email], [
+            'validate' => 'resendInvitationEmail',
+            'accessibleFields' => ['email' => true]
+        ]);
 
-        return $this->save($entity);
+        return $table->getConnection()->transactional(
+        function($connnection) use($entity, $table){
+            //save entity
+            if(!$table->save($entity)) return false;
+
+            //resend invitation email
+            try {
+                $entity = $this->createCognitoUser($entity, 'RESEND');
+            } catch (AwsException $e) {
+                return false;
+            }
+
+            if(!empty($entity->getErrors())){
+                return false;
+            }
+
+            return true;
+        });
+
     }
 
     public function getWithCognitoData($id, $options = [])
@@ -330,24 +467,7 @@ class AwsCognitoBehavior extends Behavior
             //ref https://docs.aws.aws.com/cognito-user-identity-pools/latest/APIReference/API_AdminCreateUser.html
             $cognito_user = $this->processCognitoUser($this->CognitoClient->adminCreateUser($options));
         } catch (AwsException $e) {
-            //this exception is thrown when a user email or phone is already being
-            //used by another user
-            if($e->getAwsErrorCode() === 'AliasExistsException'){
-                $entity->setError('email', [
-                    'isUniqueCognito' => __d('EvilCorp/AwsCognito', 'The email is not unique in AWS Cognito')
-                ]);
-                return $entity;
-            }
-
-            //this exception is thrown when the username already exists
-            if($e->getAwsErrorCode() === 'UsernameExistsException'){
-                $entity->setError('aws_cognito_username', [
-                    'isUniqueCognito' => __d('EvilCorp/AwsCognito', 'The username is not unique in AWS Cognito')
-                ]);
-                return $entity;
-            }
-
-            throw $e;
+            return $this->awsExceptionToEntityErrors($e, $entity);
         }
 
         $entity->aws_cognito_id = $cognito_user['Attributes']['sub'];
@@ -366,35 +486,24 @@ class AwsCognitoBehavior extends Behavior
         return $entity;
     }
 
-    protected function updateCognitoUserAttributes(EntityInterface $entity)
+    protected function awsExceptionToEntityErrors(AwsException $exception, EntityInterface $entity)
     {
-        //uploads all synced fields to make sure the cognito instance is up to date
-
-        if(empty($entity->aws_cognito_username)){
-            throw new Exception(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
+        if($exception->getAwsErrorCode() === 'AliasExistsException'){
+            $entity->setError('email', [
+                'isUniqueCognito' => __d('EvilCorp/AwsCognito', 'The email is not unique in AWS Cognito')
+            ]);
+            return $entity;
         }
 
-        $cognito_attributes_map = [
-            //Cognito name => local value
-            'email' => $entity->email,
-            'email_verified' => 'true',
-        ];
-
-        $attributes = [];
-        foreach ($cognito_attributes_map as $key => $value) {
-            $attributes[] = [
-                'Name' => $key,
-                'Value' => (string)$value
-            ];
+        //this exception is thrown when the username already exists
+        if($exception->getAwsErrorCode() === 'UsernameExistsException'){
+            $entity->setError('aws_cognito_username', [
+                'isUniqueCognito' => __d('EvilCorp/AwsCognito', 'The username is not unique in AWS Cognito')
+            ]);
+            return $entity;
         }
 
-        $this->CognitoClient->adminUpdateUserAttributes([
-            'UserAttributes' => $attributes,
-            'UserPoolId'     => $this->getConfig('UserPool.id'),
-            'Username'       => $entity->aws_cognito_username,
-        ]);
-
-        return true;
+        throw $exception;
     }
 
     protected function disableCognitoUser(EntityInterface $entity)

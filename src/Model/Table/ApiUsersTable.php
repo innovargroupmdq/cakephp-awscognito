@@ -121,21 +121,6 @@ class ApiUsersTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('aws_cognito_username', 'create')
-            ->notBlank('aws_cognito_username', __d('cake', 'This field cannot be left empty'));
-
-        $validator
-            ->requirePresence('email', 'create')
-            ->add('email', [
-                'email' => [
-                    'rule' => 'email',
-                    'last' => true,
-                    'message' => __d('EvilCorp/AwsCognito', 'This field must be a valid email address')
-                ]
-            ])
-            ->notBlank('email', __d('cake', 'This field cannot be left empty'));
-
-        $validator
             ->requirePresence('first_name', 'create')
             ->notBlank('first_name', __d('cake', 'This field cannot be left empty'));
 
@@ -159,21 +144,6 @@ class ApiUsersTable extends Table
             ->allowEmpty('avatar_file_name');
 
         return $validator;
-    }
-
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->isUnique(['aws_cognito_username']), '_isUnique', [
-            'errorField' => 'aws_cognito_username',
-            'message' => __d('EvilCorp/AwsCognito', 'Username already exists')
-        ]);
-
-        $rules->add($rules->isUnique(['email']), '_isUnique', [
-            'errorField' => 'email',
-            'message' => __d('EvilCorp/AwsCognito', 'Email already exists')
-        ]);
-
-        return $rules;
     }
 
     public function getRoles(){
