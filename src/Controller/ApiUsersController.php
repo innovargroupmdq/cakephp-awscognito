@@ -40,26 +40,24 @@ class ApiUsersController extends AppController
         $api_user = $this->ApiUsers->newEntity();
         $roles    = $this->ApiUsers->getRoles();
 
+        if ($this->request->is('post')) {
+            $api_user = $this->ApiUsers->patchEntity($api_user, $this->request->getData(), [
+                'accessibleFields' => [
+                    'role'                 => true,
+                    'aws_cognito_username' => true,
+                    'email'                => true,
+                ]
+            ]);
+
+            if ($this->ApiUsers->save($api_user)) {
+                $this->Flash->success(__d('EvilCorp/AwsCognito', 'The Api User has been saved'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be saved'));
+        }
+
         $this->set(compact('api_user', 'roles'));
         $this->set('_serialize', ['api_user', 'roles']);
-
-        if (!$this->request->is('post')) {
-            return;
-        }
-
-        $api_user = $this->ApiUsers->patchEntity($api_user, $this->request->getData(), [
-            'accessibleFields' => [
-                'role' => true,
-                'aws_cognito_username' => true,
-                'email' => true,
-            ]
-        ]);
-
-        if ($this->ApiUsers->save($api_user)) {
-            $this->Flash->success(__d('EvilCorp/AwsCognito', 'The Api User has been saved'));
-            return $this->redirect(['action' => 'index']);
-        }
-        $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be saved'));
     }
 
 
