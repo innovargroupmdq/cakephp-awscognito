@@ -10,7 +10,8 @@
         "evil-corp/cakephp-awsapigateway": "dev-master",
         "evil-corp/cakephp-awss3upload": "dev-master",
         "muffin/footprint": "^1.2",
-        "friendsofcake/search": "^3.1"
+        "friendsofcake/search": "^3.1",
+        "ralouphie/mimey": "^2.0"
     },
     "repositories": [
         {

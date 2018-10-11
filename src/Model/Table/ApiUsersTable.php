@@ -30,13 +30,13 @@ class ApiUsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Creators', [
-            'className' => 'AppUsers',
+            'className' => 'Users',
             'foreignKey' => 'created_by',
             'propertyName' => 'creator',
         ]);
 
         $this->belongsTo('Modifiers', [
-            'className' => 'AppUsers',
+            'className' => 'Users',
             'foreignKey' => 'modified_by',
             'propertyName' => 'modifier',
         ]);

@@ -1,5 +1,6 @@
 <?php
 namespace EvilCorp\AwsCognito\Model\Traits;
+use Aws\Exception\AwsException;
 
 trait AwsCognitoSaveTrait {
 
@@ -8,8 +9,7 @@ trait AwsCognitoSaveTrait {
     {
     	try {
         	$result = parent::saveMany($entities, $options);
-    	} catch (Exception $e) {
-    		pr($e); die();
+    	} catch (AwsCognito $e) {
     		$result = false;
     	}
 
@@ -18,8 +18,7 @@ trait AwsCognitoSaveTrait {
 	            if($entity->isNew()){
 	            	try {
 	                	$this->deleteCognitoUser($entity);
-	            	} catch (Exception $e) {
-	            		pr($e); die();
+	            	} catch (AwsCognito $e) {
 	            		continue;
 	            	}
 	            }else{

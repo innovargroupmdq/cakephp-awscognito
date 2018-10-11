@@ -16,10 +16,25 @@ class ApiUsersController extends AppController
         'order' => ['ApiUsers.aws_cognito_username' => 'asc'],
     ];
 
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->loadComponent('Search.Prg', [
+            'actions' => ['index']
+        ]);
+    }
+
     public function index()
     {
-        $this->set('api_users', $this->paginate('ApiUsers'));
-        $this->set('_serialize', ['ApiUsers']);
+        $query = $this->ApiUsers
+            ->find('search', ['search' => $this->request->getQueryParams()]);
+
+        $api_users = $this->paginate($query);
+
+        $this->set('isSearch', $this->ApiUsers->isSearch());
+        $this->set(compact('api_users'));
+        $this->set('_serialize', ['api_users']);
     }
 
     public function view($id = null)
