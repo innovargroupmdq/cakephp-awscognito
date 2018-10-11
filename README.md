@@ -17,8 +17,6 @@ Fecha: 2018-10-11
 
 ## Documentación
 
-<!-- MarkdownTOC autolink="true" link_prefix="markdown-header-" -->
-
 - [Funcionalidades](#markdown-header-funcionalidades)
 - [Notas](#markdown-header-notas)
 - [Instalación](#markdown-header-instalaci%C3%B3n)
@@ -37,9 +35,6 @@ Fecha: 2018-10-11
     - [Cambiando rutas](#markdown-header-cambiando-rutas)
     - [Sobreescribiendo vistas](#markdown-header-sobreescribiendo-vistas)
     - [Extendiendo el controller/model](#markdown-header-extendiendo-el-controllermodel)
-
-<!-- /MarkdownTOC -->
-
 
 ### Funcionalidades
 
