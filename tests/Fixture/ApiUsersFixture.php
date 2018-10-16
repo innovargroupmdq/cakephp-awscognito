@@ -13,8 +13,8 @@ class ApiUsersFixture extends TestFixture
 
     public $fields = [
         'id' => [
-            'type'      => 'uuid',
-            'length'    => null,
+            'type'      => 'integer',
+            'length'    => 11,
             'null'      => false,
             'default'   => null,
         ],
@@ -30,7 +30,7 @@ class ApiUsersFixture extends TestFixture
             'default'   => null,
         ],
         'email' => [
-            'type'      => 'uuid',
+            'type'      => 'string',
             'length'    => 255,
             'null'      => false,
             'default'   => null,
@@ -58,13 +58,58 @@ class ApiUsersFixture extends TestFixture
             'null'      => true,
             'default'   => null,
         ],
-        'created' => [
+
+        'avatar_url' => [
+            'type'      => 'string',
+            'length'    => 255,
+            'null'      => true,
+            'default'   => null,
+        ],
+        'avatar_file_name' => [
+            'type'      => 'string',
+            'length'    => 255,
+            'null'      => true,
+            'default'   => null,
+        ],
+        'avatar_file_dir' => [
+            'type'      => 'string',
+            'length'    => 255,
+            'null'      => true,
+            'default'   => null,
+        ],
+        'avatar_file_size' => [
+            'type'      => 'integer',
+            'length'    => 11,
+            'null'      => true,
+            'default'   => null,
+        ],
+        'avatar_file_type' => [
+            'type'      => 'string',
+            'length'    => 255,
+            'null'      => true,
+            'default'   => null,
+        ],
+
+
+        'created_at' => [
             'type'      => 'datetime',
             'null'      => false,
         ],
-        'modified' => [
+        'created_by' => [
+            'type'      => 'uuid',
+            'length'    => null,
+            'null'      => true,
+            'default'   => null,
+        ],
+        'modified_at' => [
             'type'      => 'datetime',
-            'null'      => false,
+            'null'      => true,
+        ],
+        'modified_by' => [
+            'type'      => 'uuid',
+            'length'    => null,
+            'null'      => true,
+            'default'   => null,
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -85,8 +130,8 @@ class ApiUsersFixture extends TestFixture
             'role' => 'dashboard',
             'first_name' => 'Pepito',
             'last_name' => 'Pepez',
-            'created' => '2015-06-24 17:33:54',
-            'modified' => '2015-06-24 17:33:54',
+            'created_at' => '2015-06-24 17:33:54',
+            'modified_at' => '2015-06-24 17:33:54',
         ],
         [
             'id' => 2,
@@ -97,8 +142,8 @@ class ApiUsersFixture extends TestFixture
             'role' => 'agent',
             'first_name' => 'Test',
             'last_name' => 'Agent',
-            'created' => '2015-06-24 17:33:54',
-            'modified' => '2015-06-24 17:33:54',
+            'created_at' => '2015-06-24 17:33:54',
+            'modified_at' => '2015-06-24 17:33:54',
         ],
         [
             'id' => 3,
@@ -109,8 +154,8 @@ class ApiUsersFixture extends TestFixture
             'role' => 'agent',
             'first_name' => 'Test2',
             'last_name' => 'Agent2',
-            'created' => '2015-06-24 17:33:54',
-            'modified' => '2015-06-24 17:33:54',
+            'created_at' => '2015-06-24 17:33:54',
+            'modified_at' => '2015-06-24 17:33:54',
         ],
     ];
 }

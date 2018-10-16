@@ -24,6 +24,9 @@ $config = [
 
         /* the limit of accepted rows in the importing CSV data */
         'import_max_rows' => 500,
+
+        /* use EvilCorp/AwsS3Upload to store the avatars */
+        'use_aws_s3' => true,
     ]
 ];
 

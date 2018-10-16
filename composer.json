@@ -4,7 +4,7 @@
     "type": "cakephp-plugin",
     "license": "MIT",
     "require": {
-        "cakephp/cakephp": "^3.4",
+        "cakephp/cakephp": "3.5.*",
         "aws/aws-sdk-php": "^3.54",
         "lcobucci/jwt": "^3.2",
         "evil-corp/cakephp-awsapigateway": "dev-master",

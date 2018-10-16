@@ -37,11 +37,9 @@ class AwsCognitoBehavior extends Behavior
 
 	public function initialize(array $config)
 	{
-		if(!$this->getConfig('UserPool.id')){
-            throw new Exception(__d('EvilCorp/AwsCognito', 'the AWS User Pool ID has not been set.'));
-        }
-
-        $this->CognitoClient = $this->createCognitoClient();
+        $this->CognitoClient = (!empty($config['createCognitoClient']) && is_callable($config['createCognitoClient']))
+            ? $config['createCognitoClient']()
+            : $this->createCognitoClient();
 	}
 
 	/* Validation */
@@ -347,6 +345,10 @@ class AwsCognitoBehavior extends Behavior
 
     protected function createCognitoClient()
     {
+        if(!$this->getConfig('UserPool.id')){
+            throw new Exception(__d('EvilCorp/AwsCognito', 'the AWS User Pool ID has not been set.'));
+        }
+
         if(!$this->getConfig('AccessKeys.id', false)
         || !$this->getConfig('AccessKeys.secret', false)){
             throw new Exception(__d('EvilCorp/AwsCognito', 'the AWS credentials have not been set.'));
