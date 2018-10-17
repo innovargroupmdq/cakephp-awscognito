@@ -27,11 +27,11 @@ class AwsCognitoBehaviorTest extends TestCase
         $cognito_client = $this->getMockBuilder(CognitoIdentityProviderClient::class)
             ->setMethods([
                 'adminCreateUser',
-                'adminUpdateUserttributes',
+                'adminUpdateUserAttributes',
                 'adminDisableUser',
                 'adminEnableUser',
                 'adminGetUser',
-                'adminResetPassword',
+                'adminResetUserPassword',
                 'adminDeleteUser'
             ])
             ->disableOriginalConstructor()
@@ -290,7 +290,7 @@ class AwsCognitoBehaviorTest extends TestCase
         $this->table->get($entity->id);
     }
 
-    public function testChangeEmail()
+    public function testChangeEmailFailUserNotSaved()
     {
         $entity = $this->table->newEntity([
             'aws_cognito_id' => 'testid',
@@ -312,26 +312,39 @@ class AwsCognitoBehaviorTest extends TestCase
         //requires entity to be saved
         $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'Cannot edit email of an nonexistent user.'));
         $this->Behavior->changeEmail($entity, $new_email, $require_verification);
+    }
+
+    public function testChangeEmailFailMissingUsername()
+    {
+        $require_verification = true;
+        $new_email = 'new.email@evilcorp.com.ar';
 
         //requires entity to have cognito username
         $entity = $this->table->find()->first();
         $entity->set('aws_cognito_username', null);
         $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
         $this->Behavior->changeEmail($entity, $new_email, $require_verification);
+    }
 
-        //changes email and calls CognitoClient->adminUpdateUserttributes
+    public function testChangeEmailSuccess()
+    {
+        $require_verification = true;
+        $new_email = 'new.email@evilcorp.com.ar';
+        $entity = $this->table->find()->first();
+
+        //changes email and calls CognitoClient->adminUpdateUserAttributes
         $this->Behavior = new AwsCognitoBehavior(
             $this->table, [
-                'createCognitoClient' => function() use ($entity, $require_verification){
+                'createCognitoClient' => function() use ($entity, $require_verification, $new_email){
                     $cognito_client = $this->getMockCognitoClient();
                     $cognito_client
                         ->expects($this->once())
-                        ->method('adminUpdateUserttributes')
+                        ->method('adminUpdateUserAttributes')
                         ->with($this->identicalTo([
                             'UserAttributes' => [
                                 [
                                     'Name' => 'email',
-                                    'Value' => $entity->email
+                                    'Value' => $new_email
                                 ],
                                 [
                                     'Name' => 'email_verified',
@@ -345,14 +358,13 @@ class AwsCognitoBehaviorTest extends TestCase
                     return $cognito_client;
                 }
         ]);
-        $entity = $this->table->find()->first();
         $result = $this->Behavior->changeEmail($entity, $new_email, $require_verification);
         $this->assertTrue($result);
         $this->assertEquals($new_email, $entity->email);
         $this->assertFalse($entity->isDirty('email'));
     }
 
-    public function testResendInvitationEmail()
+    public function testResendInvitationEmailFailUserNotSaved()
     {
         $entity = $this->table->newEntity([
             'aws_cognito_id' => 'testid',
@@ -373,11 +385,17 @@ class AwsCognitoBehaviorTest extends TestCase
         //requires entity to be saved
         $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'You must create the entity before trying to resend the invitation email'));
         $this->Behavior->resendInvitationEmail($entity, $new_email);
+    }
+
+    public function testResendInvitationEmail()
+    {
+        $new_email = 'new.email@evilcorp.com.ar';
+        $entity = $this->table->find()->first();
 
         //changes email and calls CognitoClient->adminCreateUser
         $this->Behavior = new AwsCognitoBehavior(
             $this->table, [
-                'createCognitoClient' => function() use ($entity, $require_verification){
+                'createCognitoClient' => function() use ($entity, $new_email){
                     $cognito_client = $this->getMockCognitoClient();
                     $cognito_client
                         ->expects($this->once())
@@ -388,7 +406,7 @@ class AwsCognitoBehaviorTest extends TestCase
                             'UserAttributes' => [
                                 [
                                 'Name' => 'email',
-                                'Value' => $entity->email,
+                                'Value' => $new_email,
                                 ],
                                 [
                                 'Name' => 'email_verified',
@@ -416,14 +434,13 @@ class AwsCognitoBehaviorTest extends TestCase
                     return $cognito_client;
                 }
         ]);
-        $entity = $this->table->find()->first();
         $result = $this->Behavior->resendInvitationEmail($entity, $new_email);
         $this->assertTrue($result);
         $this->assertEquals($new_email, $entity->email);
         $this->assertFalse($entity->isDirty('email'));
     }
 
-    public function testGetWithCognitoData()
+    public function testGetWithCognitoDataSuccess()
     {
         $entity = $this->table->find()->first();
 
@@ -485,18 +502,20 @@ class AwsCognitoBehaviorTest extends TestCase
         ], $user_with_cognito->get('aws_cognito_status'));
     }
 
-    public function testResetCognitoPassword()
+    public function testResetCognitoPasswordFailMissingUsername()
     {
         //requires entity to have cognito username
         $entity = $this->table->find()->first();
         $entity->set('aws_cognito_username', null);
         $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
         $this->Behavior->resetCognitoPassword($entity);
+    }
 
-        //reset user
+    public function testResetCognitoPasswordSuccess()
+    {
         $entity = $this->table->find()->first();
 
-        //mock CognitoClient->adminResetPassword
+        //mock CognitoClient->adminResetUserPassword
         $this->Behavior = new AwsCognitoBehavior(
             $this->table, [
                 'createCognitoClient' => function() use ($entity){
@@ -517,18 +536,20 @@ class AwsCognitoBehaviorTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function testDeleteCognitoUser()
+    public function testDeleteCognitoUserFailMissingUsername()
     {
         //requires entity to have cognito username
         $entity = $this->table->find()->first();
         $entity->set('aws_cognito_username', null);
         $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
         $this->Behavior->resetCognitoPassword($entity);
+    }
 
-        //reset user
+    public function testDeleteCognitoUserSuccess()
+    {
         $entity = $this->table->find()->first();
 
-        //mock CognitoClient->adminResetPassword
+        //mock CognitoClient->adminDeleteUser
         $this->Behavior = new AwsCognitoBehavior(
             $this->table, [
                 'createCognitoClient' => function() use ($entity){

@@ -149,7 +149,8 @@ class ApiUsersTable extends Table
         return $validator;
     }
 
-    public function getRoles(){
+    public function getRoles()
+    {
         //returns the array of configured roles, throws exception if not configured
         if(!Configure::check('ApiUsers.roles')){
             throw new Exception(__d('EvilCorp/AwsCognito', 'ApiUsers.roles setting is invalid'));
