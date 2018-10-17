@@ -10,6 +10,8 @@ use Cake\Validation\Validator;
 use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use ArrayObject;
+use Aws\Result;
+use Cake\Datasource\Exception\RecordNotFoundException;
 
 /**
  * Test Case
@@ -23,30 +25,20 @@ class AwsCognitoBehaviorTest extends TestCase
     protected function getMockCognitoClient()
     {
         $cognito_client = $this->getMockBuilder(CognitoIdentityProviderClient::class)
-            ->setMethods(['adminCreateUser'])
+            ->setMethods([
+                'adminCreateUser',
+                'adminUpdateUserttributes',
+                'adminDisableUser',
+                'adminEnableUser',
+                'adminGetUser',
+                'adminResetPassword',
+                'adminDeleteUser'
+            ])
             ->disableOriginalConstructor()
             ->disableOriginalClone()
             ->disableArgumentCloning()
             ->disallowMockingUnknownTypes()
             ->getMock();
-
-        $cognito_client->method('adminCreateUser')
-            ->will($this->returnCallback(function($options){
-                return new Result([
-                    'User' => [
-                        'Attributes' => array_merge($options['UserAttributes'], [
-                            [
-                                'Name' => 'sub',
-                                'Value' => 'a2d1c8af-c6b3-495a-a9f7-f4b8f4a8aa9b'
-                            ]
-                        ]),
-                        'Enabled'    => true,
-                        'Username'   => $options['Username'],
-                    ]
-                ]);
-            }));
-
-
         return $cognito_client;
     }
 
@@ -175,52 +167,99 @@ class AwsCognitoBehaviorTest extends TestCase
             ]
         ]);
 
-        $behavior_mock = $this->getMockBuilder(AwsCognitoBehavior::class)
-            ->setConstructorArgs([
-                $this->table,
-                ['createCognitoClient' => function(){ return $this->getMockCognitoClient(); }]
-            ])
-            ->setMethods(['createCognitoUser'])
-            ->getMock();
+        $entity->set('active', 1);
 
-        $behavior_mock
-            ->expects($this->once())
-            ->method('createCognitoUser')
-            ->will($this->returnValue(true));
+        $behavior_mock = new AwsCognitoBehavior(
+            $this->table, [
+                'createCognitoClient' => function() use ($entity){
+                    $cognito_client = $this->getMockCognitoClient();
+                    $cognito_client
+                        ->expects($this->once())
+                        ->method('adminCreateUser')
+                        ->with($this->identicalTo([
+                            'DesiredDeliveryMediums' => ['EMAIL'],
+                            'ForceAliasCreation'     => false,
+                            'UserAttributes' => [
+                                [
+                                'Name' => 'email',
+                                'Value' => $entity->email,
+                                ],
+                                [
+                                'Name' => 'email_verified',
+                                'Value' => 'true',
+                                ],
+                            ],
+                            'UserPoolId' => $this->Behavior->getConfig('UserPool.id'),
+                            'Username'   => $entity->aws_cognito_username,
+                        ]))
+                        ->will($this->returnCallback(function($options){
+                            return new Result([
+                                'User' => [
+                                    'Attributes' => array_merge($options['UserAttributes'], [
+                                        [
+                                            'Name' => 'sub',
+                                            'Value' => 'a2d1c8af-c6b3-495a-a9f7-f4b8f4a8aa9b'
+                                        ]
+                                    ]),
+                                    'Enabled'    => true,
+                                    'Username'   => $options['Username'],
+                                ]
+                            ]);
+                        }));
+                    return $cognito_client;
+                }
+        ]);
 
         $this->table->behaviors()->set('AwsCognito', $behavior_mock);
 
-        $this->table->save($entity);
+        $entity = $this->table->save($entity);
+
+        $this->assertNotFalse($entity);
+
+        $this->assertNotEmpty($entity->get('aws_cognito_id'));
+        $this->assertNotEmpty($entity->get('aws_cognito_username'));
+
     }
 
     public function testBeforeSaveEnableDisableCognitoUser()
     {
         $entity = $this->table->find()->first();
 
-        $behavior_mock = $this->getMockBuilder(AwsCognitoBehavior::class)
-            ->setConstructorArgs([
-                $this->table,
-                ['createCognitoClient' => function(){ return $this->getMockCognitoClient(); }]
-            ])
-            ->setMethods(['disableCognitoUser', 'enableCognitoUser'])
-            ->getMock();
+        $behavior_mock = new AwsCognitoBehavior(
+            $this->table, [
+                'createCognitoClient' => function() use ($entity){
+                    $cognito_client = $this->getMockCognitoClient();
+                    $cognito_client
+                        ->expects($this->once())
+                        ->method('adminDisableUser')
+                        ->with($this->identicalTo([
+                            'UserPoolId' => $this->Behavior->getConfig('UserPool.id'),
+                            'Username'   => $entity->aws_cognito_username,
+                        ]))
+                        ->will($this->returnValue(null));
 
-        $behavior_mock
-            ->expects($this->once())
-            ->method('disableCognitoUser')
-            ->will($this->returnValue(true));
-
-        $behavior_mock
-            ->expects($this->once())
-            ->method('enableCognitoUser')
-            ->will($this->returnValue(true));
+                    $cognito_client
+                        ->expects($this->once())
+                        ->method('adminEnableUser')
+                        ->with($this->identicalTo([
+                            'UserPoolId' => $this->Behavior->getConfig('UserPool.id'),
+                            'Username'   => $entity->aws_cognito_username,
+                        ]))
+                        ->will($this->returnValue(null));
+                    return $cognito_client;
+                }
+        ]);
         $this->table->behaviors()->set('AwsCognito', $behavior_mock);
 
         $entity->set('active', 0);
-        $this->table->save($entity);
+        $entity = $this->table->save($entity);
+        $this->assertNotFalse($entity);
+        $this->assertEquals(0, $entity->get('active'));
 
         $entity->set('active', 1);
-        $this->table->save($entity);
+        $entity = $this->table->save($entity);
+        $this->assertNotFalse($entity);
+        $this->assertEquals(1, $entity->get('active'));
     }
 
     public function testBeforeDelete()
@@ -243,32 +282,271 @@ class AwsCognitoBehaviorTest extends TestCase
 
         $this->table->behaviors()->set('AwsCognito', $behavior_mock);
 
-        $this->table->delete($entity);
+        $result = $this->table->delete($entity);
+        $this->assertTrue($result);
+
+        //properly deleted
+        $this->expectException(RecordNotFoundException::class);
+        $this->table->get($entity->id);
     }
 
     public function testChangeEmail()
     {
-        $this->markTestIncomplete();
+        $entity = $this->table->newEntity([
+            'aws_cognito_id' => 'testid',
+            'aws_cognito_username' => 'new.validusername',
+            'email' => 'newvalid@email.com.ar',
+            'role' => 'user'
+        ], [
+            'validate' => false,
+            'accessibleFields' => [
+                'email' => true,
+                'aws_cognito_username' => true,
+                'aws_cognito_id' => true,
+                'role' => true
+            ]
+        ]);
+        $require_verification = true;
+        $new_email = 'new.email@evilcorp.com.ar';
+
+        //requires entity to be saved
+        $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'Cannot edit email of an nonexistent user.'));
+        $this->Behavior->changeEmail($entity, $new_email, $require_verification);
+
+        //requires entity to have cognito username
+        $entity = $this->table->find()->first();
+        $entity->set('aws_cognito_username', null);
+        $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
+        $this->Behavior->changeEmail($entity, $new_email, $require_verification);
+
+        //changes email and calls CognitoClient->adminUpdateUserttributes
+        $this->Behavior = new AwsCognitoBehavior(
+            $this->table, [
+                'createCognitoClient' => function() use ($entity, $require_verification){
+                    $cognito_client = $this->getMockCognitoClient();
+                    $cognito_client
+                        ->expects($this->once())
+                        ->method('adminUpdateUserttributes')
+                        ->with($this->identicalTo([
+                            'UserAttributes' => [
+                                [
+                                    'Name' => 'email',
+                                    'Value' => $entity->email
+                                ],
+                                [
+                                    'Name' => 'email_verified',
+                                    'Value' => $require_verification ? 'false' : 'true'
+                                ]
+                            ],
+                            'UserPoolId'     => $this->Behavior->getConfig('UserPool.id'),
+                            'Username'       => $entity->aws_cognito_username,
+                        ]))
+                        ->will($this->returnValue(null));
+                    return $cognito_client;
+                }
+        ]);
+        $entity = $this->table->find()->first();
+        $result = $this->Behavior->changeEmail($entity, $new_email, $require_verification);
+        $this->assertTrue($result);
+        $this->assertEquals($new_email, $entity->email);
+        $this->assertFalse($entity->isDirty('email'));
     }
 
     public function testResendInvitationEmail()
     {
-        $this->markTestIncomplete();
+        $entity = $this->table->newEntity([
+            'aws_cognito_id' => 'testid',
+            'aws_cognito_username' => 'new.validusername',
+            'email' => 'newvalid@email.com.ar',
+            'role' => 'user'
+        ], [
+            'validate' => false,
+            'accessibleFields' => [
+                'email' => true,
+                'aws_cognito_username' => true,
+                'aws_cognito_id' => true,
+                'role' => true
+            ]
+        ]);
+        $new_email = 'new.email@evilcorp.com.ar';
+
+        //requires entity to be saved
+        $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'You must create the entity before trying to resend the invitation email'));
+        $this->Behavior->resendInvitationEmail($entity, $new_email);
+
+        //changes email and calls CognitoClient->adminCreateUser
+        $this->Behavior = new AwsCognitoBehavior(
+            $this->table, [
+                'createCognitoClient' => function() use ($entity, $require_verification){
+                    $cognito_client = $this->getMockCognitoClient();
+                    $cognito_client
+                        ->expects($this->once())
+                        ->method('adminCreateUser')
+                        ->with($this->identicalTo([
+                            'DesiredDeliveryMediums' => ['EMAIL'],
+                            'ForceAliasCreation'     => false,
+                            'UserAttributes' => [
+                                [
+                                'Name' => 'email',
+                                'Value' => $entity->email,
+                                ],
+                                [
+                                'Name' => 'email_verified',
+                                'Value' => 'true',
+                                ],
+                            ],
+                            'UserPoolId'    => $this->Behavior->getConfig('UserPool.id'),
+                            'Username'      => $entity->aws_cognito_username,
+                            'MessageAction' => 'RESEND'
+                        ]))
+                        ->will($this->returnCallback(function($options){
+                            return new Result([
+                                'User' => [
+                                    'Attributes' => array_merge($options['UserAttributes'], [
+                                        [
+                                            'Name' => 'sub',
+                                            'Value' => 'a2d1c8af-c6b3-495a-a9f7-f4b8f4a8aa9b'
+                                        ]
+                                    ]),
+                                    'Enabled'    => true,
+                                    'Username'   => $options['Username'],
+                                ]
+                            ]);
+                        }));
+                    return $cognito_client;
+                }
+        ]);
+        $entity = $this->table->find()->first();
+        $result = $this->Behavior->resendInvitationEmail($entity, $new_email);
+        $this->assertTrue($result);
+        $this->assertEquals($new_email, $entity->email);
+        $this->assertFalse($entity->isDirty('email'));
     }
 
     public function testGetWithCognitoData()
     {
-        $this->markTestIncomplete();
+        $entity = $this->table->find()->first();
+
+        //mock cognitoClient->adminGetUser
+        $this->Behavior = new AwsCognitoBehavior(
+            $this->table, [
+                'createCognitoClient' => function() use ($entity){
+                    $cognito_client = $this->getMockCognitoClient();
+                    $call_result = new Result([
+                        'Enabled'    => true,
+                        'UserAttributes' => [
+                            [
+                                'Name' => 'sub',
+                                'Value' => $entity->aws_cognito_id
+                            ],
+                            [
+                                'Name' => 'email',
+                                'Value' => $entity->email
+                            ],
+                            [
+                                'Name' => 'email_verified',
+                                'Value' => 'true'
+                            ],
+                        ],
+                        'Username'   => $entity->aws_cognito_username,
+                        'UserStatus' => 'CONFIRMED'
+                    ]);
+                    $cognito_client
+                        ->expects($this->once())
+                        ->method('adminGetUser')
+                        ->with($this->identicalTo([
+                            'UserPoolId' => $this->Behavior->getConfig('UserPool.id'),
+                            'Username'   => $entity->aws_cognito_username
+                        ]))
+                        ->will($this->returnValue($call_result));
+                    return $cognito_client;
+                }
+        ]);
+
+        //finds user, compare it to normal find result
+        $id = $entity->id;
+        $options = [];
+        $user = $this->table->get($id, $options);
+        $user_with_cognito = $this->Behavior->getWithCognitoData($id, $options);
+
+        $this->assertEquals($user->id, $user_with_cognito->id);
+
+        //check for extra attributes
+        $this->assertTrue($user_with_cognito->get('aws_cognito_synced'));
+        $this->assertEquals([
+            'sub'            => $user->aws_cognito_id,
+            'email'          => $user->email,
+            'email_verified' => true,
+        ], $user_with_cognito->get('aws_cognito_attributes'));
+        $this->assertEquals([
+            'code'        => 'CONFIRMED',
+            'title'       => __d('EvilCorp/AwsCognito', 'Confirmed'),
+            'description' => __d('EvilCorp/AwsCognito', 'The user account is confirmed and the user can sign in.'),
+        ], $user_with_cognito->get('aws_cognito_status'));
     }
 
     public function testResetCognitoPassword()
     {
-        $this->markTestIncomplete();
+        //requires entity to have cognito username
+        $entity = $this->table->find()->first();
+        $entity->set('aws_cognito_username', null);
+        $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
+        $this->Behavior->resetCognitoPassword($entity);
+
+        //reset user
+        $entity = $this->table->find()->first();
+
+        //mock CognitoClient->adminResetPassword
+        $this->Behavior = new AwsCognitoBehavior(
+            $this->table, [
+                'createCognitoClient' => function() use ($entity){
+                    $cognito_client = $this->getMockCognitoClient();
+                    $cognito_client
+                        ->expects($this->once())
+                        ->method('adminResetUserPassword')
+                        ->with($this->identicalTo([
+                            'UserPoolId' => $this->Behavior->getConfig('UserPool.id'),
+                            'Username'   => $entity->aws_cognito_username
+                        ]))
+                        ->will($this->returnValue(null));
+                    return $cognito_client;
+                }
+        ]);
+
+        $result = $this->Behavior->resetCognitoPassword($entity);
+        $this->assertTrue($result);
     }
 
     public function testDeleteCognitoUser()
     {
-        $this->markTestIncomplete();
+        //requires entity to have cognito username
+        $entity = $this->table->find()->first();
+        $entity->set('aws_cognito_username', null);
+        $this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'The user does not have a Cognito Username.'));
+        $this->Behavior->resetCognitoPassword($entity);
+
+        //reset user
+        $entity = $this->table->find()->first();
+
+        //mock CognitoClient->adminResetPassword
+        $this->Behavior = new AwsCognitoBehavior(
+            $this->table, [
+                'createCognitoClient' => function() use ($entity){
+                    $cognito_client = $this->getMockCognitoClient();
+                    $cognito_client
+                        ->expects($this->once())
+                        ->method('adminDeleteUser')
+                        ->with($this->identicalTo([
+                            'UserPoolId' => $this->Behavior->getConfig('UserPool.id'),
+                            'Username'   => $entity->aws_cognito_username
+                        ]))
+                        ->will($this->returnValue(null));
+                    return $cognito_client;
+                }
+        ]);
+
+        $result = $this->Behavior->deleteCognitoUser($entity);
+        $this->assertTrue($result);
     }
 
 }
