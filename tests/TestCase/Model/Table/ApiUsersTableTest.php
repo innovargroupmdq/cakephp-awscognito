@@ -7,7 +7,6 @@ use Aws\Result;
 
 use Cake\TestSuite\TestCase;
 use Cake\ORM\TableRegistry;
-use Cake\Core\Plugin;
 use Cake\Core\Configure;
 
 class ApiUsersTableTest extends TestCase
