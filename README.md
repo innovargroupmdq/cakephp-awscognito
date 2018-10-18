@@ -145,13 +145,14 @@ Este Behavior se encarga de habilitar toda la funcionalidad relacionada con Cogn
     + Validador incluído para la acción de cambio de email
 - *public* **buildValidator**(Event $event, Validator $validator, $name)
     + Callback del validador
-    + Se encarga de que los campos de congito estén requeridos y validados como sea correspondiente, y que el email sea inmutable cuando sea necesario
+    + Se encarga de que los campos de congito estén requeridos y validados como sea correspondiente
 - *public* **buildRules**(Event $event, RulesChecker $rules)
     + Agrega las reglas de la aplicación
     + Asegura que el nombre de usuario de cognito sea único
     + Asegura que el email sea único
     + Impide la edición del nombre de usuario cognito
     + Impide la edición del ID de cognito
+    + Impide la edición del email por medios tradicionales (tiene una opción para que los métodos changeEmail y resendInvitationEmail puedan cambiarlo)
 - *public* **beforeSave**(Event $event, EntityInterface $entity, ArrayObject $options)
     + Antes de guardar el usuario, este Callback realiza lo siguiente:
         * Si el usuario es nuevo, llama a `createCognitoUser`

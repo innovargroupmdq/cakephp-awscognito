@@ -65,12 +65,16 @@ class ApiUsersTableTest extends TestCase
 		$this->assertArrayHasKey('inList', $entity->getError('role'));
 	}
 
-	public function testGetRoles()
+	public function testGetRolesFailedEmptySettings()
 	{
 		Configure::write('ApiUsers.roles', null);
 		$this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'ApiUsers.roles setting is invalid'));
 		$this->ApiUsers->getRoles();
 
+	}
+
+	public function testGetRolesSuccess()
+	{
 		$roles = [
 			'user' => 'User',
 			'admin' => 'Admin'
@@ -78,12 +82,11 @@ class ApiUsersTableTest extends TestCase
 
 		Configure::write('ApiUsers.roles', $roles);
 		$this->assertEquals($roles, $this->ApiUsers->getRoles());
+	}
 
-		$roles = [
-			'user',
-			'admin'
-		];
-
+	public function testGetRolesFailedConfigArrayNotAssociative()
+	{
+		$roles = ['user', 'admin'];
 		$this->expectExceptionMessage(__d('EvilCorp/AwsCognito', 'The ApiUsers.roles array should be entirely associative'));
 		Configure::write('ApiUsers.roles', $roles);
 		$this->ApiUsers->getRoles();

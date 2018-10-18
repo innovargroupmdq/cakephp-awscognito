@@ -89,19 +89,16 @@ class AwsCognitoBehaviorTest extends TestCase
 
         $this->assertTrue($validator->isPresenceRequired('email', true));
         $this->assertFalse($validator->isPresenceRequired('email', false));
-        $this->assertNotEmpty($validator->field('email')->rule('emailImmutable'));
 
         $validator = $this->Behavior->buildValidator(new Event('eventName'), new Validator(), 'changeEmail');
 
         $this->assertFalse($validator->isPresenceRequired('email', true));
         $this->assertFalse($validator->isPresenceRequired('email', false));
-        $this->assertEmpty($validator->field('email')->rule('emailImmutable'));
 
         $validator = $this->Behavior->buildValidator(new Event('eventName'), new Validator(), 'resendInvitationEmail');
 
         $this->assertFalse($validator->isPresenceRequired('email', true));
         $this->assertFalse($validator->isPresenceRequired('email', false));
-        $this->assertEmpty($validator->field('email')->rule('emailImmutable'));
     }
 
     public function testBuildRulesIsUnique()

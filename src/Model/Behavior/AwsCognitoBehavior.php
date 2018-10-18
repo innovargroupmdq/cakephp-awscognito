@@ -77,15 +77,7 @@ class AwsCognitoBehavior extends Behavior
             ->notBlank('email', __d('cake', 'This field cannot be left empty'));
 
         if(!in_array($name, ['changeEmail', 'resendInvitationEmail'])){
-            $validator
-                ->requirePresence('email', 'create')
-                ->add('email', 'emailImmutable', [
-                    'rule' => function ($value, $context){
-                        return $context['newRecord'];
-                    },
-                    'message' => __d('EvilCorp/AwsCognito', 'The email cannot be directly modified')
-
-                ]);
+            $validator->requirePresence('email', 'create');
         }
 
         return $validator;
@@ -101,6 +93,16 @@ class AwsCognitoBehavior extends Behavior
         $rules->add($rules->isUnique(['email']), '_isUnique', [
             'errorField' => 'email',
             'message' => __d('EvilCorp/AwsCognito', 'Email already exists')
+        ]);
+
+        $rules->add(function($entity, $options){
+            if($entity->isNew()) return true;
+            if($entity->get('change_email')) return true;
+            if($entity->isDirty('email')) return false;
+            return true;
+        }, 'CannotEditEmail', [
+            'errorField' => 'email',
+            'message' => __d('EvilCorp/AwsCognito', 'The email cannot be directly modified')
         ]);
 
         $rules->add(function($entity, $options){
@@ -168,10 +170,20 @@ class AwsCognitoBehavior extends Behavior
 
         $table = $this->getTable();
         //edit entity with a different validator to allow email to be changed
-        $entity = $table->patchEntity($entity, ['email' => $new_email], [
-            'validate' => 'changeEmail',
-            'accessibleFields' => ['email' => true]
-        ]);
+        $entity = $table->patchEntity(
+            $entity,
+            [
+                'email' => $new_email,
+                'change_email' => true
+            ],
+            [
+                'validate' => 'changeEmail',
+                'accessibleFields' => [
+                    'email' => true,
+                    'change_email' => true
+                ]
+            ]
+        );
 
         return $table->getConnection()->transactional(
         function($connnection) use($entity, $table, $require_verification){
@@ -215,10 +227,20 @@ class AwsCognitoBehavior extends Behavior
         }
 
         $table = $this->getTable();
-        $entity = $table->patchEntity($entity, ['email' => $new_email], [
-            'validate' => 'resendInvitationEmail',
-            'accessibleFields' => ['email' => true]
-        ]);
+        $entity = $table->patchEntity(
+            $entity,
+            [
+                'email' => $new_email,
+                'change_email' => true
+            ],
+            [
+                'validate' => 'resendInvitationEmail',
+                'accessibleFields' => [
+                    'email' => true,
+                    'change_email' => true
+                ]
+            ]
+        );
 
         return $table->getConnection()->transactional(
         function($connnection) use($entity, $table){

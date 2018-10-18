@@ -16,6 +16,7 @@ class ImportApiUsersBehavior extends Behavior
                 'last_name'            => true,
                 'aws_cognito_username' => true,
                 'email'                => true,
+                'role'                 => true,
             ]
         ];
 
@@ -55,7 +56,7 @@ class ImportApiUsersBehavior extends Behavior
             foreach (['email', 'aws_cognito_username'] as $field) {
                 $duplicated_key = array_search($row[$field], $duplicated_check[$field]);
                 if($duplicated_key !== false && $duplicated_key !== $key){
-                    $entity->setError($field, __d('EvilCorp/AwsCognito', 'This field is duplicated'));
+                    $entity->setError($field, ['duplicated' => __d('EvilCorp/AwsCognito', 'This field is duplicated')]);
                 }
             }
 
@@ -73,6 +74,7 @@ class ImportApiUsersBehavior extends Behavior
             'email',
             'first_name',
             'last_name',
+            'role'
         ];
 
         $rows = explode("\n", $csv_data);
