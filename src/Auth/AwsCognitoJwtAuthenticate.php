@@ -7,6 +7,7 @@ use Cake\Http\Response;
 
 use Cake\Network\Exception\UnauthorizedException;
 use Lcobucci\JWT\Parser as JWTParser;
+use Throwable;
 
 class AwsCognitoJwtAuthenticate extends BaseAuthenticate
 {
@@ -38,7 +39,7 @@ class AwsCognitoJwtAuthenticate extends BaseAuthenticate
 
             return $this->_findUser($cognito_id);
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }
