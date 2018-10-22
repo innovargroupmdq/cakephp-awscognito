@@ -2,6 +2,7 @@
 namespace EvilCorp\AwsCognito\Controller\Traits;
 
 use EvilCorp\AwsApiGateway\Error\UnprocessableEntityException;
+use Cake\ORM\Exception\PersistenceFailedException;
 use Cake\Filesystem\File;
 use Mimey\MimeTypes;
 use Cake\Utility\Hash;
@@ -53,7 +54,16 @@ trait BaseApiEndpointsTrait
             'accessibleFields' => $this->_editableFields()
         ]);
 
-        $this->ApiUsers->saveOrFail($api_user);
+        try {
+            $this->ApiUsers->saveOrFail($api_user);
+        } catch (PersistenceFailedException $e) {
+            $entity = $e->getEntity();
+            $entity_errors = $entity->getErrors();
+            throw new UnprocessableEntityException([
+                'message' => __d('api', 'Data Validation Failed'),
+                'errors' => $entity->getErrors()
+            ]);
+        }
 
         $api_user = $this->_viewUser($user_id);
         $this->set('data', $api_user);

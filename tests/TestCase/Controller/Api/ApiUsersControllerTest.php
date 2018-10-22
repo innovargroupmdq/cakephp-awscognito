@@ -3,6 +3,8 @@ namespace EvilCorp\AwsCognito\Test\TestCase\Controller;
 
 use EvilCorp\AwsCognito\Controller\Api\ApiUsersController;
 use Cake\TestSuite\IntegrationTestCase;
+use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
+use EvilCorp\AwsCognito\Model\Behavior\AwsCognitoBehavior;
 
 use Cake\ORM\TableRegistry;
 use Cake\Core\Configure;
@@ -13,6 +15,54 @@ class ApiUsersControllerTest extends IntegrationTestCase
     public $fixtures = [
         'plugin.EvilCorp/AwsCognito.api_users',
     ];
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        Configure::write('Error', [
+            'errorLevel' => E_ALL,
+            'exceptionRenderer' => 'EvilCorp\AwsApiGateway\Error\ApiExceptionRenderer',
+            'skipLog' => [],
+            'log' => true,
+            'trace' => true,
+        ]);
+    }
+
+    public function controllerSpy($event, $controller = null)
+    {
+        parent::controllerSpy($event, $controller);
+
+        //mock CognitoClient
+        $behavior = new AwsCognitoBehavior(
+            $this->_controller->ApiUsers, [
+                'createCognitoClient' => function(){
+                    $cognito_client = $this->getMockBuilder(CognitoIdentityProviderClient::class)
+                        ->setMethods([
+                            'adminUpdateUserAttributes',
+                            'adminDisableUser',
+                            'adminEnableUser'
+                        ])
+                        ->disableOriginalConstructor()
+                        ->disableOriginalClone()
+                        ->disableArgumentCloning()
+                        ->disallowMockingUnknownTypes()
+                        ->getMock();
+                    $cognito_client->expects($this->any())
+                        ->method('adminUpdateUserAttributes')
+                        ->will($this->returnValue(null));
+                    $cognito_client->expects($this->any())
+                        ->method('adminEnableUser')
+                        ->will($this->returnValue(null));
+                    $cognito_client->expects($this->any())
+                        ->method('adminDisableUser')
+                        ->will($this->returnValue(null));
+                    return $cognito_client;
+                }
+        ]);
+
+        $this->_controller->ApiUsers->behaviors()->set('AwsCognito', $behavior);
+    }
 
     protected function authorizeApiUser()
     {
@@ -114,6 +164,96 @@ class ApiUsersControllerTest extends IntegrationTestCase
             ]);
 
         $this->assertTrue($deactivated_user->isEmpty());
+    }
+
+    public function testEditProfileFailValidation()
+    {
+        $this->authorizeApiUser();
+
+        $data = [
+            'first_name' => '',
+            'last_name'  => '',
+        ];
+
+        $this->patch('/aws-cognito/api/api-users/editProfile', json_encode($data));
+        $this->assertResponseCode(422);
+
+        $json_response = json_decode($this->_response->body(), true);
+        $this->assertNotEmpty($json_response);
+
+        $this->assertContains('errors', array_keys($json_response));
+
+
+        $expected_errors = [
+            'first_name' => [
+                [
+                    'code' => 'Empty',
+                    'message' => 'This field cannot be left empty'
+                ]
+            ],
+            'last_name' => [
+                [
+                    'code' => 'Empty',
+                    'message' => 'This field cannot be left empty'
+                ]
+            ]
+        ];
+
+        $this->assertEquals($expected_errors, $json_response['errors']);
+    }
+
+    public function testChangeEmailSuccess()
+    {
+        $this->authorizeApiUser();
+
+        $data = ['email' => 'edited@email.com'];
+
+        $this->put('/aws-cognito/api/api-users/changeEmail', json_encode($data));
+        $this->assertResponseCode(200);
+
+        $json_response = json_decode($this->_response->body(), true);
+        $this->assertNotEmpty($json_response);
+
+        $this->assertContains('data', array_keys($json_response));
+
+        $this->assertArrayHasKey('email', $json_response['data']);
+        $this->assertNotEmpty($json_response['data']['username']);
+
+        $this->assertEquals($data['email'], $json_response['data']['email']);
+    }
+
+    public function testChangeEmailFailValidation()
+    {
+        $this->authorizeApiUser();
+
+        $data = ['email' => 'invalid email'];
+
+        $this->put('/aws-cognito/api/api-users/changeEmail', json_encode($data));
+        $this->assertResponseCode(422);
+
+        $json_response = json_decode($this->_response->body(), true);
+        $this->assertNotEmpty($json_response);
+
+        $this->assertContains('errors', array_keys($json_response));
+
+        $this->assertArrayHasKey('email', $json_response['errors']);
+        $expected_error = [
+            [
+                'code' => 'Email',
+                'message' => 'This field must be a valid email address'
+            ]
+        ];
+        $this->assertEquals($expected_error, $json_response['errors']['email']);
+    }
+
+    public function testUploadAvatarSuccess()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testUploadAvatarFail()
+    {
+        $this->markTestIncomplete();
     }
 
 }
