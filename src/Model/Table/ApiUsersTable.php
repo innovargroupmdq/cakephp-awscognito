@@ -62,22 +62,22 @@ class ApiUsersTable extends Table
         $this->addBehavior('EvilCorp/AwsCognito.AwsCognito', Configure::read('AwsCognito'));
         $this->addBehavior('EvilCorp/AwsCognito.ImportApiUsers');
 
-        if(Configure::read('ApiUsers.use_aws_s3', false)){
-            $this->addBehavior('EvilCorp/AwsS3Upload.AwsS3Upload', [
-                'avatar_file_name' => [
-                    'fields' => [
-                        'dir'          => 'avatar_file_dir',
-                        'size'         => 'avatar_file_size',
-                        'type'         => 'avatar_file_type',
-                        'url'          => 'avatar_url',
-                        'image_width'  => 'avatar_width',
-                        'image_height' => 'avatar_height'
-                    ],
-                    'path' => 'UserAvatars{DS}{microtime}{DS}',
-                    'images_only' => true
-                ]
-            ]);
-        }
+        $local_only = Configure::read('AwsS3.local_only', false);
+        $path = $local_only ? 'webroot{DS}files{DS}UserAvatars{DS}{microtime}{DS}' : 'UserAvatars{DS}{microtime}{DS}';
+        $this->addBehavior('EvilCorp/AwsS3Upload.AwsS3Upload', [
+            'avatar_file_name' => [
+                'fields' => [
+                    'dir'          => 'avatar_file_dir',
+                    'size'         => 'avatar_file_size',
+                    'type'         => 'avatar_file_type',
+                    'url'          => 'avatar_url',
+                    'image_width'  => 'avatar_width',
+                    'image_height' => 'avatar_height'
+                ],
+                'path' => $path,
+                'images_only' => true
+            ]
+        ]);
 
         $this->addBehavior('Search.Search');
         $this->searchManager()

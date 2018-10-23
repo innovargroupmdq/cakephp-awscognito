@@ -23,7 +23,7 @@ class AwsCognitoJwtAuthenticateTest extends TestCase
 
 	public function setUp()
 	{
-		Configure::write('ApiUsers.use_aws_s3', false);
+		Configure::write('AwsS3.local_only', true);
 		$request  = new ServerRequest();
 		$response = new Response();
 

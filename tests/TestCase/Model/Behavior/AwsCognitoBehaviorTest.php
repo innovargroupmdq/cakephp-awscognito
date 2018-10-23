@@ -44,7 +44,7 @@ class AwsCognitoBehaviorTest extends TestCase
 
     public function setUp()
     {
-        Configure::write('ApiUsers.use_aws_s3', false);
+        Configure::write('AwsS3.local_only', true);
 
         parent::setUp();
         $this->table = TableRegistry::get('EvilCorp/AwsCognito.ApiUsers');

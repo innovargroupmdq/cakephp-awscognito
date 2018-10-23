@@ -27,6 +27,7 @@ class ApiUsersControllerTest extends IntegrationTestCase
             'log' => true,
             'trace' => true,
         ]);
+        Configure::write('AwsS3.local_only', true);
     }
 
     public function controllerSpy($event, $controller = null)
@@ -64,7 +65,7 @@ class ApiUsersControllerTest extends IntegrationTestCase
         $this->_controller->ApiUsers->behaviors()->set('AwsCognito', $behavior);
     }
 
-    protected function authorizeApiUser()
+    protected function authorizeApiUser($content_length = false)
     {
         $api_id = 'test';
 
@@ -72,13 +73,19 @@ class ApiUsersControllerTest extends IntegrationTestCase
 
         $token = 'eyJraWQiOiJQdlB3RHRaeFp0SjFTSHJnZzA3Um92QzRnN1ZPcTFJQ2RyRWtWa1FhcFFFPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI5YTJiNDNlNC1lMDAyLTRiMWEtODliMy0xM2EzMGU1OWM5Y2UiLCJhdWQiOiI2aGdpZTFkaGtzbjN2c212ZGJsYXVsbGlkNSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJldmVudF9pZCI6Ijg4YmE5NjZiLTQ5NzktMTFlOC1iNzhlLWI1ZDY5NTk0MDZiYSIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTI0NzY0Njk2LCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9yam96MUhPYVIiLCJjb2duaXRvOnVzZXJuYW1lIjoidGVzdDEyMyIsImV4cCI6MTUyNDc2ODI5NiwiaWF0IjoxNTI0NzY0Njk3LCJlbWFpbCI6ImxvcmVuem9AZXZpbGNvcnAuY29tLmFyIn0.V6pXRtIsSJnUTuhTFcdwPvgTutpOqDDcbZHh9IHYtUUamA6B1hOsphR2BsQL9SGmMO0CyA9WfUEZCfsO7mnD9KfQYYigoXigbyS8bRUP_zS_CCHWTW2BaKQgV_ZHerZJO_9W_D6YcW4sMcPU2dweZkDA3hHvctN_turQhV-RokdbE7CdZQHIkY0kHt0vUSaU7gINNOn1Ovr_ZCmRvCjU93LH4fU1Erh0FP8DQC7BOxQtvftsXkF-jjmI_asmRyWNwAYP2OLDgRD9dRE7KxXGk5e5ppUt3AZfXBEjG61qjtQhQiXY-PS7dpCRji6STO8l34xpSi3sqqp9DPknVZhakw';
 
+        $headers = [
+            'Accept'                   => 'application/json',
+            'Content-Type'             => 'application/json',
+            'X-Amzn-Apigateway-Api-Id' => $api_id,
+            'Authorization'            => $token,
+        ];
+
+        if($content_length){
+            $headers['Content-Length'] = $content_length;
+        }
+
         $this->configRequest([
-            'headers' => [
-                'Accept'                   => 'application/json',
-                'Content-Type'             => 'application/json',
-                'X-Amzn-Apigateway-Api-Id' => $api_id,
-                'Authorization'            => $token,
-            ]
+            'headers' => $headers
         ]);
     }
 
@@ -217,7 +224,7 @@ class ApiUsersControllerTest extends IntegrationTestCase
         $this->assertContains('data', array_keys($json_response));
 
         $this->assertArrayHasKey('email', $json_response['data']);
-        $this->assertNotEmpty($json_response['data']['username']);
+        $this->assertNotEmpty($json_response['data']['email']);
 
         $this->assertEquals($data['email'], $json_response['data']['email']);
     }
@@ -248,7 +255,28 @@ class ApiUsersControllerTest extends IntegrationTestCase
 
     public function testUploadAvatarSuccess()
     {
-        $this->markTestIncomplete();
+
+        $filepath = TESTS . 'Assets' . DS . 'test_image.jpg';
+        $image_file = file_get_contents($filepath);
+        $content_length = filesize($filepath);
+
+        $this->assertNotFalse($image_file);
+        $this->assertTrue(is_integer($content_length));
+
+        $this->authorizeApiUser($content_length);
+
+        $this->put('/aws-cognito/api/api-users/uploadAvatar', $image_file);
+        $this->assertResponseCode(200);
+
+        $json_response = json_decode($this->_response->body(), true);
+        $this->assertNotEmpty($json_response);
+        $this->assertContains('data', array_keys($json_response));
+
+        $this->assertArrayHasKey('avatar', $json_response['data']);
+        $this->assertNotEmpty($json_response['data']['avatar']);
+
+        $this->assertEquals($image_file, file_get_contents(ROOT . $json_response['data']['avatar']));
+
     }
 
     public function testUploadAvatarFail()
