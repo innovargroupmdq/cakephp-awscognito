@@ -8,6 +8,7 @@ use EvilCorp\AwsCognito\Model\Behavior\AwsCognitoBehavior;
 
 use Cake\ORM\TableRegistry;
 use Cake\Core\Configure;
+use Cake\Filesystem\Folder;
 
 class ApiUsersControllerTest extends IntegrationTestCase
 {
@@ -28,6 +29,16 @@ class ApiUsersControllerTest extends IntegrationTestCase
             'trace' => true,
         ]);
         Configure::write('AwsS3.local_only', true);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        //empty the uploads folder
+        $uploads_folder_path = ROOT . DS . 'webroot' . DS . 'files';
+        $uploads_folder = new Folder($uploads_folder_path);
+        $removed = $uploads_folder->delete();
     }
 
     public function controllerSpy($event, $controller = null)
@@ -255,7 +266,6 @@ class ApiUsersControllerTest extends IntegrationTestCase
 
     public function testUploadAvatarSuccess()
     {
-
         $filepath = TESTS . 'Assets' . DS . 'test_image.jpg';
         $image_file = file_get_contents($filepath);
         $content_length = filesize($filepath);
@@ -276,12 +286,90 @@ class ApiUsersControllerTest extends IntegrationTestCase
         $this->assertNotEmpty($json_response['data']['avatar']);
 
         $this->assertEquals($image_file, file_get_contents(ROOT . $json_response['data']['avatar']));
-
     }
 
-    public function testUploadAvatarFail()
+    public function testUploadAvatarFailContentLength()
     {
-        $this->markTestIncomplete();
+        $filepath = TESTS . 'Assets' . DS . 'test_image.jpg';
+        $image_file = file_get_contents($filepath);
+
+        $this->assertNotFalse($image_file);
+        $this->authorizeApiUser();
+
+        $this->put('/aws-cognito/api/api-users/uploadAvatar', $image_file);
+        $this->assertResponseCode(422);
+
+        $json_response = json_decode($this->_response->body(), true);
+        $this->assertNotEmpty($json_response);
+        $this->assertContains('errors', array_keys($json_response));
+
+        $this->assertArrayHasKey('avatar', $json_response['errors']);
+        $expected_error = [
+            [
+                'code' => 'FileCompletedUpload',
+                'message' => 'This file could not be uploaded completely'
+            ]
+        ];
+        $this->assertEquals($expected_error, $json_response['errors']['avatar']);
+    }
+
+    public function testUploadAvatarFailBrokenFile()
+    {
+        $filepath = TESTS . 'Assets' . DS . 'test_image.jpg';
+        $image_file = file_get_contents($filepath);
+        $this->assertNotFalse($image_file);
+
+        //breaking the file
+        $image_file = substr($image_file, 0, strlen($image_file) / 2 );
+
+        $content_length = filesize($filepath);
+        $this->assertTrue(is_integer($content_length));
+
+        $this->authorizeApiUser($content_length);
+
+        $this->put('/aws-cognito/api/api-users/uploadAvatar', $image_file);
+        $this->assertResponseCode(422);
+
+        $json_response = json_decode($this->_response->body(), true);
+        $this->assertNotEmpty($json_response);
+        $this->assertContains('errors', array_keys($json_response));
+
+        $this->assertArrayHasKey('avatar', $json_response['errors']);
+        $expected_error = [
+            [
+                'code' => 'FileCompletedUpload',
+                'message' => 'This file could not be uploaded completely'
+            ]
+        ];
+        $this->assertEquals($expected_error, $json_response['errors']['avatar']);
+    }
+
+    public function testUploadAvatarFailInvalidMimeType()
+    {
+        $filepath = TESTS . 'Assets' . DS . 'test_text_file.txt';
+        $image_file = file_get_contents($filepath);
+        $content_length = filesize($filepath);
+
+        $this->assertNotFalse($image_file);
+        $this->assertTrue(is_integer($content_length));
+
+        $this->authorizeApiUser($content_length);
+
+        $this->put('/aws-cognito/api/api-users/uploadAvatar', $image_file);
+        $this->assertResponseCode(422);
+
+        $json_response = json_decode($this->_response->body(), true);
+        $this->assertNotEmpty($json_response);
+        $this->assertContains('errors', array_keys($json_response));
+
+        $this->assertArrayHasKey('avatar', $json_response['errors']);
+        $expected_error = [
+            [
+                'code' => 'MimeType',
+                'message' => 'Invalid file type. Please upload images only (gif, png, jpg).'
+            ]
+        ];
+        $this->assertEquals($expected_error, $json_response['errors']['avatar']);
     }
 
 }
