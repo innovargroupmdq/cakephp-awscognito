@@ -1,5 +1,5 @@
 <?php
-namespace EvilCorp\AwsCognito\Test\TestCase\Controller;
+namespace EvilCorp\AwsCognito\Test\TestCase\Controller\Api;
 
 use EvilCorp\AwsCognito\Controller\Api\ApiUsersController;
 use Cake\TestSuite\IntegrationTestCase;

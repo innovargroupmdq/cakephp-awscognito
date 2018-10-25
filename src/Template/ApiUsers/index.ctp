@@ -12,8 +12,6 @@
     <div class="card">
         <div class="header">
             <div class="btn-toolbar">
-                <?= $this->element('Layout/search',     ['placeholder'=>__('Search API Users')]); ?>
-                <?= $this->element('Layout/button-add', ['label'=>__('New API User')]); ?>
                 <div class="btn-group" role="group">
                     <?= $this->Html->link(
                          __('Import API Users'),
@@ -22,7 +20,6 @@
                     )
                     ?>
                 </div>
-                <?= $this->element('Layout/pager'); ?>
             </div>
         </div>
 

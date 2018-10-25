@@ -33,12 +33,14 @@ class ApiUsersTable extends Table
             'className' => 'Users',
             'foreignKey' => 'created_by',
             'propertyName' => 'creator',
+            'dependent' => false,
         ]);
 
         $this->belongsTo('Modifiers', [
             'className' => 'Users',
             'foreignKey' => 'modified_by',
             'propertyName' => 'modifier',
+            'dependent' => false,
         ]);
 
         $this->addBehavior('Timestamp', [
