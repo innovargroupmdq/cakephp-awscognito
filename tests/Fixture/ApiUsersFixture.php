@@ -157,5 +157,17 @@ class ApiUsersFixture extends TestFixture
             'created_at' => '2015-06-24 17:33:54',
             'modified_at' => '2015-06-24 17:33:54',
         ],
+        [
+            'id' => 4,
+            'aws_cognito_id' => '9e999a4c-f075-40ea-a330-6f421fd6c2ea',
+            'aws_cognito_username' => 'test_agent3',
+            'email' => 'agent-3@test.com',
+            'active' => 0,
+            'role' => 'user',
+            'first_name' => 'Test3',
+            'last_name' => 'Agent3',
+            'created_at' => '2015-06-24 17:33:54',
+            'modified_at' => '2015-06-24 17:33:54',
+        ],
     ];
 }

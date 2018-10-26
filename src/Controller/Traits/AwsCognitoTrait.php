@@ -41,11 +41,10 @@ trait AwsCognitoTrait
     public function resetPassword($id = null)
     {
         $this->request->allowMethod(['post']);
-        $api_user = $this->ApiUsers->get($id);
-
-        $cognito_user = $this->ApiUsers->getCognitoUser($api_user);
-
-        if(!$cognito_user['Attributes']['email_verified']){
+        $api_user = $this->ApiUsers->getWithCognitoData($id);
+        if(!$api_user->aws_cognito_synced){
+            $this->Flash->error(__d('EvilCorp/AwsCognito', 'The API User is not synced with AWS Cognito'));
+        }elseif(!$api_user->aws_cognito_attributes['email_verified']){
             $this->Flash->error(__d('EvilCorp/AwsCognito', 'The user email must be verified before resetting the password'));
         }elseif ($this->ApiUsers->resetCognitoPassword($api_user)) {
             $this->Flash->success(__d('EvilCorp/AwsCognito', 'The password has been reset'));

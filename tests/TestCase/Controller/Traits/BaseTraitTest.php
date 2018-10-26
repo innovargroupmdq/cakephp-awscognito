@@ -121,6 +121,7 @@ abstract class BaseTraitTest extends TestCase
     {
         unset($this->ApiUsers, $this->Trait);
         parent::tearDown();
+        TableRegistry::clear();
     }
 
     protected function _mockSession($attributes)

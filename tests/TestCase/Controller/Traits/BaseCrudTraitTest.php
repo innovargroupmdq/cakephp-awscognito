@@ -226,6 +226,70 @@ class BaseCrudTraitTest extends BaseTraitTest
         );
     }
 
+    public function testChangeEmailGet()
+    {
+        $api_user = $this->ApiUsers->get(1);
+        $this->_mockRequestGet();
+        $this->Trait->changeEmail(1);
+        $expected = [
+            'api_user' => $api_user,
+            'roles' => $this->ApiUsers->getRoles(),
+            '_serialize' => [
+                'api_user',
+                'roles'
+            ]
+        ];
+        $this->assertEquals($expected, $this->viewVars);
+    }
+
+    public function testChangeEmailPostSuccess()
+    {
+        $this->_mockRequestPost(['patch', 'post', 'put']);
+        $this->_mockFlash();
+        $this->Trait->request->expects($this->at(1))
+            ->method('getData')
+            ->with('email')
+            ->will($this->returnValue('new_email@email.com'));
+        $this->Trait->request->expects($this->at(2))
+            ->method('getData')
+            ->with('require_verification')
+            ->will($this->returnValue(true));
+        $this->Trait->Flash->expects($this->once())
+            ->method('success')
+            ->with('The Api User has been saved');
+
+        $this->Trait->changeEmail(1);
+
+        $this->assertSame(1, $this->ApiUsers->find()
+            ->where(['id' => 1, 'email' => 'new_email@email.com'])
+            ->count()
+        );
+    }
+
+    public function testChangeEmailPostFail()
+    {
+        $this->_mockRequestPost(['patch', 'post', 'put']);
+        $this->_mockFlash();
+        $this->Trait->request->expects($this->at(1))
+            ->method('getData')
+            ->with('email')
+            ->will($this->returnValue('asdasdads')); //bad email
+        $this->Trait->request->expects($this->at(2))
+            ->method('getData')
+            ->with('require_verification')
+            ->will($this->returnValue(true));
+        $this->Trait->Flash->expects($this->once())
+            ->method('error')
+            ->with('The Api User could not be saved');
+
+        $this->Trait->changeEmail(1);
+
+        $this->assertSame(0, $this->ApiUsers->find()
+            ->where(['id' => 1, 'email' => 'asdasdads'])
+            ->count()
+        );
+    }
+
     public function testDeleteSuccess()
     {
         $this->assertNotEmpty($this->ApiUsers->get(1));

@@ -224,6 +224,14 @@ Este Behavior se encarga de agregar la funcionalidad de importación de usuarios
 
 #### EvilCorp\AwsCognito\Controller\ApiUsersController
 
+Utiliza los siguientes Traits:
+
+- `BaseCrudTrait`
+- `ImportApiUsersTrait`
+- `AwsCognitoTrait`
+
+#### EvilCorp\AwsCognito\Controller\Traits\BaseCrudTrait
+
 Provee las siguientes acciones básicas para los usuarios administradores:
 
 - /aws-cognito/api-users/index (GET)
@@ -240,6 +248,18 @@ Provee las siguientes acciones básicas para los usuarios administradores:
     + Permite decidir si el email requiere verificación (en cuyo caso, se enviará un email de verificación)
 - /aws-cognito/api-users/delete/:id (POST, DELETE)
     + Eliminar usuario
+
+#### EvilCorp\AwsCognito\Controller\Traits\ImportApiUsersTrait
+
+Provee las acciones para la importación de usuarios:
+
+- /aws-cognito/api-users/import (GET, POST)
+    + Permite importar un bloque de usuarios mediate un campo de texto en formato CSV
+
+#### EvilCorp\AwsCognito\Controller\Traits\AwsCognitoTrait
+
+Provee las acciones relevantes para la funcionalidad exclusiva de Cognito:
+
 - /aws-cognito/api-users/activate/:id (POST)
     + Activar usuario (permite login)
 - /aws-cognito/api-users/deactivate/:id (POST)
@@ -252,8 +272,6 @@ Provee las siguientes acciones básicas para los usuarios administradores:
     + Reenvía el email de invitación
     + Refresca el tiempo de expiración de la cuenta
     + Permite cambiar el email
-- /aws-cognito/api-users/import (GET, POST)
-    + Permite importar un bloque de usuarios mediate un campo de texto en formato CSV
 
 #### EvilCorp\AwsCognito\Controller\Api\ApiUsersController
 
@@ -309,8 +327,9 @@ Las configuraciones disponibles son:
 
 ### Testing
 
-//TODO
+Actualmente el plugin tiene aprox. un 60% de cobertura.
 
+Para correr los tests, debe descargarse el repo por separado (para que composer registre el modo desarrollo). Correr composer para instalar las dependencias con `composer install`, y luego, correr los tests con `vendor/bin/phpunit`.
 
 ### Extendiendo el plugin
 

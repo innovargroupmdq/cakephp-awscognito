@@ -96,7 +96,8 @@ trait BaseCrudTrait
             $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be saved'));
         }
 
-        $this->set(compact('api_user', 'roles'));
+        $this->set('api_user', $api_user);
+        $this->set('roles', $roles);
         $this->set('_serialize', ['api_user', 'roles']);
     }
 
