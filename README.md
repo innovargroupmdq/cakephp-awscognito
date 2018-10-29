@@ -327,7 +327,7 @@ Las configuraciones disponibles son:
 
 ### Testing
 
-Actualmente el plugin tiene aprox. un 80% de cobertura.
+Actualmente el plugin tiene aprox. un 90% de cobertura de lineas y un 70% de cobertura de métodos y funciones.
 
 Para correr los tests, debe descargarse el repo por separado (para que composer registre el modo desarrollo). Correr composer para instalar las dependencias con `composer install`, y luego, correr los tests con `vendor/bin/phpunit`.
 
