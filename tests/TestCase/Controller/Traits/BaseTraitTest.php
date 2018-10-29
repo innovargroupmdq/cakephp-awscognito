@@ -157,7 +157,7 @@ abstract class BaseTraitTest extends TestCase
     protected function _mockFlash()
     {
         $this->Trait->Flash = $this->getMockBuilder('Cake\Controller\Component\FlashComponent')
-                ->setMethods(['error', 'success'])
+                ->setMethods(['error', 'success', 'warning'])
                 ->disableOriginalConstructor()
                 ->getMock();
     }
