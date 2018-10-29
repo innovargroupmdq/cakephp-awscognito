@@ -68,7 +68,7 @@ trait AwsCognitoTrait
             $this->Flash->error(__d('EvilCorp/AwsCognito', 'The Api User could not be saved'));
         }
 
-        $this->set(compact('api_user'));
+        $this->set('api_user', $api_user);
         $this->set('_serialize', ['api_user']);
     }
 
