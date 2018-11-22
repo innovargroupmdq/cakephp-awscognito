@@ -8,7 +8,7 @@ use Cake\Utility\Hash;
 class ImportApiUsersBehavior extends Behavior
 {
 
-    public function validateMany(array $rows, $max_errors = false, array $options = []): array
+    public function validateMany(array $rows, $max_errors = false, array $options = [], $find_field = 'aws_cognito_username'): array
     {
         $_options = [
             'accessibleFields' => [
@@ -35,7 +35,7 @@ class ImportApiUsersBehavior extends Behavior
             if($max_errors && $errors_count >= $max_errors) break;
 
             $find_conditions = [
-                'aws_cognito_username' => $row['aws_cognito_username']
+                $find_field => $row[$find_field]
             ];
 
             if(is_a($row, EntityInterface::class, true)){
@@ -52,8 +52,9 @@ class ImportApiUsersBehavior extends Behavior
             //check rules in db
             $this->getTable()->checkRules($entity);
 
-            //check that the unique fields are also unique within the file
+            //check that the unique fields are also unique within the rows
             foreach (['email', 'aws_cognito_username'] as $field) {
+                if(empty($row[$field])) continue;
                 $duplicated_key = array_search($row[$field], $duplicated_check[$field]);
                 if($duplicated_key !== false && $duplicated_key !== $key){
                     $entity->setError($field, ['duplicated' => __d('EvilCorp/AwsCognito', 'This field is duplicated')]);

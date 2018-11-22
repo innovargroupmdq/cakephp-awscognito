@@ -29,7 +29,11 @@ trait ApiUploadFilesTrait
         $file_raw       = $this->request->input();
         $content_length = (int) Hash::get($this->request->getHeader('Content-Length'), '0', 0);
 
-        return $this->_RawFileToPHPFormat($file_raw, $content_length);
+        $file_name = Hash::get($this->request->getHeader('Content-Disposition'), '0', '');
+        $file_name = preg_match_all("/.*filename=[\'\"]?([^\"]+)/", $file_name, $matched);
+        $file_name = $matched[1][0] ?? null;
+
+        return $this->_RawFileToPHPFormat($file_raw, $content_length, $file_name);
     }
 
 
@@ -60,17 +64,17 @@ trait ApiUploadFilesTrait
         return $error;
     }
 
-    protected function _RawFileToPHPFormat($file_raw, $content_length)
+    protected function _RawFileToPHPFormat($file_raw, $content_length, $file_name = null)
     {
         $error = $this->_checkFileErrors($file_raw, $content_length);
 
-        $tmp_file = tempnam(sys_get_temp_dir(), 'avatar_');
+        $tmp_file = tempnam(sys_get_temp_dir(), 'file_');
         file_put_contents($tmp_file, $file_raw);
 
         $file_obj = new File($tmp_file);
         $mime_type = $file_obj->mime();
 
-        $file_name = implode('.', [
+        $file_name = $file_name ?? implode('.', [
             $file_obj->name(),
             (new MimeTypes())->getExtension($mime_type)
         ]);
