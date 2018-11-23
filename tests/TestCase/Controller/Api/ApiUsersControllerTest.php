@@ -285,7 +285,7 @@ class ApiUsersControllerTest extends IntegrationTestCase
         $this->assertArrayHasKey('avatar', $json_response['data']);
         $this->assertNotEmpty($json_response['data']['avatar']);
 
-        $this->assertEquals($image_file, file_get_contents(ROOT . $json_response['data']['avatar']));
+        $this->assertEquals($image_file, file_get_contents(WWW_ROOT . $json_response['data']['avatar']));
     }
 
     public function testUploadAvatarFailContentLength()
