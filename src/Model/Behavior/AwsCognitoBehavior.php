@@ -466,9 +466,12 @@ class AwsCognitoBehavior extends Behavior
             throw new Exception('createCognitoUser parameter must be either "RESEND" or "SUPRESS" or null.');
         }
 
+       $tempP = 'Id4'.substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 3);
+	   
         $options = [
             'DesiredDeliveryMediums' => ['EMAIL'],
             'ForceAliasCreation'     => false,
+			'TemporaryPassword' => $tempP,
             'UserAttributes' => [
                 [
                 'Name' => 'email',
