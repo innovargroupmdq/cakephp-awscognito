@@ -466,7 +466,7 @@ class AwsCognitoBehavior extends Behavior
             throw new Exception('createCognitoUser parameter must be either "RESEND" or "SUPRESS" or null.');
         }
 
-       $tempP = 'Id4'.substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 3);
+       $tempP = substr(str_shuffle("ABDEFGHKMNPRSTUVWXYZ"), 0, 1).substr(str_shuffle("abcdefgpqrstuvwxyz"), 0, 2).substr(str_shuffle("123456789"), 0, 2).substr(str_shuffle("123456789abcdefghjkmnprstuvwxyzABCDEFGHJKLMNPRSTUWXYZ"), 0, 3);
 	   
         $options = [
             'DesiredDeliveryMediums' => ['EMAIL'],
